@@ -42,8 +42,8 @@
         "info": "",
         "in": [
             {
-                "x": 140,
-                "y": 100,
+                "x": 100,
+                "y": 40,
                 "wires": [
                     {
                         "id": "39a365bb.fe1cca"
@@ -53,8 +53,8 @@
         ],
         "out": [
             {
-                "x": 420,
-                "y": 100,
+                "x": 380,
+                "y": 40,
                 "wires": [
                     {
                         "id": "39a365bb.fe1cca",
@@ -525,8 +525,8 @@
         "func": "msg.page = {\n    navbar: \n    '<div class=\"header clearfix\"><nav>' +\n    '<ul class=\"nav nav-pills pull-right\"><li role=\"presentation\"><a href=\"/credits\">Credits</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-edit\" class=\"nav nav-pills pull-right hidden\"><li role=\"presentation\"><a href=\"#\">Edit</a></li></ul>' +\n    '<ul class=\"nav nav-pills pull-right\"><li role=\"presentation\"><a href=\"/blog\">Home</a></li></ul>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '</nav>' +\n    '</div>',\n    footer:\n    '<footer class=\"footer\"><p>&copy; 2017 Lawyer Stuff.</p></footer>'\n};\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 280,
-        "y": 100,
+        "x": 240,
+        "y": 40,
         "wires": [
             []
         ]
