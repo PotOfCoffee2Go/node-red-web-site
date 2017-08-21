@@ -94,7 +94,7 @@
      "enabled": true,
      "local": false,
      "module": "node-red",
-     "file": "/home/ubuntu/workspace/test-nr-embed/node-red/nodes/core/template.js"
+     "file": "/home/ubuntu/workspace/test-nr-embed/node_modules/node-red/nodes/core/core/80-template.js"
     },
     "delay": {
      "name": "delay",
@@ -349,26 +349,6 @@
      "local": false,
      "module": "node-red",
      "file": "/home/ubuntu/workspace/test-nr-embed/node_modules/node-red/nodes/core/storage/50-file.js"
-    },
-    "sample": {
-     "name": "sample",
-     "types": [
-      "sample"
-     ],
-     "enabled": true,
-     "local": false,
-     "module": "node-red",
-     "file": "/home/ubuntu/workspace/test-nr-embed/node-red/nodes/sample/sample.js"
-    },
-    "markdown": {
-     "name": "markdown",
-     "types": [
-      "markdown"
-     ],
-     "enabled": true,
-     "local": false,
-     "module": "node-red",
-     "file": "/home/ubuntu/workspace/test-nr-embed/node-red/nodes/node-red-contrib-markdown/markdown.js"
     }
    }
   },
@@ -458,6 +438,23 @@
      "local": true,
      "module": "node-red-node-mysql",
      "file": "/home/ubuntu/workspace/test-nr-embed/node-red/node_modules/node-red-node-mysql/68-mysql.js"
+    }
+   }
+  },
+  "node-red-contrib-markdown": {
+   "name": "node-red-contrib-markdown",
+   "version": "0.0.4",
+   "local": true,
+   "nodes": {
+    "markdown": {
+     "name": "markdown",
+     "types": [
+      "markdown"
+     ],
+     "enabled": true,
+     "local": true,
+     "module": "node-red-contrib-markdown",
+     "file": "/home/ubuntu/workspace/test-nr-embed/node-red/node_modules/node-red-contrib-markdown/lib/markdown.js"
     }
    }
   }

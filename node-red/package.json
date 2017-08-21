@@ -3,6 +3,7 @@
   "description": "A Node-RED Project",
   "version": "0.0.1",
   "dependencies": {
+    "node-red-contrib-markdown": "0.0.4",
     "node-red-node-mysql": "0.0.16"
   }
 }
