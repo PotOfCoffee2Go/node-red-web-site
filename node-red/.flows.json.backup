@@ -1,0 +1,710 @@
+[
+    {
+        "id": "1919d1c3.b05b5e",
+        "type": "tab",
+        "label": "Blog",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ecf7de04.053ad",
+        "type": "subflow",
+        "name": "Get Post(s)",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "af333205.5c8b7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 700,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "9ff69891.935cd8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "c330e687.8faa28",
+        "type": "subflow",
+        "name": "Page Layout",
+        "info": "",
+        "in": [
+            {
+                "x": 140,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "39a365bb.fe1cca"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 420,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "39a365bb.fe1cca",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "db4004be.1e9df8",
+        "type": "subflow",
+        "name": "Markup body",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "3f224ba3.cd6284"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "927ce2ae.e1403",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "be677855.e038e8",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "c9",
+        "tz": ""
+    },
+    {
+        "id": "622e224a.092a2c",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/blog",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 80,
+        "wires": [
+            [
+                "7cfc8f39.78681"
+            ]
+        ]
+    },
+    {
+        "id": "62001b80.f9eff4",
+        "type": "debug",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 230,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "22dcf241.57619e",
+        "type": "catch",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "scope": null,
+        "x": 80,
+        "y": 540,
+        "wires": [
+            [
+                "62001b80.f9eff4"
+            ]
+        ]
+    },
+    {
+        "id": "929dc13b.226bc",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "Blog home",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <style>\n        body {\n            padding-top: 20px;\n            padding-bottom: 20px;\n        }\n\n        .jumbotron {\n          margin-top: 10px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"jumbotron\">\n            <h1>About node-red as a web server</h1>\n            <p class=\"lead\">Check out the articles below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        <a href=\"/post/{{id}}\" class=\"list-group-item\">\n                          <h4 class=\"list-group-item-heading\">{{title}}</h4>\n                          <p class=\"list-group-item-text\">{{author}}</p>\n                        </a>\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 690,
+        "y": 80,
+        "wires": [
+            [
+                "aeeadf78.92729"
+            ]
+        ]
+    },
+    {
+        "id": "aeeadf78.92729",
+        "type": "http response",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 890,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "3d58d4e5.5815ac",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/post/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 120,
+        "wires": [
+            [
+                "10ec34e1.a82a1b"
+            ]
+        ]
+    },
+    {
+        "id": "5727c30d.8ed94c",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "Display a post",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <style>\n        body {\n            padding-top: 20px;\n            padding-bottom: 20px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n                <h2>{{post.title}}</h2>\n                <p>by <a href=\"#\">{{post.author}}</a></p>\n                <p>{{{post.body}}}</p>\n            <hr>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $( document ).ready(function() {\n        $('#poc2go-navbar-edit').removeClass( \"hidden\");\n        $('#poc2go-navbar-edit li:first a').attr( \"href\", \"/edit/{{post.id}}\");\n    });\n</script>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 680,
+        "y": 220,
+        "wires": [
+            [
+                "aeeadf78.92729"
+            ]
+        ]
+    },
+    {
+        "id": "279a4bf0.c2da04",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 450,
+        "y": 80,
+        "wires": [
+            [
+                "929dc13b.226bc"
+            ]
+        ]
+    },
+    {
+        "id": "aab33934.9b48f8",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "18cbe96d.7c1fd7"
+            ]
+        ]
+    },
+    {
+        "id": "932f34c4.38e5b8",
+        "type": "markdown",
+        "z": "db4004be.1e9df8",
+        "name": "Markdown the body",
+        "x": 390,
+        "y": 40,
+        "wires": [
+            [
+                "927ce2ae.e1403"
+            ]
+        ]
+    },
+    {
+        "id": "927ce2ae.e1403",
+        "type": "change",
+        "z": "db4004be.1e9df8",
+        "name": "to msg.post.body",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "post.body",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b7772184.1adac",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/credits",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "bf75a40e.437188"
+            ]
+        ]
+    },
+    {
+        "id": "8bf5738e.1300c",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 450,
+        "y": 300,
+        "wires": [
+            [
+                "105262c9.69cf5d"
+            ]
+        ]
+    },
+    {
+        "id": "105262c9.69cf5d",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "Blog Credits",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <style>\n        body {\n            padding-top: 20px;\n            padding-bottom: 20px;\n        }\n\n        .jumbotron {\n          margin-top: 10px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"jumbotron\">\n            <h1>&ldquo;On the shoulders of giants&rdquo;</h1>\n            <p class=\"lead\">Check out a few of many developers and services below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <!-- display the credits-->\n                <h4>Developers</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://github.com/knolleary\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Nick O'Leary</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://github.com/dceejay\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Dave Conway-Jones</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://disqus.com/home/forums/coligo/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">coligo</h4>\n                      <p class=\"list-group-item-text\">Site Design</p>\n                    </a>\n                    <a href=\"https://github.com/arnauorriols\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Arnau Orriols</h4>\n                      <p class=\"list-group-item-text\">Markdown node-red node</p>\n                    </a>\n                    <a href=\"https://gist.github.com/duncansmart\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Duncan Smart</h4>\n                      <p class=\"list-group-item-text\">Ace editor in textarea script</p>\n                    </a>\n                </div>\n                <h4>Packages</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://nodejs.org/en/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node.js and npm</h4>\n                      <p class=\"list-group-item-text\">Server side javascript engine and package manager</p>\n                    </a>\n                    <a href=\"https://nodered.org/docs/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node-RED</h4>\n                      <p class=\"list-group-item-text\">Site server</p>\n                    </a>\n                    <a href=\"https://mustache.github.io/mustache.5.html\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Mustache Template Engine</h4>\n                      <p class=\"list-group-item-text\">Inject variable data into site pages</p>\n                    </a>\n                    <a href=\"https://daringfireball.net/projects/markdown/syntax\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Markdown HTML markup</h4>\n                      <p class=\"list-group-item-text\">Convert Markdown text to HTML</p>\n                    </a>\n                </div>\n                <h4>Services</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://c9.io/?redirect=0\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Cloud9</h4>\n                      <p class=\"list-group-item-text\">Site host and IDE</p>\n                    </a>\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 690,
+        "y": 300,
+        "wires": [
+            [
+                "aeeadf78.92729"
+            ]
+        ]
+    },
+    {
+        "id": "df12321.14a3dd",
+        "type": "mysql",
+        "z": "1919d1c3.b05b5e",
+        "mydb": "be677855.e038e8",
+        "name": "",
+        "x": 550,
+        "y": 420,
+        "wires": [
+            [
+                "b8726615.7f1158"
+            ]
+        ]
+    },
+    {
+        "id": "667a112c.82ed3",
+        "type": "inject",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 100,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a1f206a5.de5268",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/post/:postId",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "cee5bc68.afda4"
+            ]
+        ]
+    },
+    {
+        "id": "cee5bc68.afda4",
+        "type": "function",
+        "z": "1919d1c3.b05b5e",
+        "name": "Update post",
+        "func": "msg.topic = 'UPDATE blog_posts ' +\n    'SET title = \"' + msg.req.body.title + '\", ' + \n    'author = \"' + msg.req.body.author + '\", ' + \n    'body = \"' + msg.req.body.body + '\" ' + \n    'WHERE id = ' + msg.req.body.id  + ';';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "e00ab9e8.e66b28"
+            ]
+        ]
+    },
+    {
+        "id": "b8726615.7f1158",
+        "type": "debug",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 710,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "baddb725.057108",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/edit/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 260,
+        "wires": [
+            [
+                "f9fd0920.fac0d8"
+            ]
+        ]
+    },
+    {
+        "id": "29e3303d.7852b",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 450,
+        "y": 260,
+        "wires": [
+            [
+                "78c9aed7.84fe7"
+            ]
+        ]
+    },
+    {
+        "id": "78c9aed7.84fe7",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "Edit a post",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <style>\n        body {\n            padding-top: 20px;\n            padding-bottom: 20px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/post/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n            <hr>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
+        "output": "str",
+        "x": 690,
+        "y": 260,
+        "wires": [
+            [
+                "aeeadf78.92729"
+            ]
+        ]
+    },
+    {
+        "id": "f73170be.76028",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "Create table blog_posts",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "text",
+        "syntax": "plain",
+        "template": "CREATE TABLE blog_posts (\n     id MEDIUMINT NOT NULL AUTO_INCREMENT,\n     title VARCHAR(200) NOT NULL,\n     author VARCHAR(200) NOT NULL,\n     body VARCHAR(20000) NOT NULL,\n     PRIMARY KEY (id)\n);\n",
+        "output": "str",
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "df12321.14a3dd"
+            ]
+        ]
+    },
+    {
+        "id": "8cc645a7.ac8be8",
+        "type": "template",
+        "z": "1919d1c3.b05b5e",
+        "name": "blog_posts test data",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "text",
+        "syntax": "plain",
+        "template": "INSERT INTO blog_posts (author, title, body)\n  VALUES (\"John\",\"Templating with mustache\",\"Blog post number 1\");\nINSERT INTO blog_posts (author, title, body)\n  VALUES (\"Drake\",\"Express: Starting from the Bottom\",\"#### Blog post number 2\\n\\n  * bullet one\\n  * bullet two\\n\");\nINSERT INTO blog_posts (author, title, body)\n  VALUES (\"Emma\",\"Streams\",\"Blog post number 3\");\nINSERT INTO blog_posts (author, title, body)\n  VALUES (\"Cody\",\"Events\",\"Blog post number 4\");\n",
+        "output": "str",
+        "x": 320,
+        "y": 440,
+        "wires": [
+            [
+                "df12321.14a3dd"
+            ]
+        ]
+    },
+    {
+        "id": "3a999731.5bfec8",
+        "type": "mysql",
+        "z": "ecf7de04.053ad",
+        "mydb": "be677855.e038e8",
+        "name": "",
+        "x": 350,
+        "y": 60,
+        "wires": [
+            [
+                "9ff69891.935cd8"
+            ]
+        ]
+    },
+    {
+        "id": "af333205.5c8b7",
+        "type": "function",
+        "z": "ecf7de04.053ad",
+        "name": "Select post data",
+        "func": "if (msg.req.params.postId) {\n    msg.topic = \"SELECT * FROM blog_posts WHERE id = \" + msg.req.params.postId + \";\";\n}\nelse {\n    msg.topic = 'SELECT * FROM blog_posts;';\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "3a999731.5bfec8"
+            ]
+        ]
+    },
+    {
+        "id": "39a365bb.fe1cca",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Partials",
+        "func": "msg.page = {\n    navbar: \n    '<div class=\"header clearfix\"><nav>' +\n    '<ul class=\"nav nav-pills pull-right\"><li role=\"presentation\"><a href=\"/credits\">Credits</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-edit\" class=\"nav nav-pills pull-right hidden\"><li role=\"presentation\"><a href=\"#\">Edit</a></li></ul>' +\n    '<ul class=\"nav nav-pills pull-right\"><li role=\"presentation\"><a href=\"/blog\">Home</a></li></ul>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '</nav>' +\n    '</div>',\n    footer:\n    '<footer class=\"footer\"><p>&copy; 2017 Lawyer Stuff.</p></footer>'\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7cfc8f39.78681",
+        "type": "subflow:c330e687.8faa28",
+        "z": "1919d1c3.b05b5e",
+        "x": 290,
+        "y": 80,
+        "wires": [
+            [
+                "279a4bf0.c2da04"
+            ]
+        ]
+    },
+    {
+        "id": "bf75a40e.437188",
+        "type": "subflow:c330e687.8faa28",
+        "z": "1919d1c3.b05b5e",
+        "x": 290,
+        "y": 300,
+        "wires": [
+            [
+                "8bf5738e.1300c"
+            ]
+        ]
+    },
+    {
+        "id": "2f5315a8.c70bfa",
+        "type": "subflow:c330e687.8faa28",
+        "z": "1919d1c3.b05b5e",
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "aab33934.9b48f8"
+            ]
+        ]
+    },
+    {
+        "id": "f9fd0920.fac0d8",
+        "type": "subflow:c330e687.8faa28",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 290,
+        "y": 260,
+        "wires": [
+            [
+                "29e3303d.7852b"
+            ]
+        ]
+    },
+    {
+        "id": "9ff69891.935cd8",
+        "type": "function",
+        "z": "ecf7de04.053ad",
+        "name": "Copy to msg.post(s)",
+        "func": "if (msg.req.params.postId) {\n    msg.post = msg.payload[0];\n}\nelse {\n    msg.posts = msg.payload;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 540,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e00ab9e8.e66b28",
+        "type": "mysql",
+        "z": "1919d1c3.b05b5e",
+        "mydb": "be677855.e038e8",
+        "name": "",
+        "x": 450,
+        "y": 160,
+        "wires": [
+            [
+                "5d4dac94.a94294"
+            ]
+        ]
+    },
+    {
+        "id": "18cbe96d.7c1fd7",
+        "type": "subflow:db4004be.1e9df8",
+        "z": "1919d1c3.b05b5e",
+        "x": 510,
+        "y": 220,
+        "wires": [
+            [
+                "5727c30d.8ed94c"
+            ]
+        ]
+    },
+    {
+        "id": "3f224ba3.cd6284",
+        "type": "function",
+        "z": "db4004be.1e9df8",
+        "name": "Get post body",
+        "func": "msg.payload = msg.post.body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 40,
+        "wires": [
+            [
+                "932f34c4.38e5b8"
+            ]
+        ]
+    },
+    {
+        "id": "4b00fb38.426654",
+        "type": "link in",
+        "z": "1919d1c3.b05b5e",
+        "name": "[to] Display post",
+        "links": [
+            "10ec34e1.a82a1b",
+            "5d4dac94.a94294"
+        ],
+        "x": 35,
+        "y": 220,
+        "wires": [
+            [
+                "2f5315a8.c70bfa"
+            ]
+        ]
+    },
+    {
+        "id": "5d4dac94.a94294",
+        "type": "link out",
+        "z": "1919d1c3.b05b5e",
+        "name": "[from] Display post on [post]",
+        "links": [
+            "4b00fb38.426654"
+        ],
+        "x": 555,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "10ec34e1.a82a1b",
+        "type": "link out",
+        "z": "1919d1c3.b05b5e",
+        "name": "[from] Display post on [get]",
+        "links": [
+            "4b00fb38.426654"
+        ],
+        "x": 235,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "789559f3.1a9318",
+        "type": "comment",
+        "z": "1919d1c3.b05b5e",
+        "name": "Create the blog_posts table and populate with test data",
+        "info": "",
+        "x": 220,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "30bbbdb7.084d52",
+        "type": "comment",
+        "z": "1919d1c3.b05b5e",
+        "name": "Blog Web Site",
+        "info": "",
+        "x": 90,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "2974bc59.b8c574",
+        "type": "comment",
+        "z": "1919d1c3.b05b5e",
+        "name": "Catch any errors",
+        "info": "",
+        "x": 100,
+        "y": 500,
+        "wires": []
+    }
+]

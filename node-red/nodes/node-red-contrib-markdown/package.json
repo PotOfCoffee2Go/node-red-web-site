@@ -1,0 +1,92 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "node-red-contrib-markdown",
+        "scope": null,
+        "escapedName": "node-red-contrib-markdown",
+        "name": "node-red-contrib-markdown",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/home/ubuntu/workspace/test-nr-embed/node-red/nodes"
+    ]
+  ],
+  "_from": "node-red-contrib-markdown@latest",
+  "_id": "node-red-contrib-markdown@0.0.4",
+  "_inCache": true,
+  "_location": "/node-red-contrib-markdown",
+  "_nodeVersion": "0.12.0",
+  "_npmOperationalInternal": {
+    "host": "packages-6-west.internal.npmjs.com",
+    "tmp": "tmp/node-red-contrib-markdown-0.0.4.tgz_1454891148430_0.790170778054744"
+  },
+  "_npmUser": {
+    "name": "orriols",
+    "email": "dev@arnauorriols.com"
+  },
+  "_npmVersion": "2.5.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "node-red-contrib-markdown",
+    "scope": null,
+    "escapedName": "node-red-contrib-markdown",
+    "name": "node-red-contrib-markdown",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/node-red-contrib-markdown/-/node-red-contrib-markdown-0.0.4.tgz",
+  "_shasum": "9e815c5c20f01aefab1c031c27fefc13ea82f0ec",
+  "_shrinkwrap": null,
+  "_spec": "node-red-contrib-markdown",
+  "_where": "/home/ubuntu/workspace/test-nr-embed/node-red/nodes",
+  "author": {
+    "name": "Arnau Orriols"
+  },
+  "bugs": {
+    "url": "https://github.com/arnauorriols/node-red-contrib-markdown/issues"
+  },
+  "dependencies": {
+    "highlight.js": "9.1.0",
+    "marked": "0.3.5"
+  },
+  "description": "Parse Markdown to HTML",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "9e815c5c20f01aefab1c031c27fefc13ea82f0ec",
+    "tarball": "https://registry.npmjs.org/node-red-contrib-markdown/-/node-red-contrib-markdown-0.0.4.tgz"
+  },
+  "gitHead": "3c181f3b0bac5f84f71eda953c749200c025b258",
+  "homepage": "https://github.com/arnauorriols/node-red-contrib-markdown",
+  "keywords": [
+    "node-red",
+    "markdown"
+  ],
+  "license": "ISC",
+  "maintainers": [
+    {
+      "name": "orriols",
+      "email": "dev@arnauorriols.com"
+    }
+  ],
+  "name": "node-red-contrib-markdown",
+  "node-red": {
+    "nodes": {
+      "markdown": "lib/markdown.js"
+    }
+  },
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnauorriols/node-red-contrib-markdown.git"
+  },
+  "scripts": {},
+  "version": "0.0.4"
+}
