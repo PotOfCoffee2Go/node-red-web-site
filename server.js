@@ -25,7 +25,7 @@ var settings = {
     httpAdminRoot:"/red",
     httpNodeRoot: "/",
     functionGlobalContext: {    // enables global context
-        Mustache: require('mustache')
+        moment: require('moment')
     },
     userDir: path.resolve(__dirname, "node-red"),
     nodesDir: path.resolve(__dirname, "node-red/nodes"),

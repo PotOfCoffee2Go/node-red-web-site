@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "moment": "^2.18.1",
     "mustache": "^2.3.0",
     "node-red": "^0.17.5"
   }
