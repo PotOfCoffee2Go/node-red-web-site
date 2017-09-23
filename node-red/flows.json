@@ -119,7 +119,7 @@
         "console": "false",
         "complete": "true",
         "x": 270,
-        "y": 880,
+        "y": 1060,
         "wires": []
     },
     {
@@ -129,7 +129,7 @@
         "name": "",
         "scope": null,
         "x": 120,
-        "y": 880,
+        "y": 1060,
         "wires": [
             [
                 "62001b80.f9eff4"
@@ -145,7 +145,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">Node-red as a web server</h2>\n            <p class=\"lead\">Check out the articles below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        <a href=\"/post/{{id}}\" class=\"list-group-item\">\n                          <h4 class=\"list-group-item-heading\">{{title}}</h4>\n                          <p class=\"list-group-item-text\">{{author}} (<i>{{lastupdated}}</i>)</p>\n                        </a>\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</body>\n\n</html>",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">Node-red as a web server</h2>\n            <p class=\"lead\">Check out the articles below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                          <h4 class=\"list-group-item-heading\">{{title}}</h4>\n                          <p class=\"list-group-item-text\">{{author}} (<i>{{lastupdated}}</i>)</p>\n                        </a>\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</body>\n\n</html>",
         "output": "str",
         "x": 630,
         "y": 220,
@@ -171,11 +171,11 @@
         "type": "http in",
         "z": "1919d1c3.b05b5e",
         "name": "",
-        "url": "/post/:postId",
+        "url": "/posts/:postId",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 140,
+        "x": 150,
         "y": 580,
         "wires": [
             [
@@ -307,7 +307,7 @@
         "type": "http in",
         "z": "1919d1c3.b05b5e",
         "name": "",
-        "url": "/post/:postId",
+        "url": "/posts/:postId",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
@@ -358,7 +358,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/post/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
         "output": "str",
         "x": 600,
         "y": 440,
@@ -431,7 +431,7 @@
         "name": "Catch any errors",
         "info": "",
         "x": 140,
-        "y": 840,
+        "y": 1020,
         "wires": []
     },
     {
@@ -468,11 +468,11 @@
         "type": "http in",
         "z": "1919d1c3.b05b5e",
         "name": "",
-        "url": "/post",
+        "url": "/posts",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 130,
         "y": 660,
         "wires": [
             [
@@ -667,7 +667,7 @@
         "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nvar lastId = db.posts.slice(-1)[0].id;\nvar newId = (parseInt(lastId)+1).toString();\n\ndb.posts.push( {\n    id: newId,\n    updated: moment().toISOString(),\n    author: msg.payload.author,\n    title: msg.payload.title,\n    body: msg.payload.body\n});\ndb.storePosts();\n\nmsg.req.params.postId = newId;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 260,
+        "x": 280,
         "y": 660,
         "wires": [
             [
@@ -685,6 +685,156 @@
         "wires": [
             [
                 "42a17f0c.4cdf3"
+            ]
+        ]
+    },
+    {
+        "id": "744f7a79.882a04",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/v1/posts",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 840,
+        "wires": [
+            [
+                "adebde67.4d553"
+            ]
+        ]
+    },
+    {
+        "id": "adebde67.4d553",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "x": 470,
+        "y": 840,
+        "wires": [
+            [
+                "c562bb0f.e76b38"
+            ]
+        ]
+    },
+    {
+        "id": "c562bb0f.e76b38",
+        "type": "function",
+        "z": "1919d1c3.b05b5e",
+        "name": "Load payload",
+        "func": "if (msg.posts) {\n    msg.payload = msg.posts;\n}\nelse {\n    msg.payload = msg.post;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 660,
+        "y": 840,
+        "wires": [
+            [
+                "dc712e9a.41665"
+            ]
+        ]
+    },
+    {
+        "id": "dc712e9a.41665",
+        "type": "http response",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "d5114258.ca0f5",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/v1/posts/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 880,
+        "wires": [
+            [
+                "adebde67.4d553"
+            ]
+        ]
+    },
+    {
+        "id": "a31f9bb2.6639f8",
+        "type": "comment",
+        "z": "1919d1c3.b05b5e",
+        "name": "RESTful",
+        "info": "",
+        "x": 120,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "227ead5c.b2cfd2",
+        "type": "function",
+        "z": "1919d1c3.b05b5e",
+        "name": "New post",
+        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nvar lastId = db.posts.slice(-1)[0].id;\nvar newId = (parseInt(lastId)+1).toString();\n\ndb.posts.push( {\n    id: newId,\n    updated: moment().toISOString(),\n    author: msg.payload.author,\n    title: msg.payload.title,\n    body: msg.payload.body\n});\ndb.storePosts();\n\nmsg.req.params.postId = newId;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 920,
+        "wires": [
+            [
+                "adebde67.4d553"
+            ]
+        ]
+    },
+    {
+        "id": "738437df.88d9a8",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/v1/posts",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 920,
+        "wires": [
+            [
+                "227ead5c.b2cfd2"
+            ]
+        ]
+    },
+    {
+        "id": "868e1c15.52573",
+        "type": "function",
+        "z": "1919d1c3.b05b5e",
+        "name": "Update post",
+        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nif (msg.req.params.postId) {\n    msg.post = db.posts.find(post => post.id === msg.req.params.postId);\n    msg.post.updated = moment().toISOString();\n    msg.post.author = msg.payload.author;\n    msg.post.title = msg.payload.title;\n    msg.post.body = msg.payload.body;\n }\ndb.storePosts();\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 960,
+        "wires": [
+            [
+                "adebde67.4d553"
+            ]
+        ]
+    },
+    {
+        "id": "e6bbdb2e.ec8ee8",
+        "type": "http in",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "url": "/v1/posts/:postId",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 960,
+        "wires": [
+            [
+                "868e1c15.52573"
             ]
         ]
     }
