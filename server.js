@@ -1,31 +1,46 @@
+var fs = require('fs-extra');
 var http = require('http');
 var path = require('path');
 var express = require("express");
 var bodyParser  = require('body-parser');
 var RED = require("node-red");
 
-// Set working directory
+/* Node-RED runtime uses the current working dir as root - so */
+//  set current working directory to project root
 process.chdir(__dirname);
 
+/* Database */
+function Database() {
+  this.posts = fs.readJsonSync('./db/posts.json');
+
+  // Write posts data
+  this.storePosts = function() {
+    fs.writeJson('./db/posts.json', this.posts, err => {
+      if (err) return console.error(err);
+      });
+  }
+};
+var database = new Database();
+
+/* Express Server */
 // Create an Express app
 var app = express();
-
 // Create a server
 var server = http.createServer(app);
-
-// Add a simple route for static content served from 'public'
+// Add a route for static content served from 'public' directory
 app.use("/",express.static("public"));
-
 // Body parsers
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Create the settings object - see default settings.js file for other options
+/* Node-RED */
+// Create the node-RED settings object
 var settings = {
-    httpAdminRoot:"/red",
-    httpNodeRoot: "/",
-    functionGlobalContext: {    // enables global context
-        moment: require('moment')
+    httpAdminRoot:"/red",     // node-RED flow editor 
+    httpNodeRoot: "/",        // node 'http in' root directory
+    functionGlobalContext: {  // enable function nodes to reference our modules/objects
+        moment: require('moment'),
+        db: database
     },
     userDir: path.resolve(__dirname, "node-red"),
     nodesDir: path.resolve(__dirname, "node-red/nodes"),
@@ -33,16 +48,14 @@ var settings = {
     flowFile: 'flows.json',
 };
 
-// Initialise the runtime with a server and settings
+/* Startup */
+// Initialise the runtime with the server and settings
 RED.init(server, settings);
-
-// Serve the editor UI from /red
+// Serves the editor UI
 app.use(settings.httpAdminRoot, RED.httpAdmin);
-
-// Serve the http nodes UI from /api
+// Serves the http-in nodes UI
 app.use(settings.httpNodeRoot, RED.httpNode);
-
+// Fire up the server
 server.listen(8081);
-
-// Start the runtime
+// Start the node-RED runtime
 RED.start();
