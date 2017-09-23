@@ -15,6 +15,11 @@ function Database() {
 
   // Write posts data
   this.storePosts = function() {
+    // Remove unwanted work fields
+    this.posts.forEach(post => {
+      delete post.markedbody;
+      delete post.lastupdated;
+    });
     fs.writeJson('./db/posts.json', this.posts, err => {
       if (err) return console.error(err);
       });
