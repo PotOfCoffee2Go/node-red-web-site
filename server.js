@@ -1,3 +1,4 @@
+'use strict'
 /* Runtime uses the current working dir as root - so */
 //  set current working directory to project root
 process.chdir(__dirname);
@@ -7,10 +8,7 @@ const
     path = require('path'),
     express = require("express"),
     bodyParser  = require('body-parser'),
-    RED = require('node-red'),
-
-    /* javascript object database */
-    database = require('./db/database');
+    RED = require('node-red');
 
 /* Express Server */
 // Create an Express app
@@ -29,10 +27,10 @@ var settings = {
     httpAdminRoot:"/red",     // node-RED flow editor 
     httpNodeRoot: "/",        // node 'http in' root directory
     functionGlobalContext: {  // enable function nodes to reference our modules/objects
-        db: database
+        db: require('./db/database') // Blog data store
     },
-    userDir: path.resolve(__dirname, "node-red"),
-    nodesDir: path.resolve(__dirname, "node-red/nodes"),
+    userDir: path.resolve(__dirname, "node-red"), // Flow storage
+    nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes
     flowFilePretty: true,
     flowFile: 'flows.json',
 };

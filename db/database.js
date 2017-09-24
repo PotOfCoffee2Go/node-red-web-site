@@ -1,38 +1,45 @@
 // database.js
+'use strict'
+var database;
+
 const
     fs = require('fs-extra'),
     moment = require('moment');
 
 /* Database */
 module.exports = database = {
-  // Read blog posts
+  // Read blog posts - will error on startup if issues getting data
   posts: fs.readJsonSync('./db/posts.json'),
 
   // Get all or single post
   getPosts: (msg) => {
     var local;
-
+    // When a single post requested - return in msg.post
     if (msg.req && msg.req.params && msg.req.params.postId) {
         msg.post = database.posts.find(post => post.id === msg.req.params.postId);
-        local = moment.utc(msg.post.updated, 'YYYY-MM-DD HH:mm:ss').local();
-        msg.post.lastupdated = local.fromNow(); // a minute ago, etc.
+        if (msg.post) {
+          msg.post.lastupdated = moment.utc(msg.post.updated, 'YYYY-MM-DD HH:mm:ss')
+            .local().fromNow(); // a minute ago, etc.
+        }
     }
+    // When all posts requested - return in msg.posts (note the 's')
     else {
         msg.posts = database.posts;
+        // Set the last updated text
         msg.posts.forEach((post) => {
-            local = moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local();
-            post.lastupdated = local.fromNow(); // a minute ago, etc.
+            post.lastupdated = moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss')
+              .local().fromNow();
         });
-        // Sort by date desending
-        msg.posts.sort(function(a, b) {
-          return a.updated < b.updated;
-        });
+        // Sort by update date desending
+        msg.posts.sort((a, b) => a.updated < b.updated);
     }
     return msg;
   },
 
   // Add a post
   newPost: (msg) => {
+    // Sort by id assending
+    database.posts.sort((a, b) => a.id > b.id);
     var lastId = database.posts.slice(-1)[0].id;
     var newId = (parseInt(lastId)+1).toString();
 
@@ -43,27 +50,56 @@ module.exports = database = {
         title: msg.payload.title,
         body: msg.payload.body
     });
+
     database.storePosts();
+
     if (msg.req && msg.req.params) {
       msg.req.params.postId = newId;
     }
     return msg;
   },
 
+  // Update a post
   updatePost: (msg) => {
     if (msg.req && msg.req.params && msg.req.params.postId) {
       msg.post = database.posts.find(post => post.id === msg.req.params.postId);
-      msg.post.updated = moment().toISOString();
-      msg.post.author = msg.payload.author;
-      msg.post.title = msg.payload.title;
-      msg.post.body = msg.payload.body;
-      database.storePosts();
+      if (msg.post) {
+        msg.post.updated = moment().toISOString();
+        msg.post.author = msg.payload.author;
+        msg.post.title = msg.payload.title;
+        msg.post.body = msg.payload.body;
+        database.storePosts();
+      }
+    }
+    return msg;
+  },
+
+  // Delete a post
+  deletePost: (msg) => {
+    if (msg.req && msg.req.params && msg.req.params.postId) {
+      var index;
+      msg.post = database.posts.find((post, idx) => {
+        index = idx;
+        return post.id === msg.req.params.postId;
+        });
+      if (msg.post) {
+        msg.payload = {};
+        msg.payload.updated = moment().toISOString();
+        msg.payload.author = msg.post.author;
+        msg.payload.title = msg.post.title;
+        msg.payload.body = msg.post.body;
+
+        database.posts.splice(index, 1); // Remove the post
+        database.storePosts();
+      }
     }
     return msg;
   },
 
   // Write blog posts data
   storePosts: () => {
+    // Sort by id assending
+    database.posts.sort((a, b) => a.id > b.id);
     // Remove unwanted work fields
     database.posts.forEach(post => {
       delete post.markedbody;
@@ -71,7 +107,7 @@ module.exports = database = {
     });
     fs.writeJson('./db/posts.json', database.posts, {spaces: 2}, err => {
       if (err) return console.error(err);
-      });
+    });
   }
 };
 
