@@ -1,31 +1,16 @@
-var fs = require('fs-extra');
-var http = require('http');
-var path = require('path');
-var express = require("express");
-var bodyParser  = require('body-parser');
-var RED = require("node-red");
-
-/* Node-RED runtime uses the current working dir as root - so */
+/* Runtime uses the current working dir as root - so */
 //  set current working directory to project root
 process.chdir(__dirname);
 
-/* Database */
-function Database() {
-  this.posts = fs.readJsonSync('./db/posts.json');
+const
+    http = require('http'),
+    path = require('path'),
+    express = require("express"),
+    bodyParser  = require('body-parser'),
+    RED = require('node-red'),
 
-  // Write posts data
-  this.storePosts = function() {
-    // Remove unwanted work fields
-    this.posts.forEach(post => {
-      delete post.markedbody;
-      delete post.lastupdated;
-    });
-    fs.writeJson('./db/posts.json', this.posts, err => {
-      if (err) return console.error(err);
-      });
-  }
-};
-var database = new Database();
+    /* javascript object database */
+    database = require('./db/database');
 
 /* Express Server */
 // Create an Express app
@@ -44,7 +29,6 @@ var settings = {
     httpAdminRoot:"/red",     // node-RED flow editor 
     httpNodeRoot: "/",        // node 'http in' root directory
     functionGlobalContext: {  // enable function nodes to reference our modules/objects
-        moment: require('moment'),
         db: database
     },
     userDir: path.resolve(__dirname, "node-red"),

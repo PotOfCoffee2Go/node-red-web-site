@@ -103,7 +103,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 120,
-        "y": 220,
+        "y": 380,
         "wires": [
             [
                 "279a4bf0.c2da04"
@@ -119,7 +119,7 @@
         "console": "false",
         "complete": "true",
         "x": 270,
-        "y": 1060,
+        "y": 1240,
         "wires": []
     },
     {
@@ -129,7 +129,7 @@
         "name": "",
         "scope": null,
         "x": 120,
-        "y": 1060,
+        "y": 1240,
         "wires": [
             [
                 "62001b80.f9eff4"
@@ -148,7 +148,7 @@
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">Node-red as a web server</h2>\n            <p class=\"lead\">Check out the articles below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                          <h4 class=\"list-group-item-heading\">{{title}}</h4>\n                          <p class=\"list-group-item-text\">{{author}} (<i>{{lastupdated}}</i>)</p>\n                        </a>\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</body>\n\n</html>",
         "output": "str",
         "x": 630,
-        "y": 220,
+        "y": 380,
         "wires": [
             [
                 "aeeadf78.92729"
@@ -163,7 +163,7 @@
         "statusCode": "",
         "headers": {},
         "x": 830,
-        "y": 300,
+        "y": 460,
         "wires": []
     },
     {
@@ -176,7 +176,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 580,
+        "y": 740,
         "wires": [
             [
                 "aab33934.9b48f8"
@@ -195,7 +195,7 @@
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n            <h2>{{post.title}}</h2>\n            by <a href=\"#\">{{post.author}}</a> (<i>{{post.lastupdated}}</i>)\n            {{{post.markedbody}}}\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n        $('#poc2go-navbar-edit').removeClass(\"hidden\");\n        $('#poc2go-navbar-edit li:first a').attr( \"href\", \"/edit/{{post.id}}\");\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 620,
-        "y": 580,
+        "y": 740,
         "wires": [
             [
                 "aeeadf78.92729"
@@ -208,7 +208,7 @@
         "z": "1919d1c3.b05b5e",
         "name": "",
         "x": 330,
-        "y": 220,
+        "y": 380,
         "wires": [
             [
                 "929dc13b.226bc"
@@ -221,7 +221,7 @@
         "z": "1919d1c3.b05b5e",
         "name": "",
         "x": 450,
-        "y": 580,
+        "y": 740,
         "wires": [
             [
                 "5727c30d.8ed94c"
@@ -276,7 +276,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 300,
+        "y": 460,
         "wires": [
             [
                 "17552502.b2c11b"
@@ -295,7 +295,7 @@
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"jumbotron\">\n            <h1>&ldquo;On the shoulders of giants&rdquo;</h1>\n            <p class=\"lead\">Kudo's to few of many developers and services below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <!-- display the credits-->\n                <h4>Developers</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://github.com/knolleary\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Nick O'Leary</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://github.com/dceejay\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Dave Conway-Jones</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://disqus.com/home/forums/coligo/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">coligo</h4>\n                      <p class=\"list-group-item-text\">Site Design</p>\n                    </a>\n                    <a href=\"https://github.com/arnauorriols\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Arnau Orriols</h4>\n                      <p class=\"list-group-item-text\">Markdown node-red node</p>\n                    </a>\n                    <a href=\"https://gist.github.com/duncansmart\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Duncan Smart</h4>\n                      <p class=\"list-group-item-text\">Script to tun Ace editor in a textarea</p>\n                    </a>\n                </div>\n                <h4>Packages</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://nodejs.org/en/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node.js and npm</h4>\n                      <p class=\"list-group-item-text\">Server side javascript engine and package manager</p>\n                    </a>\n                    <a href=\"https://nodered.org/docs/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node-RED</h4>\n                      <p class=\"list-group-item-text\">Site server</p>\n                    </a>\n                    <a href=\"https://mustache.github.io/mustache.5.html\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Mustache Template Engine</h4>\n                      <p class=\"list-group-item-text\">Inject variable data into site pages</p>\n                    </a>\n                    <a href=\"https://daringfireball.net/projects/markdown/syntax\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Markdown HTML markup</h4>\n                      <p class=\"list-group-item-text\">Convert Markdown text to HTML</p>\n                    </a>\n                </div>\n                <h4>Services</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://c9.io/?redirect=0\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Cloud9</h4>\n                      <p class=\"list-group-item-text\">Site host and IDE</p>\n                    </a>\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n</body>\n\n</html>",
         "output": "str",
         "x": 630,
-        "y": 300,
+        "y": 460,
         "wires": [
             [
                 "aeeadf78.92729"
@@ -312,7 +312,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 740,
+        "y": 900,
         "wires": [
             [
                 "79767ce6.9a4494"
@@ -329,7 +329,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 480,
+        "y": 640,
         "wires": [
             [
                 "29e3303d.7852b"
@@ -342,7 +342,7 @@
         "z": "1919d1c3.b05b5e",
         "name": "",
         "x": 330,
-        "y": 480,
+        "y": 640,
         "wires": [
             [
                 "78c9aed7.84fe7"
@@ -361,7 +361,7 @@
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
         "output": "str",
         "x": 600,
-        "y": 440,
+        "y": 600,
         "wires": [
             [
                 "aeeadf78.92729"
@@ -373,7 +373,7 @@
         "type": "function",
         "z": "ecf7de04.053ad",
         "name": "Select post data",
-        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\nvar local;\n\nif (msg.req.params.postId) {\n    msg.post = db.posts.find(post => post.id === msg.req.params.postId);\n    local = moment.utc(msg.post.updated, 'YYYY-MM-DD HH:mm:ss').local();\n    msg.post.lastupdated = local.fromNow(); // a minute ago, etc.\n}\nelse {\n    msg.posts = db.posts;\n    msg.posts.forEach((post) => {\n        local = moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local();\n        post.lastupdated = local.fromNow(); // a minute ago, etc.\n    });\n}\n\nreturn msg;",
+        "func": "msg = global.get(\"db\").getPosts(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 160,
@@ -421,7 +421,7 @@
         "name": "Display Blog home page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 170,
-        "y": 180,
+        "y": 340,
         "wires": []
     },
     {
@@ -431,7 +431,7 @@
         "name": "Catch any errors",
         "info": "",
         "x": 140,
-        "y": 1020,
+        "y": 1200,
         "wires": []
     },
     {
@@ -444,7 +444,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 120,
-        "y": 400,
+        "y": 560,
         "wires": [
             [
                 "424b8e74.ff63b"
@@ -456,7 +456,7 @@
         "type": "subflow:c330e687.8faa28",
         "z": "1919d1c3.b05b5e",
         "x": 330,
-        "y": 400,
+        "y": 560,
         "wires": [
             [
                 "78c9aed7.84fe7"
@@ -473,7 +473,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 660,
+        "y": 820,
         "wires": [
             [
                 "349e2593.e8ad0a"
@@ -487,7 +487,7 @@
         "name": "Display page to edit an existing post",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does pass the post ID in msg.req.params.postId,\nthus *Get Post(s)* subflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 200,
-        "y": 440,
+        "y": 600,
         "wires": []
     },
     {
@@ -497,7 +497,7 @@
         "name": "Enter new post",
         "info": "This request inserts into the database _title_, _author_, _body_ that is given in\nthe body of the [post].\n\nThe database is then queried for the _id_ of the last record insert. That id is\nmoved to the msg.req.params.postId, then the _Display post page_ flow is used\nto display the blog post just inserted.",
         "x": 140,
-        "y": 620,
+        "y": 780,
         "wires": []
     },
     {
@@ -507,7 +507,7 @@
         "name": "Display page to create a new post",
         "info": "This page uses the *Page Layout* subflow to add the site standard\nheader, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 200,
-        "y": 360,
+        "y": 520,
         "wires": []
     },
     {
@@ -517,7 +517,7 @@
         "name": "Display a post page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. It has the post ID in msg.req.params.postId thus *Get Post(s)*\nsubflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nIt also uses the Markup body subflow which takes the text from the body of the\npost and runs it through the *marked* package to markup the body from Markdown\ntext to HTML.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 150,
-        "y": 540,
+        "y": 700,
         "wires": []
     },
     {
@@ -527,7 +527,7 @@
         "name": "Update existing post",
         "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
         "x": 150,
-        "y": 700,
+        "y": 860,
         "wires": []
     },
     {
@@ -537,7 +537,7 @@
         "name": "Display credits page",
         "info": "This page is a simple page that uses the *Page Layout* subflow to add the\nsite standard header, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 150,
-        "y": 260,
+        "y": 420,
         "wires": []
     },
     {
@@ -547,7 +547,7 @@
         "name": "Blog Site",
         "info": "There are five [get] pages and two [post] processes to run the blog site.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\nThe HTTP [post] requests update the database\nand then display the appropriate **blog post** page.\n\n*Note:* Some confusion can happen between the HTTP method **[post]** and a **blog _post_**. In\nnode descriptions and documentation the **HTTP _[get]_ **and** _[post]_ ** methods are encloded in square-brackets [].\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n\n  * Processes (see _Blog Site Processes_ comment for more details)\n    * [Post] '/post'\n        * Insert new blog post into database\n        * Return page that displays that post\n    * [Post] '/post/:postId'\n        * Update existing blog post on database \n        * Return page that displays updated post\n",
         "x": 340,
-        "y": 120,
+        "y": 280,
         "wires": []
     },
     {
@@ -596,7 +596,7 @@
         "type": "subflow:c330e687.8faa28",
         "z": "1919d1c3.b05b5e",
         "x": 330,
-        "y": 300,
+        "y": 460,
         "wires": [
             [
                 "105262c9.69cf5d"
@@ -620,7 +620,7 @@
         "name": "Blog Site Pages",
         "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
         "x": 540,
-        "y": 120,
+        "y": 280,
         "wires": []
     },
     {
@@ -648,11 +648,11 @@
         "type": "function",
         "z": "1919d1c3.b05b5e",
         "name": "Update post",
-        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nif (msg.req.params.postId) {\n    msg.post = db.posts.find(post => post.id === msg.req.params.postId);\n    msg.post.updated = moment().toISOString();\n    msg.post.author = msg.payload.author;\n    msg.post.title = msg.payload.title;\n    msg.post.body = msg.payload.body;\n }\ndb.storePosts();\n\nreturn msg;",
+        "func": "msg = global.get(\"db\").updatePost(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 330,
-        "y": 740,
+        "y": 900,
         "wires": [
             [
                 "aab33934.9b48f8"
@@ -664,11 +664,11 @@
         "type": "function",
         "z": "1919d1c3.b05b5e",
         "name": "New post",
-        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nvar lastId = db.posts.slice(-1)[0].id;\nvar newId = (parseInt(lastId)+1).toString();\n\ndb.posts.push( {\n    id: newId,\n    updated: moment().toISOString(),\n    author: msg.payload.author,\n    title: msg.payload.title,\n    body: msg.payload.body\n});\ndb.storePosts();\n\nmsg.req.params.postId = newId;\nreturn msg;",
+        "func": "msg = global.get(\"db\").newPost(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 280,
-        "y": 660,
+        "y": 820,
         "wires": [
             [
                 "aab33934.9b48f8"
@@ -698,7 +698,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 840,
+        "y": 1000,
         "wires": [
             [
                 "adebde67.4d553"
@@ -711,7 +711,7 @@
         "z": "1919d1c3.b05b5e",
         "name": "",
         "x": 470,
-        "y": 840,
+        "y": 1000,
         "wires": [
             [
                 "c562bb0f.e76b38"
@@ -727,7 +727,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 660,
-        "y": 840,
+        "y": 1000,
         "wires": [
             [
                 "dc712e9a.41665"
@@ -742,7 +742,7 @@
         "statusCode": "",
         "headers": {},
         "x": 830,
-        "y": 840,
+        "y": 1000,
         "wires": []
     },
     {
@@ -755,7 +755,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 880,
+        "y": 1040,
         "wires": [
             [
                 "adebde67.4d553"
@@ -769,7 +769,7 @@
         "name": "RESTful",
         "info": "",
         "x": 120,
-        "y": 800,
+        "y": 960,
         "wires": []
     },
     {
@@ -777,11 +777,11 @@
         "type": "function",
         "z": "1919d1c3.b05b5e",
         "name": "New post",
-        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nvar lastId = db.posts.slice(-1)[0].id;\nvar newId = (parseInt(lastId)+1).toString();\n\ndb.posts.push( {\n    id: newId,\n    updated: moment().toISOString(),\n    author: msg.payload.author,\n    title: msg.payload.title,\n    body: msg.payload.body\n});\ndb.storePosts();\n\nmsg.req.params.postId = newId;\nreturn msg;",
+        "func": "msg = global.get(\"db\").newPost(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
-        "y": 920,
+        "y": 1080,
         "wires": [
             [
                 "adebde67.4d553"
@@ -798,7 +798,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 920,
+        "y": 1080,
         "wires": [
             [
                 "227ead5c.b2cfd2"
@@ -810,11 +810,11 @@
         "type": "function",
         "z": "1919d1c3.b05b5e",
         "name": "Update post",
-        "func": "var db = global.get(\"db\");\nvar moment = global.get(\"moment\");\n\nif (msg.req.params.postId) {\n    msg.post = db.posts.find(post => post.id === msg.req.params.postId);\n    msg.post.updated = moment().toISOString();\n    msg.post.author = msg.payload.author;\n    msg.post.title = msg.payload.title;\n    msg.post.body = msg.payload.body;\n }\ndb.storePosts();\n\nreturn msg;",
+        "func": "msg = global.get(\"db\").updatePost(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 350,
-        "y": 960,
+        "y": 1120,
         "wires": [
             [
                 "adebde67.4d553"
@@ -831,11 +831,66 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 960,
+        "y": 1120,
         "wires": [
             [
                 "868e1c15.52573"
             ]
         ]
+    },
+    {
+        "id": "456d083f.9647c8",
+        "type": "sample",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "topic": "Hi from sample",
+        "x": 400,
+        "y": 180,
+        "wires": [
+            [
+                "bf836995.16db08"
+            ]
+        ]
+    },
+    {
+        "id": "bf836995.16db08",
+        "type": "debug",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 630,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b14526a3.2e9168",
+        "type": "inject",
+        "z": "1919d1c3.b05b5e",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "456d083f.9647c8"
+            ]
+        ]
+    },
+    {
+        "id": "f3b6bf34.0cb88",
+        "type": "comment",
+        "z": "1919d1c3.b05b5e",
+        "name": "Custom Node",
+        "info": "",
+        "x": 410,
+        "y": 140,
+        "wires": []
     }
 ]
