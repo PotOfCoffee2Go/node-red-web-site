@@ -1,44 +1,89 @@
 [
   {
-    "id": "1",
-    "updated": "2017-09-24T21:36:24.606Z",
-    "author": "John",
+    "id": 1,
     "title": "Templating with mustache",
-    "body": "Blog post number 1!\r\n\r\nThis is [an example](http://example.com/ \"Title\") inline link.\r\n\r\n"
+    "author": "John",
+    "body": "Blog post number 1!\r\n\r\nThis is [an example](http://example.com/ \"Title\") inline link.\r\n\r\n",
+    "updated": "2017-09-25T04:11:10.802Z"
   },
   {
-    "id": "2",
-    "updated": "2017-09-24T23:06:47.808Z",
-    "author": "Kim",
+    "id": 2,
     "title": "Another great post",
-    "body": "This is another one again\r\n"
+    "author": "Kim",
+    "body": "This is another one again\r\n",
+    "updated": "2017-09-25T03:54:31.552Z"
   },
   {
-    "id": "3",
+    "id": 3,
     "updated": "2017-09-23T20:40:05.766Z",
     "author": "Emma",
     "title": "Streams",
     "body": "Cool Blog post number 3"
   },
   {
-    "id": "4",
+    "id": 4,
     "updated": "2017-09-23T16:22:43Z",
     "author": "Cody",
     "title": "Events",
     "body": "Blog post number 4"
   },
   {
-    "id": "6",
-    "updated": "2017-09-24T16:11:29.143Z",
-    "author": "Drake",
+    "id": 6,
     "title": "Express: Starting from the Bottom",
-    "body": "#### Blog post number 6\r\n\r\n  * bullet one\r\n  * bullet two\r\n  * bullet three\r\n\r\n\r\n```js\r\nvar testit = 5;\r\n\r\n```\r\n\r\n```html\r\n<html><head></head><body></body></html>\r\n```\r\n\r\n**bold** _italic_\r\n"
+    "author": "Drake",
+    "body": "#### Blog post number 6\r\n\r\n  * bullet one\r\n    * bullet two\r\n  * bullet three\r\n  * bullet four\r\n  * bullet five\r\n\r\n\r\n```js\r\n// javascript object database\r\n'use strict'\r\nconst postStore = './db/posts.json';\r\n\r\nconst\r\n    fs = require('fs-extra'),\r\n    moment = require('moment'),\r\n    marked = require('marked');\r\n\r\n// Set markup options\r\nmarked.setOptions({\r\n  sanitize: false, // allow HTML\r\n  highlight: function (code) {\r\n    return require('highlight.js').highlightAuto(code).value;\r\n  }\r\n});\r\n\r\n```\r\n\r\n```html\r\n<html><head></head><body></body></html>\r\n```\r\n\r\n```css\r\n/*\r\n\r\nRailscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)\r\n\r\n*/\r\n\r\n.hljs {\r\n  display: block;\r\n  overflow-x: auto;\r\n  padding: 0.5em;\r\n  background: #232323;\r\n  color: #e6e1dc;\r\n}\r\n\r\n.hljs-comment,\r\n.hljs-quote {\r\n  color: #bc9458;\r\n  font-style: italic;\r\n}\r\n\r\n```\r\n",
+    "updated": "2017-09-25T09:42:09.935Z"
   },
   {
-    "id": "7",
-    "updated": "2017-09-24T23:12:29.663Z",
+    "id": 8,
+    "webpage": "yes",
+    "title": "MIT License",
+    "author": "PotOfCoffee2Go",
+    "body": "```\r\nCopyright (c) 2017- Code Scullery, LLC\r\n```\r\n\r\n```\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n```\r\n",
+    "updated": "2017-09-25T02:11:25.682Z"
+  },
+  {
+    "id": 9,
+    "title": "Test of db change",
     "author": "Kim",
-    "title": "this is a newer post",
-    "body": "This is another post which i hope is the final test"
+    "body": "Test the db change too 2\r\n",
+    "updated": "2017-09-25T04:04:11.059Z"
+  },
+  {
+    "id": 10,
+    "title": "A web page",
+    "author": "Kim",
+    "webpage": "yes",
+    "body": "this is a web page cool",
+    "updated": "2017-09-25T05:03:01.596Z"
+  },
+  {
+    "id": 11,
+    "title": "newest yett",
+    "author": "Kim",
+    "body": "This is so new!",
+    "updated": "2017-09-25T04:44:50.385Z"
+  },
+  {
+    "id": 12,
+    "title": "newnew",
+    "author": "Kim",
+    "webpage": "yes",
+    "body": "yippie! sweet!",
+    "updated": "2017-09-25T06:10:44.250Z"
+  },
+  {
+    "id": 14,
+    "title": "newnwenwenwne",
+    "author": "kim",
+    "body": "This is cooler",
+    "updated": "2017-09-25T06:07:45.110Z"
+  },
+  {
+    "id": 15,
+    "title": "The last time",
+    "author": "Kim",
+    "body": "This is the last one!\r\n",
+    "updated": "2017-09-25T07:02:48.164Z"
   }
 ]

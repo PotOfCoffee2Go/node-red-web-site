@@ -15,11 +15,20 @@ const
 var app = express();
 // Create a server
 var server = http.createServer(app);
-// Add a route for static content served from 'public' directory
-app.use("/",express.static("public"));
+
 // Body parsers
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+/* Routes */
+// Can pick a post as a default page
+app.get('/', function(req, res, next) {
+  req.url = '/posts/8';
+  next();
+});
+
+// Add a route for static content(css, js, etc) served from 'public' directory
+app.use("/",express.static("public"));
 
 /* Node-RED */
 // Create the node-RED settings object
@@ -36,13 +45,12 @@ var settings = {
 };
 
 /* Startup */
-// Initialise the runtime with the server and settings
+// Initialize node-RED runtime with the server and settings
 RED.init(server, settings);
-// Serves the editor UI
+// Serve the node-RED Editor and http-in node UIs
 app.use(settings.httpAdminRoot, RED.httpAdmin);
-// Serves the http-in nodes UI
 app.use(settings.httpNodeRoot, RED.httpNode);
 // Fire up the server
 server.listen(8081);
-// Start the node-RED runtime
+// Start node-RED runtime
 RED.start();
