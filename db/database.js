@@ -5,15 +5,17 @@ const postStore = './db/posts.json';
 const
     fs = require('fs-extra'),
     moment = require('moment'),
-    marked = require('marked');
+    showdown = require('showdown'),
+    showdownHighlight = require("showdown-highlight");
 
-// Set markup options
-marked.setOptions({
-  sanitize: false, // allow HTML
-  highlight: (code) => {
-    return require('highlight.js').highlightAuto(code).value;
-  }
-});
+var converter = new showdown.Converter({extensions: [showdownHighlight]});
+converter.setFlavor('github');
+converter.setOption('parseImgDimensions', true);
+
+// Markup text
+function markDown(text) {
+  return converter.makeHtml(text);
+}
 
 // Sort by id ascending
 function byId(a,b) {
@@ -57,15 +59,20 @@ function timeText(post) {
   return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
 }
 
-// Markup the MarkDown
-function markDown(body) {
-  var markup = marked(body);
-  markup = markup.replace(/class="lang/g, 'class="hljs lang');
-  return markup;
-}
+  // Write blog posts data
+function storePosts() {
+    // Remove unwanted work fields
+    database.posts.forEach(post => {
+      delete post.marked;
+    });
+
+    database.posts.sort(byId);
+    fs.writeJsonSync(postStore, database.posts, {spaces: 2});
+    database.posts.sort(byDate);
+  }
 
 /* Database */
-var database = {
+var database = module.exports = {
   // Read blog posts
   posts: loadPosts(),
 
@@ -76,14 +83,18 @@ var database = {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
           msg.post.marked = {
+            title: markDown(msg.post.title),
+            author: markDown(msg.post.author),
             lastupdated: timeText(msg.post),
-            body: markDown(msg.post.body) 
+            body: markDown(msg.post.body)
           };
         }
     } // When all posts requested - return list in msg.posts (note the 's')
     else {
         database.posts.forEach((post) => {
           post.marked = {
+            title: markDown(post.title),
+            author: markDown(post.author),
             lastupdated : timeText(post)
           };
         });
@@ -98,7 +109,7 @@ var database = {
     msg.payload.id = lastId+1;
     msg.payload.updated = moment().toISOString();
     database.posts.push(msg.payload);
-    database.storePosts();
+    storePosts();
 
     // Make this new id the http req paramater
     if (msg.req && msg.req.params) {
@@ -116,7 +127,7 @@ var database = {
         msg.payload.id = database.posts[idx].id; // insure id is a number
         msg.payload.updated = moment().toISOString();
         database.posts[idx] = msg.payload;
-        database.storePosts();
+        storePosts();
         database.getPosts(msg);
       }
     }
@@ -130,23 +141,11 @@ var database = {
       if (idx > -1) {
         msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy
         database.posts.splice(idx, 1); // Remove the post
-        database.storePosts();
+        storePosts();
       }
     }
     return msg;
   },
 
-  // Write blog posts data
-  storePosts: () => {
-    // Remove unwanted work fields
-    database.posts.forEach(post => {
-      delete post.marked;
-    });
-
-    database.posts.sort(byId);
-    fs.writeJsonSync(postStore, database.posts, {spaces: 2});
-    database.posts.sort(byDate);
-  }
 };
 
-module.exports = database;

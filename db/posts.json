@@ -29,10 +29,10 @@
   },
   {
     "id": 6,
-    "title": "Express: Starting from the Bottom",
-    "author": "Drake",
-    "body": "#### Blog post number 6\r\n\r\n  * bullet one\r\n    * bullet two\r\n  * bullet three\r\n  * bullet four\r\n  * bullet five\r\n\r\n\r\n```js\r\n// javascript object database\r\n'use strict'\r\nconst postStore = './db/posts.json';\r\n\r\nconst\r\n    fs = require('fs-extra'),\r\n    moment = require('moment'),\r\n    marked = require('marked');\r\n\r\n// Set markup options\r\nmarked.setOptions({\r\n  sanitize: false, // allow HTML\r\n  highlight: function (code) {\r\n    return require('highlight.js').highlightAuto(code).value;\r\n  }\r\n});\r\n\r\n```\r\n\r\n```html\r\n<html><head></head><body></body></html>\r\n```\r\n\r\n```css\r\n/*\r\n\r\nRailscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)Railscasts-like style (c) Visoft, Inc. (Damien White)\r\n\r\n*/\r\n\r\n.hljs {\r\n  display: block;\r\n  overflow-x: auto;\r\n  padding: 0.5em;\r\n  background: #232323;\r\n  color: #e6e1dc;\r\n}\r\n\r\n.hljs-comment,\r\n.hljs-quote {\r\n  color: #bc9458;\r\n  font-style: italic;\r\n}\r\n\r\n```\r\n",
-    "updated": "2017-09-25T09:42:09.935Z"
+    "title": "<img src=\"/images/node-red-icon.svg\" width=\"24px\">  Node-RED: <span style=\"color: red;\"> Starting from the Bottom </span>",
+    "author": "PotOfCoffee2Go",
+    "body": "<img align=\"left\" src=\"https://codescullery.net/poc2go/site/images/HAL9000.png\" width=\"124px\">\r\n <p><span style=\"font-size: 2em;\">&nbsp;&nbsp;&nbsp;&#8220;... all my circuits are functioning perfectly.&#8221;</span></p>\r\n <p><span style=\"font-size: 1em;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <i>HAL 9000</i>\r\n    <a href=\"https://en.wikiquote.org/wiki/2001:_A_Space_Odyssey_(film)\">(2001: A Space Odyssey)</a> </span></p>\r\n<br>\r\n\r\n### Objective\r\nTo show non-trivial examples of implementing Node-RED as a [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming)  component of a nodejs application.\r\n\r\nBasically, how to interface to [node-red](https://nodered.org/) at a fundamental level to your nodejs application modules without creating node-red `nodes`.\r\n\r\nThere are advantages and disavantages to using [data flow programming](https://en.wikipedia.org/wiki/Dataflow_programming) as opposed to an [imperative programming](https://en.wikipedia.org/wiki/Imperative_programming) paradigm.  Once you get your head wrapped around the integration of these two seeming opposing paradigms - based on the situation - the better you can process, control, and deliver information.\r\n\r\n\r\n### Purpose\r\nThis is a functional blog website which has been constructed using the concepts discussed below. It not only contains pages and posts describing the integration of node-red for flow control, but uses itself as an example of that paradigm. Security has not been taken into consideration as it is assumed the this project will be installed as an instructive tool, which when run is available at __http://localhost:8081__ in your web browser.\r\n\r\n### Topics discussed (using this project as an example):\r\n - Embed node-red into an express site\r\n - Setting node-red configuration parameters from application embedding node-red\r\n - Use node-red to implement process sequences initiated by HTTP requests\r\n - How to interface node-red `function` nodes to nodejs `modules`\r\n - Integration of static content (css, js, etc.) with node-red processed data\r\n - Why using a nodejs database **module** (oracle, MS Sql, MySql, etc) is better than a node-red database **node**\r\n - When is it appropriate to create a node-red `node` or use a nodejs `module`\r\n - Delivery of HTML and/or RESTful content using node-red flows\r\n - Scenarios when usage of node-red sub-flows is advantageous\r\n - Creation and debugging custom node-red nodes\r\n - Discuss situations when a conventional nodejs module is appropriate versus a node-red node\r\n\r\n### What is node-RED?\r\n**To be concise:**\r\n\r\n - Node-Red is a high level, [flow based](https://en.wikipedia.org/wiki/Flow-based_programming) programming language implemented via a graphical interface (`Node-RED Editor`) used to describe sequences of [data flow](https://en.wikipedia.org/wiki/Dataflow_programming) movement (`msg`) between one or more **independent** synchronous and/or asynchronous processes (`nodes`).\r\n\r\n - The transmission of data consists of `wires` between none, one, or more in/out `ports` assigned to each `node`. The wires determine the <span style=\"color:blue;\">path</span> of the `msg` data object which is the only interaction between `nodes`.\r\n\r\n - A `flow` is a sequence of `nodes` that are wired together. Since multiple `wires` can be connected to a single in/out `port`, a `flow` can have multiple  <span style=\"color:blue;\">paths</span> which node-red executes concurrently. The data `msg` for each <span style=\"color:blue;\">path</span> is cloned, thus the content of `msg` from one `path` can diverge from the `msg` content of another <span style=\"color:blue;\">path</span> with-in the same `flow`.\r\n\r\n - Node-RED can run as a standalone application or can be embedded as the [data flow](https://en.wikipedia.org/wiki/Dataflow_programming) component of into a node.js application.\r\n \r\n - Changes to data flows are dynamic. Changes to data flows are immediately implemented by deploying the modifications to the node-red runtime.\r\n\r\n### Installation\r\nTo see if you are interested, or wish to only see it's blog pages and posts:\r\n```bat\r\nnpm install node-red-from-the-bottom\r\ncd node-red-from-the-bottom\r\nnpm start\r\n```\r\nThen in address bar of your web browser:\r\n```\r\nhttp://localhost:8081\r\n```\r\n\r\n**However**, `node-red-from-the-bottom` is designed to be cloned so that you can inspect, modify, and play around with it.\r\n```bat\r\ngit clone https://github.com/PotOfCoffee2Go/node-red-from-the-bottom.git\r\ncd node-red-from-the-bottom.git\r\nnpm install\r\nnpm start\r\n```\r\n\r\n### Not as difficult as you might think\r\nThis blog site only has three javascript's, and one of those is only of interest to those creating custom nodes.\r\n\r\n",
+    "updated": "2017-09-26T19:43:09.186Z"
   },
   {
     "id": 8,
@@ -74,16 +74,16 @@
   },
   {
     "id": 14,
-    "title": "newnwenwenwne",
+    "title": "![bar](/favicon.ico =24x*) newnwenwenwne",
     "author": "kim",
-    "body": "This is cooler",
-    "updated": "2017-09-25T06:07:45.110Z"
+    "body": "This is cooler\r\n\r\n - [x] This task is done\r\n - [ ] This is still pending\r\n\r\n<img src=\"/favicon.ico\" width=\"32\">\r\n\r\n![bar](/favicon.ico =100x*)\r\n\r\n![my Logo](/favicon.ico)\r\n\r\n\r\n ",
+    "updated": "2017-09-26T20:36:26.515Z"
   },
   {
     "id": 15,
     "title": "The last time",
     "author": "Kim",
-    "body": "This is the last one!\r\n",
-    "updated": "2017-09-25T07:02:48.164Z"
+    "body": "This is the last one!\r\n<form action=\"http://google.com\"><input type=\"submit\" value=\"Go to Google\" /></form>",
+    "updated": "2017-09-25T19:18:08.900Z"
   }
 ]
