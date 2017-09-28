@@ -1,8 +1,22 @@
 [
     {
+        "id": "3082454d.fb9b3a",
+        "type": "tab",
+        "label": "Web Site",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8c3ec654.d10248",
+        "type": "tab",
+        "label": "REST interface",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "1919d1c3.b05b5e",
         "type": "tab",
-        "label": "Blog",
+        "label": "Sandbox",
         "disabled": false,
         "info": ""
     },
@@ -94,141 +108,6 @@
         ]
     },
     {
-        "id": "622e224a.092a2c",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/blog/:pages?",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 150,
-        "y": 300,
-        "wires": [
-            [
-                "279a4bf0.c2da04"
-            ]
-        ]
-    },
-    {
-        "id": "62001b80.f9eff4",
-        "type": "debug",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 250,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "22dcf241.57619e",
-        "type": "catch",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "scope": null,
-        "x": 120,
-        "y": 120,
-        "wires": [
-            [
-                "62001b80.f9eff4"
-            ]
-        ]
-    },
-    {
-        "id": "929dc13b.226bc",
-        "type": "template",
-        "z": "1919d1c3.b05b5e",
-        "name": "Blog home",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">Node-red flows a blog web server</h2>\n            <p class=\"lead\">Check out the {{#showpages}}pages{{/showpages}}{{^showpages}}posts{{/showpages}} below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        {{#showpages}}\n                            {{#webpage}}\n                            <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                              <h4 class=\"list-group-item-heading\" style=\"float: left;\">{{{marked.title}}}</h4>\n                              <p class=\"list-group-item-text\">&nbsp;{{{author}}} (<i>{{marked.lastupdated}}</i>)</p>\n                            </a>\n                            {{/webpage}}\n                        {{/showpages}}\n                        {{^showpages}}\n                            {{^webpage}}\n                            <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                              <h4 class=\"list-group-item-heading\" style=\"float: left;\">{{{marked.title}}}</h4>\n                              <p class=\"list-group-item-text\">&nbsp;{{{author}}} (<i>{{marked.lastupdated}}</i>)</p>\n                            </a>\n                            {{/webpage}}\n                        {{/showpages}}\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</body>\n\n</html>",
-        "output": "str",
-        "x": 630,
-        "y": 300,
-        "wires": [
-            [
-                "aeeadf78.92729"
-            ]
-        ]
-    },
-    {
-        "id": "aeeadf78.92729",
-        "type": "http response",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 830,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "3d58d4e5.5815ac",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/posts/:postId",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 150,
-        "y": 500,
-        "wires": [
-            [
-                "aab33934.9b48f8"
-            ]
-        ]
-    },
-    {
-        "id": "5727c30d.8ed94c",
-        "type": "template",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display a post",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <link rel=\"stylesheet\" href=\"/highlight/styles/github.css\">\n    <style>\n        pre code {white-space: pre;overflow-x: auto;}\n    </style>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <dialog id=\"poc2go-navbar-delete-dialog\"> <p>Delete Post <strong>{{post.title}}</strong>?</p>\n            <button id=\"poc2go-navbar-delete-cancel\">No</button>&nbsp;<button id=\"poc2go-navbar-delete-ok\">Yes</button>\n        </dialog>\n            <h2>{{{post.marked.title}}}</h2>\n            by {{post.author}} (<i>{{post.marked.lastupdated}}</i>)\n            <div style=\"margin-top: 20px;\">{{{post.marked.body}}}</div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n        $('#poc2go-navbar-edit').removeClass(\"hidden\");\n        $('#poc2go-navbar-edit li:first a').attr( \"href\", \"/edit/{{post.id}}\");\n\n        $('#poc2go-navbar-delete').removeClass(\"hidden\");\n        \n        $('#poc2go-navbar-delete').click(function() {\n            var dialog = document.querySelector('#poc2go-navbar-delete-dialog');\n            dialog.show();\n        \n            document.querySelector('#poc2go-navbar-delete-cancel').onclick = function() {\n                dialog.close();\n            }; \n            document.querySelector('#poc2go-navbar-delete-ok').onclick = function() {\n                $.ajax({\n                    url: '/posts/{{post.id}}', method: 'DELETE',\n                    complete: function() {\n                        window.location = '/blog';\n                    }\n                });\n                dialog.close();\n            }; \n        });\n    });\n</script>\n</body>\n</html>\n",
-        "output": "str",
-        "x": 620,
-        "y": 500,
-        "wires": [
-            [
-                "aeeadf78.92729"
-            ]
-        ]
-    },
-    {
-        "id": "279a4bf0.c2da04",
-        "type": "subflow:ecf7de04.053ad",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "x": 330,
-        "y": 300,
-        "wires": [
-            [
-                "929dc13b.226bc"
-            ]
-        ]
-    },
-    {
-        "id": "aab33934.9b48f8",
-        "type": "subflow:ecf7de04.053ad",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "x": 450,
-        "y": 500,
-        "wires": [
-            [
-                "5727c30d.8ed94c"
-            ]
-        ]
-    },
-    {
         "id": "932f34c4.38e5b8",
         "type": "markdown",
         "z": "db4004be.1e9df8",
@@ -264,108 +143,6 @@
         "y": 60,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "b7772184.1adac",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/credits",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 340,
-        "wires": [
-            [
-                "17552502.b2c11b"
-            ]
-        ]
-    },
-    {
-        "id": "105262c9.69cf5d",
-        "type": "template",
-        "z": "1919d1c3.b05b5e",
-        "name": "Site Credits",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">On the shoulders of giants</h2>\n            <p class=\"lead\">Kudo's to few of many developers and services below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <!-- display the credits-->\n                <h4>Developers</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://github.com/knolleary\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Nick O'Leary</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://github.com/dceejay\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Dave Conway-Jones</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://disqus.com/home/forums/coligo/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">coligo</h4>\n                      <p class=\"list-group-item-text\">Site Design</p>\n                    </a>\n                    <a href=\"https://github.com/arnauorriols\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Arnau Orriols</h4>\n                      <p class=\"list-group-item-text\">Markdown node-red node</p>\n                    </a>\n                    <a href=\"https://gist.github.com/duncansmart\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Duncan Smart</h4>\n                      <p class=\"list-group-item-text\">Script to tun Ace editor in a textarea</p>\n                    </a>\n                </div>\n                <h4>Packages</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://nodejs.org/en/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node.js and npm</h4>\n                      <p class=\"list-group-item-text\">Server side javascript engine and package manager</p>\n                    </a>\n                    <a href=\"https://nodered.org/docs/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node-RED</h4>\n                      <p class=\"list-group-item-text\">Site server</p>\n                    </a>\n                    <a href=\"https://mustache.github.io/mustache.5.html\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Mustache Template Engine</h4>\n                      <p class=\"list-group-item-text\">Inject variable data into site pages</p>\n                    </a>\n                    <a href=\"https://daringfireball.net/projects/markdown/syntax\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Markdown HTML markup</h4>\n                      <p class=\"list-group-item-text\">Convert Markdown text to HTML</p>\n                    </a>\n                </div>\n                <h4>Services</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://c9.io/?redirect=0\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Cloud9</h4>\n                      <p class=\"list-group-item-text\">Site host and IDE</p>\n                    </a>\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n</body>\n\n</html>",
-        "output": "str",
-        "x": 630,
-        "y": 340,
-        "wires": [
-            [
-                "aeeadf78.92729"
-            ]
-        ]
-    },
-    {
-        "id": "a1f206a5.de5268",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/posts/:postId",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 150,
-        "y": 580,
-        "wires": [
-            [
-                "79767ce6.9a4494"
-            ]
-        ]
-    },
-    {
-        "id": "baddb725.057108",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/edit/:postId",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 420,
-        "wires": [
-            [
-                "29e3303d.7852b"
-            ]
-        ]
-    },
-    {
-        "id": "29e3303d.7852b",
-        "type": "subflow:ecf7de04.053ad",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "x": 330,
-        "y": 420,
-        "wires": [
-            [
-                "78c9aed7.84fe7"
-            ]
-        ]
-    },
-    {
-        "id": "78c9aed7.84fe7",
-        "type": "template",
-        "z": "1919d1c3.b05b5e",
-        "name": "New/Edit a post page",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                    <label for=\"webpage\">Is a web page</label>\n                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
-        "output": "str",
-        "x": 600,
-        "y": 400,
-        "wires": [
-            [
-                "aeeadf78.92729"
-            ]
         ]
     },
     {
@@ -415,142 +192,6 @@
         ]
     },
     {
-        "id": "30bbbdb7.084d52",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display blog home page",
-        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 860,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "2974bc59.b8c574",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Catch errors",
-        "info": "",
-        "x": 630,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "91b241aa.7f339",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/new",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 120,
-        "y": 380,
-        "wires": [
-            [
-                "424b8e74.ff63b"
-            ]
-        ]
-    },
-    {
-        "id": "424b8e74.ff63b",
-        "type": "subflow:c330e687.8faa28",
-        "z": "1919d1c3.b05b5e",
-        "x": 330,
-        "y": 380,
-        "wires": [
-            [
-                "78c9aed7.84fe7"
-            ]
-        ]
-    },
-    {
-        "id": "a40a085c.9360c8",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/posts",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 540,
-        "wires": [
-            [
-                "349e2593.e8ad0a"
-            ]
-        ]
-    },
-    {
-        "id": "d3ef2df1.d45e9",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display page to edit an existing post",
-        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does pass the post ID in msg.req.params.postId,\nthus *Get Post(s)* subflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 900,
-        "y": 420,
-        "wires": []
-    },
-    {
-        "id": "2b152161.589c9e",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Enter new post",
-        "info": "This request inserts into the database _title_, _author_, _body_ that is given in\nthe body of the [post].\n\nThe database is then queried for the _id_ of the last record insert. That id is\nmoved to the msg.req.params.postId, then the _Display post page_ flow is used\nto display the blog post just inserted.",
-        "x": 840,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "46ccfb82.b9cce4",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display page to create a new post",
-        "info": "This page uses the *Page Layout* subflow to add the site standard\nheader, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 900,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "da354b2c.2504c8",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display a post page",
-        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. It has the post ID in msg.req.params.postId thus *Get Post(s)*\nsubflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nIt also uses the Markup body subflow which takes the text from the body of the\npost and runs it through the *marked* package to markup the body from Markdown\ntext to HTML.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 850,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "15c8de46.8c9ac2",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Update existing post",
-        "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
-        "x": 850,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "e517077b.5fbb78",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Display credits page",
-        "info": "This page is a simple page that uses the *Page Layout* subflow to add the\nsite standard header, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 850,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "b26ba750.4dcd58",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Blog Site",
-        "info": "There are five [get] pages and two [post] processes to run the blog site.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\nThe HTTP [post] requests update the database\nand then display the appropriate **blog post** page.\n\n*Note:* Some confusion can happen between the HTTP method **[post]** and a **blog _post_**. In\nnode descriptions and documentation the **HTTP _[get]_ **and** _[post]_ ** methods are encloded in square-brackets [].\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n\n  * Processes (see _Blog Site Processes_ comment for more details)\n    * [Post] '/post'\n        * Insert new blog post into database\n        * Return page that displays that post\n    * [Post] '/post/:postId'\n        * Update existing blog post on database \n        * Return page that displays updated post\n",
-        "x": 120,
-        "y": 260,
-        "wires": []
-    },
-    {
         "id": "42a17f0c.4cdf3",
         "type": "subflow:c330e687.8faa28",
         "z": "ecf7de04.053ad",
@@ -592,18 +233,6 @@
         "wires": []
     },
     {
-        "id": "17552502.b2c11b",
-        "type": "subflow:c330e687.8faa28",
-        "z": "1919d1c3.b05b5e",
-        "x": 330,
-        "y": 340,
-        "wires": [
-            [
-                "105262c9.69cf5d"
-            ]
-        ]
-    },
-    {
         "id": "e1619090.d49fa",
         "type": "comment",
         "z": "1919d1c3.b05b5e",
@@ -611,16 +240,6 @@
         "info": "",
         "x": 420,
         "y": 20,
-        "wires": []
-    },
-    {
-        "id": "992ad918.d7b9f8",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Blog Site Pages",
-        "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
-        "x": 620,
-        "y": 260,
         "wires": []
     },
     {
@@ -644,185 +263,13 @@
         "wires": []
     },
     {
-        "id": "79767ce6.9a4494",
-        "type": "function",
-        "z": "1919d1c3.b05b5e",
-        "name": "Update post",
-        "func": "global.get(\"db\").updatePost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 330,
-        "y": 580,
-        "wires": [
-            [
-                "aab33934.9b48f8"
-            ]
-        ]
-    },
-    {
-        "id": "349e2593.e8ad0a",
-        "type": "function",
-        "z": "1919d1c3.b05b5e",
-        "name": "New post",
-        "func": "global.get(\"db\").newPost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 280,
-        "y": 540,
-        "wires": [
-            [
-                "aab33934.9b48f8"
-            ]
-        ]
-    },
-    {
-        "id": "744f7a79.882a04",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/v1/posts",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 740,
-        "wires": [
-            [
-                "adebde67.4d553"
-            ]
-        ]
-    },
-    {
-        "id": "adebde67.4d553",
-        "type": "subflow:ecf7de04.053ad",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "x": 450,
-        "y": 740,
-        "wires": [
-            [
-                "c562bb0f.e76b38"
-            ]
-        ]
-    },
-    {
-        "id": "c562bb0f.e76b38",
-        "type": "function",
-        "z": "1919d1c3.b05b5e",
-        "name": "Load payload",
-        "func": "if (msg.posts) {\n    msg.payload = msg.posts;\n}\nelse {\n    msg.payload = msg.post;\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 620,
-        "y": 740,
-        "wires": [
-            [
-                "dc712e9a.41665"
-            ]
-        ]
-    },
-    {
-        "id": "dc712e9a.41665",
-        "type": "http response",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 830,
-        "y": 740,
-        "wires": []
-    },
-    {
-        "id": "d5114258.ca0f5",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/v1/posts/:postId",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 160,
-        "y": 780,
-        "wires": [
-            [
-                "adebde67.4d553"
-            ]
-        ]
-    },
-    {
-        "id": "227ead5c.b2cfd2",
-        "type": "function",
-        "z": "1919d1c3.b05b5e",
-        "name": "New post",
-        "func": "global.get(\"db\").newPost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 360,
-        "y": 820,
-        "wires": [
-            [
-                "adebde67.4d553"
-            ]
-        ]
-    },
-    {
-        "id": "738437df.88d9a8",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/v1/posts",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 820,
-        "wires": [
-            [
-                "227ead5c.b2cfd2"
-            ]
-        ]
-    },
-    {
-        "id": "868e1c15.52573",
-        "type": "function",
-        "z": "1919d1c3.b05b5e",
-        "name": "Update post",
-        "func": "global.get(\"db\").updatePost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 350,
-        "y": 860,
-        "wires": [
-            [
-                "adebde67.4d553"
-            ]
-        ]
-    },
-    {
-        "id": "e6bbdb2e.ec8ee8",
-        "type": "http in",
-        "z": "1919d1c3.b05b5e",
-        "name": "",
-        "url": "/v1/posts/:postId",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 160,
-        "y": 860,
-        "wires": [
-            [
-                "868e1c15.52573"
-            ]
-        ]
-    },
-    {
         "id": "456d083f.9647c8",
         "type": "sample",
         "z": "1919d1c3.b05b5e",
         "name": "",
         "topic": "Hi from sample",
-        "x": 280,
-        "y": 180,
+        "x": 300,
+        "y": 120,
         "wires": [
             [
                 "bf836995.16db08"
@@ -837,8 +284,8 @@
         "active": true,
         "console": "false",
         "complete": "false",
-        "x": 450,
-        "y": 180,
+        "x": 470,
+        "y": 120,
         "wires": []
     },
     {
@@ -852,8 +299,8 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 120,
-        "y": 180,
+        "x": 140,
+        "y": 120,
         "wires": [
             [
                 "456d083f.9647c8"
@@ -866,48 +313,8 @@
         "z": "1919d1c3.b05b5e",
         "name": "Custom Node",
         "info": "",
-        "x": 630,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "c6e29370.87e41",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Blog site REST endpoints",
-        "info": "",
-        "x": 170,
-        "y": 700,
-        "wires": []
-    },
-    {
-        "id": "8e8911d1.bc9f9",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Submit new blog post",
-        "info": "",
-        "x": 860,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "54eb67b7.bb2458",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Update blog post",
-        "info": "",
-        "x": 840,
-        "y": 860,
-        "wires": []
-    },
-    {
-        "id": "47f094f6.8cd50c",
-        "type": "comment",
-        "z": "1919d1c3.b05b5e",
-        "name": "Get all or single post",
-        "info": "",
-        "x": 850,
-        "y": 780,
+        "x": 650,
+        "y": 120,
         "wires": []
     },
     {
@@ -921,62 +328,705 @@
         "wires": []
     },
     {
-        "id": "824e0884.c84868",
+        "id": "fce1758a.f94ba8",
         "type": "http in",
-        "z": "1919d1c3.b05b5e",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/blog/:pages?",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "45652580.f4e51c"
+            ]
+        ]
+    },
+    {
+        "id": "63d13b18.af47b4",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "Blog home",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">Node-red flows a blog web server</h2>\n            <p class=\"lead\">Check out the {{#showpages}}pages{{/showpages}}{{^showpages}}posts{{/showpages}} below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                 <!-- loop over blog posts and render them -->\n                <div class=\"list-group\">\n                    {{#posts}}\n                        {{#showpages}}\n                            {{#webpage}}\n                            <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                              <h4 class=\"list-group-item-heading\">{{{marked.title}}}</h4>\n                              <p class=\"list-group-item-text\">&nbsp;{{{author}}} (<i>{{marked.lastupdated}}</i>)</p>\n                            </a>\n                            {{/webpage}}\n                        {{/showpages}}\n                        {{^showpages}}\n                            {{^webpage}}\n                            <a href=\"/posts/{{id}}\" class=\"list-group-item\">\n                              <h4 class=\"list-group-item-heading\" style=\"float: left;\">{{{marked.title}}}</h4>\n                              <p class=\"list-group-item-text\">&nbsp;{{{author}}} (<i>{{marked.lastupdated}}</i>)</p>\n                            </a>\n                            {{/webpage}}\n                        {{/showpages}}\n                    {{/posts}}\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 590,
+        "y": 100,
+        "wires": [
+            [
+                "dc8d1969.d2e888"
+            ]
+        ]
+    },
+    {
+        "id": "dc8d1969.d2e888",
+        "type": "http response",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "45984dd5.7944b4",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/posts/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "8c4ad8db.a73178"
+            ]
+        ]
+    },
+    {
+        "id": "cb5b1e36.1b9dd",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "Display a post",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    <link rel=\"stylesheet\" href=\"/highlight/styles/github.css\">\n    <style>\n        pre code {white-space: pre;overflow-x: auto;}\n        blockquote {font-size: 1em;}\n    </style>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <dialog id=\"poc2go-navbar-delete-dialog\"> <p>Delete Post <strong>{{post.title}}</strong>?</p>\n            <button id=\"poc2go-navbar-delete-cancel\">No</button>&nbsp;<button id=\"poc2go-navbar-delete-ok\">Yes</button>\n        </dialog>\n            <h2>{{{post.marked.title}}}</h2>\n            by {{post.author}} (<i>{{post.marked.lastupdated}}</i>)\n            <div style=\"margin-top: 20px;\">{{{post.marked.body}}}</div>\n        {{{page.footer}}}\n    </div>\n<script>\n    $(document).ready(function() {\n        $('#poc2go-navbar-edit').removeClass(\"hidden\");\n        $('#poc2go-navbar-edit li:first a').attr( \"href\", \"/edit/{{post.id}}\");\n\n        $('#poc2go-navbar-delete').removeClass(\"hidden\");\n        \n        $('#poc2go-navbar-delete').click(function() {\n            var dialog = document.querySelector('#poc2go-navbar-delete-dialog');\n            dialog.show();\n        \n            document.querySelector('#poc2go-navbar-delete-cancel').onclick = function() {\n                dialog.close();\n            }; \n            document.querySelector('#poc2go-navbar-delete-ok').onclick = function() {\n                $.ajax({\n                    url: '/posts/{{post.id}}', method: 'DELETE',\n                    complete: function() {\n                        window.location = '/blog';\n                    }\n                });\n                dialog.close();\n            }; \n        });\n    });\n</script>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 580,
+        "y": 300,
+        "wires": [
+            [
+                "dc8d1969.d2e888"
+            ]
+        ]
+    },
+    {
+        "id": "45652580.f4e51c",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "63d13b18.af47b4"
+            ]
+        ]
+    },
+    {
+        "id": "8c4ad8db.a73178",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "cb5b1e36.1b9dd"
+            ]
+        ]
+    },
+    {
+        "id": "33fa71ca.471e4e",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/credits",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "371a3ba3.1afd34"
+            ]
+        ]
+    },
+    {
+        "id": "7246ba30.cf6f84",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "Site Credits",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Kim's Blog</title>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div class=\"page-header\">\n            <h2 style=\"padding:10px 0 0 0;\">On the shoulders of giants</h2>\n            <p class=\"lead\">Kudo's to few of many developers and services below!</p>\n        </div>\n\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <!-- display the credits-->\n                <h4>Developers</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://github.com/knolleary\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Nick O'Leary</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://github.com/dceejay\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Dave Conway-Jones</h4>\n                      <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                    </a>\n                    <a href=\"https://disqus.com/home/forums/coligo/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">coligo</h4>\n                      <p class=\"list-group-item-text\">Site Design</p>\n                    </a>\n                    <a href=\"https://github.com/arnauorriols\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Arnau Orriols</h4>\n                      <p class=\"list-group-item-text\">Markdown node-red node</p>\n                    </a>\n                    <a href=\"https://gist.github.com/duncansmart\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Duncan Smart</h4>\n                      <p class=\"list-group-item-text\">Script to tun Ace editor in a textarea</p>\n                    </a>\n                </div>\n                <h4>Packages</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://nodejs.org/en/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node.js and npm</h4>\n                      <p class=\"list-group-item-text\">Server side javascript engine and package manager</p>\n                    </a>\n                    <a href=\"https://nodered.org/docs/\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Node-RED</h4>\n                      <p class=\"list-group-item-text\">Site server</p>\n                    </a>\n                    <a href=\"https://mustache.github.io/mustache.5.html\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Mustache Template Engine</h4>\n                      <p class=\"list-group-item-text\">Inject variable data into site pages</p>\n                    </a>\n                    <a href=\"https://daringfireball.net/projects/markdown/syntax\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Markdown HTML markup</h4>\n                      <p class=\"list-group-item-text\">Convert Markdown text to HTML</p>\n                    </a>\n                </div>\n                <h4>Services</h4>\n                <div class=\"list-group\">\n                    <a href=\"https://c9.io/?redirect=0\" class=\"list-group-item\">\n                      <h4 class=\"list-group-item-heading\">Cloud9</h4>\n                      <p class=\"list-group-item-text\">Site host and IDE</p>\n                    </a>\n                </div>\n            </div>\n        </div>\n        {{{page.footer}}}\n    </div>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 590,
+        "y": 140,
+        "wires": [
+            [
+                "dc8d1969.d2e888"
+            ]
+        ]
+    },
+    {
+        "id": "abf218ef.b13a88",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/posts/:postId",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "d4b18d08.4d311"
+            ]
+        ]
+    },
+    {
+        "id": "279d3d4d.4fc262",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/edit/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 220,
+        "wires": [
+            [
+                "9fea3bab.7627c8"
+            ]
+        ]
+    },
+    {
+        "id": "9fea3bab.7627c8",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 290,
+        "y": 220,
+        "wires": [
+            [
+                "ecf3ed26.fba52"
+            ]
+        ]
+    },
+    {
+        "id": "ecf3ed26.fba52",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "New/Edit a post page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.title}} | Kim's Blog</title>\n    <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">\n    {{{page.style}}}\n</head>\n\n<body>\n    <div class=\"container\">\n        {{{page.navbar}}}\n        <div>\n            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n                <input type=\"text\" class=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n                <div class=\"form-group\">\n                    <label for=\"inputTitle\">Title</label>\n                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputAuthor\">Author</label>\n                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n                    <label for=\"webpage\">Is a web page</label>\n                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n                </div>\n                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            </form>\n        </div>\n        {{{page.footer}}}\n    </div>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            })\n        });\n    });\n</script>\n</body>\n<script>\n    $(document).ready(function() {\n    });\n</script>\n</html>\n",
+        "output": "str",
+        "x": 560,
+        "y": 200,
+        "wires": [
+            [
+                "dc8d1969.d2e888"
+            ]
+        ]
+    },
+    {
+        "id": "3c3b0431.90edac",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Display blog home page",
+        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
+        "x": 820,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "821f9863.54a498",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/new",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 180,
+        "wires": [
+            [
+                "f45d1e95.91036"
+            ]
+        ]
+    },
+    {
+        "id": "f45d1e95.91036",
+        "type": "subflow:c330e687.8faa28",
+        "z": "3082454d.fb9b3a",
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "ecf3ed26.fba52"
+            ]
+        ]
+    },
+    {
+        "id": "5578a03b.e965f",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/posts",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 340,
+        "wires": [
+            [
+                "f5dbeceb.dd8f5"
+            ]
+        ]
+    },
+    {
+        "id": "f0a25ee4.7a6a3",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Display page to edit an existing post",
+        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does pass the post ID in msg.req.params.postId,\nthus *Get Post(s)* subflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
+        "x": 860,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "cad7e461.752a18",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Enter new post",
+        "info": "This request inserts into the database _title_, _author_, _body_ that is given in\nthe body of the [post].\n\nThe database is then queried for the _id_ of the last record insert. That id is\nmoved to the msg.req.params.postId, then the _Display post page_ flow is used\nto display the blog post just inserted.",
+        "x": 800,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ff27670.1b10698",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Display page to create a new post",
+        "info": "This page uses the *Page Layout* subflow to add the site standard\nheader, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
+        "x": 860,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7c160a50.a08954",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Display a post page",
+        "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. It has the post ID in msg.req.params.postId thus *Get Post(s)*\nsubflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nIt also uses the Markup body subflow which takes the text from the body of the\npost and runs it through the *marked* package to markup the body from Markdown\ntext to HTML.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
+        "x": 810,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5abcb01d.218c7",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Update existing post",
+        "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
+        "x": 810,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "b85a1fcf.ac963",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Display credits page",
+        "info": "This page is a simple page that uses the *Page Layout* subflow to add the\nsite standard header, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
+        "x": 810,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "1b336179.9cf7bf",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Blog Site",
+        "info": "There are five [get] pages and two [post] processes to run the blog site.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\nThe HTTP [post] requests update the database\nand then display the appropriate **blog post** page.\n\n*Note:* Some confusion can happen between the HTTP method **[post]** and a **blog _post_**. In\nnode descriptions and documentation the **HTTP _[get]_ **and** _[post]_ ** methods are encloded in square-brackets [].\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n\n  * Processes (see _Blog Site Processes_ comment for more details)\n    * [Post] '/post'\n        * Insert new blog post into database\n        * Return page that displays that post\n    * [Post] '/post/:postId'\n        * Update existing blog post on database \n        * Return page that displays updated post\n",
+        "x": 80,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "371a3ba3.1afd34",
+        "type": "subflow:c330e687.8faa28",
+        "z": "3082454d.fb9b3a",
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "7246ba30.cf6f84"
+            ]
+        ]
+    },
+    {
+        "id": "893b3f0f.eebcb",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Blog Site Pages",
+        "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
+        "x": 580,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d4b18d08.4d311",
+        "type": "function",
+        "z": "3082454d.fb9b3a",
+        "name": "Update post",
+        "func": "global.get(\"db\").updatePost(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 380,
+        "wires": [
+            [
+                "8c4ad8db.a73178"
+            ]
+        ]
+    },
+    {
+        "id": "f5dbeceb.dd8f5",
+        "type": "function",
+        "z": "3082454d.fb9b3a",
+        "name": "New post",
+        "func": "global.get(\"db\").newPost(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 240,
+        "y": 340,
+        "wires": [
+            [
+                "8c4ad8db.a73178"
+            ]
+        ]
+    },
+    {
+        "id": "bf6ba13b.05803",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
         "name": "",
         "url": "/posts/:postId",
         "method": "delete",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 620,
+        "x": 120,
+        "y": 420,
         "wires": [
             [
-                "9ca1a70b.525be8"
+                "13534473.7b4cbc"
             ]
         ]
     },
     {
-        "id": "9ca1a70b.525be8",
+        "id": "13534473.7b4cbc",
         "type": "function",
-        "z": "1919d1c3.b05b5e",
+        "z": "3082454d.fb9b3a",
         "name": "Delete post",
         "func": "global.get(\"db\").deletePost(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 350,
-        "y": 620,
+        "x": 310,
+        "y": 420,
         "wires": [
             [
-                "7622e6c3.bfcf68"
+                "a064f54a.1a7fe8"
             ]
         ]
     },
     {
-        "id": "76a39001.b3bd8",
+        "id": "2235bf90.30b4b",
         "type": "comment",
-        "z": "1919d1c3.b05b5e",
+        "z": "3082454d.fb9b3a",
         "name": "Delete existing post",
         "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
-        "x": 850,
-        "y": 620,
+        "x": 810,
+        "y": 420,
         "wires": []
     },
     {
-        "id": "7622e6c3.bfcf68",
+        "id": "a064f54a.1a7fe8",
         "type": "function",
-        "z": "1919d1c3.b05b5e",
+        "z": "3082454d.fb9b3a",
         "name": "Result",
         "func": "if (msg.payload && msg.payload.id)\n   msg.payload.result = 'success';\nelse {\n   msg.payload = {result: 'failed'};\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 650,
-        "y": 620,
+        "x": 610,
+        "y": 420,
         "wires": [
             [
-                "aeeadf78.92729"
+                "dc8d1969.d2e888"
             ]
         ]
+    },
+    {
+        "id": "8068fa43.384938",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/v1/posts",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "a0fa696c.d180c8"
+            ]
+        ]
+    },
+    {
+        "id": "a0fa696c.d180c8",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "x": 410,
+        "y": 100,
+        "wires": [
+            [
+                "e4253f74.b6de1"
+            ]
+        ]
+    },
+    {
+        "id": "e4253f74.b6de1",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Load payload",
+        "func": "if (msg.posts) {\n    msg.payload = msg.posts;\n}\nelse {\n    msg.payload = msg.post;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 580,
+        "y": 100,
+        "wires": [
+            [
+                "24ac2218.b9a99e"
+            ]
+        ]
+    },
+    {
+        "id": "24ac2218.b9a99e",
+        "type": "http response",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "fb53fdc5.fe6d1",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/v1/posts/:postId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "a0fa696c.d180c8"
+            ]
+        ]
+    },
+    {
+        "id": "c2d7b1ce.e9f5a",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "New post",
+        "func": "global.get(\"db\").newPost(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 180,
+        "wires": [
+            [
+                "a0fa696c.d180c8"
+            ]
+        ]
+    },
+    {
+        "id": "8d3b5576.d4d9f8",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/v1/posts",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 180,
+        "wires": [
+            [
+                "c2d7b1ce.e9f5a"
+            ]
+        ]
+    },
+    {
+        "id": "40f622ee.740a7c",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Update post",
+        "func": "global.get(\"db\").updatePost(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "a0fa696c.d180c8"
+            ]
+        ]
+    },
+    {
+        "id": "3364cb00.b30536",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/v1/posts/:postId",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 220,
+        "wires": [
+            [
+                "40f622ee.740a7c"
+            ]
+        ]
+    },
+    {
+        "id": "6cdd0ee4.8f07f",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Blog site REST endpoints",
+        "info": "",
+        "x": 130,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "b2a3e2d1.50084",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Submit new blog post",
+        "info": "",
+        "x": 820,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f4430969.6d6798",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Update blog post",
+        "info": "",
+        "x": 800,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e2806d47.d12a9",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Get all or single post",
+        "info": "",
+        "x": 810,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "89c45d4c.da0e1",
+        "type": "debug",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 210,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "95d9f0ae.61ab7",
+        "type": "catch",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "scope": null,
+        "x": 80,
+        "y": 500,
+        "wires": [
+            [
+                "89c45d4c.da0e1"
+            ]
+        ]
+    },
+    {
+        "id": "88f5aef8.c2be5",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Catch errors",
+        "info": "",
+        "x": 390,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "e64ae223.23a16",
+        "type": "debug",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 210,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "d8235d36.531d3",
+        "type": "catch",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "scope": null,
+        "x": 80,
+        "y": 300,
+        "wires": [
+            [
+                "e64ae223.23a16"
+            ]
+        ]
+    },
+    {
+        "id": "5453eeca.8f955",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Catch errors",
+        "info": "",
+        "x": 390,
+        "y": 300,
+        "wires": []
     }
 ]
