@@ -18,6 +18,7 @@
     "node-red": "^0.17.5",
     "node-red-embedded-start": "^0.1.4",
     "showdown": "^1.7.4",
-    "showdown-highlight": "^1.0.2"
+    "showdown-highlight": "^1.0.2",
+    "striptags": "^3.1.0"
   }
 }

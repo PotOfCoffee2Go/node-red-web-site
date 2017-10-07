@@ -14,7 +14,7 @@ const config = {
         httpAdminRoot:"/red",     // node-RED flow editor 
         httpNodeRoot: "/",        // node 'http in' root directory
         functionGlobalContext: {  // enable function nodes to reference our modules/objects
-            db: require('./db/database') // Blog data store
+            db: require('./model/database') // Blog data store
         },
         userDir: path.resolve(__dirname, "node-red"), // Flow storage
         nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes

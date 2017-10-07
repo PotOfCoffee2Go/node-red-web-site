@@ -1,0 +1,89 @@
+[
+  {
+    "id": 1,
+    "title": "Templating with mustache",
+    "author": "John",
+    "body": "Blog post number 1!\r\n\r\nThis is [an example](http://example.com/ \"Title\") inline link.\r\n\r\n",
+    "updated": "2017-09-25T04:11:10.802Z"
+  },
+  {
+    "id": 2,
+    "title": "Another great post",
+    "author": "Kim",
+    "body": "This is another one again\r\n",
+    "updated": "2017-09-25T03:54:31.552Z"
+  },
+  {
+    "id": 3,
+    "updated": "2017-09-23T20:40:05.766Z",
+    "author": "Emma",
+    "title": "Streams",
+    "body": "Cool Blog post number 3"
+  },
+  {
+    "id": 4,
+    "updated": "2017-09-23T16:22:43Z",
+    "author": "Cody",
+    "title": "Events",
+    "body": "Blog post number 4"
+  },
+  {
+    "id": 6,
+    "title": "<img src=\"/images/node-red-icon.svg\" width=\"24px\">  Node-RED: <span style=\"color: red;\"> Starting from the Bottom </span>",
+    "author": "PotOfCoffee2Go",
+    "body": "<img align=\"left\" src=\"https://codescullery.net/poc2go/site/images/HAL9000.png\" width=\"80px\">\r\n<div>\r\n <p><span style=\"font-size: 1.4em;\">&nbsp;&nbsp;&nbsp;&#8220;... all my circuits are functioning perfectly.&#8221;</span></p>\r\n <p><span style=\"font-size: 1em;padding-left:60px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <i>HAL 9000</i>\r\n    <a href=\"https://en.wikiquote.org/wiki/2001:_A_Space_Odyssey_(film)\">(2001: A Space Odyssey)</a> </span></p>\r\n</div>\r\n<br>\r\n\r\n<span style=\"font-size: 1.1em;\">This project is a functional blog website which contains pages and posts describing techniques to integrate [Node-RED](https://nodered.org/) to process flow control for nodejs applications.</span>\r\n\r\n<span style=\"font-size: 1.1em;\">The site itself is constructed as an example of the techniques discussed.</span>\r\n\r\n<span style=\"font-size: 1.1em;\">It is assumed an intermediate understanding of [HTML](https://en.wikipedia.org/wiki/HTML),  [Node.js](https://nodejs.org/), [expressjs](https://expressjs.com/), and [Node-RED](https://nodered.org/).</span>\r\n\r\n----\r\n\r\n > **Note:** This project is an instructive tool installing itself locally at `http://localhost:8081`. **Anybody** with access to the site can modify blog pages and posts. \r\n\r\n----\r\n\r\n### Objectives\r\n - Show non-trivial examples of implementing [Node-RED](https://nodered.org/) as [control and view](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) components of an application.\r\n\r\n - Interface [Node-RED](https://nodered.org/) to Model, [Business](https://en.wikipedia.org/wiki/Business_logic), and [Presentation](https://en.wikipedia.org/wiki/Presentation_logic) Logic components written as conventional [node.js](https://nodejs.org/en/) modules.\r\n\r\n - Simplified creation and debugging of application specific [Node-RED nodes](https://nodered.org/docs/creating-nodes/).\r\n\r\n----\r\n\r\n### Topics\r\n\r\n**Examples**:\r\n - Embed [Node-RED](https://nodered.org/) into an express site\r\n - Programmatically setting [Node-RED](https://nodered.org/) configuration parameters\r\n - Use [Node-RED](https://nodered.org/) to implement process sequences initiated by HTTP requests\r\n - Deliver HTML and/or RESTful content using [Node-RED](https://nodered.org/) flows\r\n - Delivery of static content (css, js, etc.) along side [Node-RED](https://nodered.org/) flows\r\n - How to interface [Node-RED](https://nodered.org/) `function` nodes to nodejs `modules`\r\n - Creation and debugging of application specific [Node-RED nodes](https://nodered.org/docs/creating-nodes/)\r\n\r\n**Discuss**:\r\n - Situations when a conventional nodejs module is appropriate versus a node-red node\r\n - Scenarios when usage of node-red sub-flows is advantageous\r\n\r\n**IMHO**:\r\n - Where is the **'Logic'** in [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)???\r\n\r\n----\r\n\r\n### What is node-RED?\r\n**To be concise:**\r\n\r\n - [Node-RED](https://nodered.org/) is a [flow based](https://en.wikipedia.org/wiki/Flow-based_programming) programming language developed and maintained on [GitHub](https://github.com/node-red) by UK based [IBM Emerging Technology Group](https://emerging-technology.co.uk/), licensed with the family of open-source projects sponsored by the [JS Foundation](https://js.foundation/community/projects).\r\n\r\n - Process flows are implemented via a graphical interface (`Node-RED Editor`) used to describe sequences of [data flow](https://en.wikipedia.org/wiki/Dataflow_programming) movement (`msg`) between one or more _independent_ synchronous and/or asynchronous processes (`nodes`). Flows modified in the `Node-RED Editor` are immediately implemented by _deploying_ flow changes to the [Node-RED](https://nodered.org/) runtime.\r\n\r\n - The transmission of data consists of `wires` between one or more in/out `ports` assigned to each `node`. The wires determine the <span style=\"color:blue;\">path</span> of the `msg` data object which is the primary interaction between `nodes`. Node-RED also provides global contexts allowing nodes to share common data and functions. \r\n\r\n - A `flow` is a sequence of `nodes` that are wired together. Since multiple `wires` can be connected to a single in/out `port`, a `flow` can have multiple  <span style=\"color:blue;\">paths</span> which node-red executes concurrently. The data `msg` content is cloned for each <span style=\"color:blue;\">path</span> thus the content of `msg` from one `path` can diverge from the `msg` content of another <span style=\"color:blue;\">path</span>.\r\n\r\n - [Node-RED](https://nodered.org/) can run as a standalone application or can be embedded as a module of a node.js application.\r\n \r\n\r\n----\r\n\r\n### Installation\r\nTo see if you are interested, or wish to only see blog pages and posts:\r\n```bat\r\nnpm install node-red-from-the-bottom\r\ncd node-red-from-the-bottom\r\nnpm start\r\n```\r\nThen in address bar of your web browser:\r\n```\r\nhttp://localhost:8081\r\n```\r\n<br><br>\r\nHowever; `node-red-from-the-bottom` is designed to be cloned so that you can inspect, modify, and play around with it.\r\n```bat\r\ngit clone https://github.com/PotOfCoffee2Go/node-red-from-the-bottom.git\r\ncd node-red-from-the-bottom\r\nnpm install\r\nnpm start\r\n```\r\n\r\n----\r\n\r\n\r\n### Not as difficult as you might think\r\nThis blog site is made up of only three javascript code files (excluding custom [Node-RED nodes](https://nodered.org/docs/creating-nodes/)).\r\n\r\n----\r\n\r\n\r\n",
+    "updated": "2017-10-07T20:10:03.967Z"
+  },
+  {
+    "id": 8,
+    "webpage": "yes",
+    "title": "MIT License",
+    "author": "PotOfCoffee2Go",
+    "body": "```\r\nCopyright (c) 2017- Code Scullery, LLC\r\n```\r\n\r\n```\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n```\r\n",
+    "updated": "2017-09-25T02:11:25.682Z"
+  },
+  {
+    "id": 9,
+    "title": "Test of db change",
+    "author": "Kim",
+    "body": "Test the db change too 2\r\n",
+    "updated": "2017-09-25T04:04:11.059Z"
+  },
+  {
+    "id": 10,
+    "title": "A web page",
+    "author": "Kim",
+    "webpage": "yes",
+    "body": "this is a web page cool",
+    "updated": "2017-09-25T05:03:01.596Z"
+  },
+  {
+    "id": 11,
+    "title": "newest yett",
+    "author": "Kim",
+    "body": "This is so new!",
+    "updated": "2017-09-25T04:44:50.385Z"
+  },
+  {
+    "id": 12,
+    "title": "newnew",
+    "author": "Kim",
+    "webpage": "yes",
+    "body": "yippie! sweet!",
+    "updated": "2017-09-25T06:10:44.250Z"
+  },
+  {
+    "id": 14,
+    "title": "![bar](/favicon.ico =24x*) newnwenwenwne",
+    "author": "kim",
+    "body": "This is cooler\r\n\r\n - [x] This task is done\r\n - [ ] This is still pending\r\n\r\n<img src=\"/favicon.ico\" width=\"32\">\r\n\r\n![bar](/favicon.ico =100x*)\r\n\r\n![my Logo](/favicon.ico)\r\n\r\n\r\n ",
+    "updated": "2017-09-26T20:36:26.515Z"
+  },
+  {
+    "id": 15,
+    "title": "The last time",
+    "author": "Kim",
+    "body": "This is the last one!\r\n<form action=\"http://google.com\"><input type=\"submit\" value=\"Go to Google\" /></form>",
+    "updated": "2017-09-25T19:18:08.900Z"
+  }
+]

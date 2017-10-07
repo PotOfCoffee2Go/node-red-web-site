@@ -1,20 +1,38 @@
 // javascript object database
 'use strict'
-const postStore = './db/posts.json';
+const postStore = './model/posts.json';
 
 const
     fs = require('fs-extra'),
     moment = require('moment'),
     showdown = require('showdown'),
-    showdownHighlight = require("showdown-highlight");
+    showdownHighlight = require('showdown-highlight'),
+    striptags = require('striptags');
 
 var converter = new showdown.Converter({extensions: [showdownHighlight]});
 converter.setFlavor('github');
 converter.setOption('parseImgDimensions', true);
 
+/* Presentation Logic */
 // Markup text
 function markDown(text) {
   return converter.makeHtml(text);
+}
+
+// Few seconds ago, a minute ago, etc.
+function timeText(post) {
+  return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
+}
+
+// Remove HTML tags
+function stripHtmlTags(text) {
+  return striptags(text);
+}
+
+/* Business Logic */
+// Check if a postId was given in the HTTP request
+function idPosted(msg) {
+  return msg.req && msg.req.params && msg.req.params.postId;
 }
 
 // Sort by id ascending
@@ -31,9 +49,11 @@ function byDate(a,b) {
   return 0;
 }
 
-// Load the posts
+
+/* Database */
+// Load the post data
 function loadPosts() {
-  // A single post in case can't read the data
+  // A single post placeholder in case can't read the data
   var data = [{
     id: 1,
     title: 'New post DB',
@@ -50,16 +70,7 @@ function loadPosts() {
   return data;
 }
 
-function idPosted(msg) {
-  return msg.req && msg.req.params && msg.req.params.postId;
-}
-
-// Few seconds ago, a minute ago, etc.
-function timeText(post) {
-  return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
-}
-
-  // Write blog posts data
+// Write blog posts data
 function storePosts() {
     // Remove unwanted work fields
     database.posts.forEach(post => {
@@ -71,9 +82,8 @@ function storePosts() {
     database.posts.sort(byDate);
   }
 
-/* Database */
 var database = module.exports = {
-  // Read blog posts
+  // Load blog posts from file
   posts: loadPosts(),
 
   // Get all or single post
@@ -83,6 +93,7 @@ var database = module.exports = {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
           msg.post.marked = {
+            striptitle: stripHtmlTags(markDown(msg.post.title)),
             title: markDown(msg.post.title),
             author: markDown(msg.post.author),
             lastupdated: timeText(msg.post),
@@ -93,6 +104,7 @@ var database = module.exports = {
     else {
         database.posts.forEach((post) => {
           post.marked = {
+            striptitle: stripHtmlTags(markDown(post.title)),
             title: markDown(post.title),
             author: markDown(post.author),
             lastupdated : timeText(post)
