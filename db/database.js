@@ -105,6 +105,7 @@ var database = module.exports = {
 
   // Add a post
   newPost: (msg) => {
+    // Get largest id from database (+ 1) and push new post to DB
     var lastId = Math.max.apply(null, database.posts.map(post => post.id));
     msg.payload.id = lastId+1;
     msg.payload.updated = moment().toISOString();

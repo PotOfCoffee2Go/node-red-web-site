@@ -42,7 +42,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Use a post as the default page
 app.get('/', function(req, res, next) {req.url = config.homePage ? config.homePage : '/'; next();});
 
-// Serve static content(css, js, etc) from site root ('public' directory)
+// Serve static content(css, js, etc) from site root ('public') directory
 app.use("/",express.static("public"));
 
 /* Node-RED */
@@ -53,5 +53,15 @@ app.use(config.settings.httpAdminRoot, RED.httpAdmin);
 app.use(config.settings.httpNodeRoot, RED.httpNode);
 // Fire up our server
 server.listen(config.port ? config.port : 8081);
+
 // Start node-RED runtime
-RED.start();
+const embeddedStart = require('node-red-embedded-start');
+RED.start().then(embeddedStart(RED)).then((result) => {
+    // result is whatever RED.start() resolved to 
+    // RED.node.getFlows() etc are now ready to use 
+}).catch((err) => {
+    if (/^timed out/.test(err.message)) {
+        // embeddedStart() timed out 
+        // the value that RED.start() resolved to is available as err.result 
+    }
+});
