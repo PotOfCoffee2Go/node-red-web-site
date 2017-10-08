@@ -9,12 +9,13 @@ const
 const config = {
     port: 8081,
     homePage: '/posts/6',
+
     // Node-RED settings
     settings: {
         httpAdminRoot:"/red",     // node-RED flow editor 
         httpNodeRoot: "/",        // node 'http in' root directory
         functionGlobalContext: {  // enable function nodes to reference our modules/objects
-            db: require('./model/database') // Blog data store
+            db: require('./model/database')('./model/posts.json') // Blog data store
         },
         userDir: path.resolve(__dirname, "node-red"), // Flow storage
         nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes
@@ -23,15 +24,14 @@ const config = {
         }
 };
 
-/* In some cases the runtime uses the current working dir as root - so */
-//  since server.js is in the project root directory
+/* In some cases the runtime uses the current working dir as root
+    and since server.js is in the project root directory */
 //  set current working directory to project root
 process.chdir(__dirname);
 
 /* Express Server */
-// Create an Express app
+// Create an Express app and server
 var app = express();
-// Create a server
 var server = http.createServer(app);
 
 // Body parsers

@@ -1,6 +1,5 @@
 // javascript object database
 'use strict'
-const postStore = './model/posts.json';
 
 const
     fs = require('fs-extra'),
@@ -9,9 +8,10 @@ const
     showdownHighlight = require('showdown-highlight'),
     striptags = require('striptags');
 
-var converter = new showdown.Converter({extensions: [showdownHighlight]});
-converter.setFlavor('github');
-converter.setOption('parseImgDimensions', true);
+var
+    converter = new showdown.Converter({extensions: [showdownHighlight]});
+    converter.setFlavor('github');
+    converter.setOption('parseImgDimensions', true);
 
 /* Presentation Logic */
 // Markup text
@@ -51,6 +51,9 @@ function byDate(a,b) {
 
 
 /* Database */
+// Placeholder for path to JSON file database
+var postStore = '';
+
 // Load the post data
 function loadPosts() {
   // A single post placeholder in case can't read the data
@@ -82,10 +85,9 @@ function storePosts() {
     database.posts.sort(byDate);
   }
 
-var database = module.exports = {
-  // Load blog posts from file
-  posts: loadPosts(),
-
+var database = {
+  // Placeholder for array of post data
+  posts: [], 
   // Get all or single post
   getPosts: (msg) => {
     // When a single post requested - return in msg.post
@@ -160,5 +162,12 @@ var database = module.exports = {
     return msg;
   },
 
+};
+
+module.exports = function(postStorePath) {
+  // Load blog posts from file
+  postStore = postStorePath;
+  database.posts = loadPosts();
+  return database;
 };
 
