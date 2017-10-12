@@ -79,73 +79,6 @@
         ]
     },
     {
-        "id": "db4004be.1e9df8",
-        "type": "subflow",
-        "name": "Markup body",
-        "info": "This subflow runs the text in msg.post.body through the \n[marked](https://www.npmjs.com/package/marked) Markdown package\nto convert Markdown markup into HTML.\n\n### Inputs\n  * msg.post.body\n    * Markdown text\n\n### Outputs\n  * msg.post.body\n    * HTML rendering of Markdown text\n",
-        "in": [
-            {
-                "x": 40,
-                "y": 60,
-                "wires": [
-                    {
-                        "id": "3f224ba3.cd6284"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 800,
-                "y": 60,
-                "wires": [
-                    {
-                        "id": "927ce2ae.e1403",
-                        "port": 0
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "932f34c4.38e5b8",
-        "type": "markdown",
-        "z": "db4004be.1e9df8",
-        "name": "Markdown the body",
-        "x": 390,
-        "y": 60,
-        "wires": [
-            [
-                "927ce2ae.e1403"
-            ]
-        ]
-    },
-    {
-        "id": "927ce2ae.e1403",
-        "type": "change",
-        "z": "db4004be.1e9df8",
-        "name": "to msg.post.marked.body",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload",
-                "pt": "msg",
-                "to": "post.marked.body",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 630,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "af333205.5c8b7",
         "type": "function",
         "z": "ecf7de04.053ad",
@@ -166,29 +99,13 @@
         "type": "function",
         "z": "c330e687.8faa28",
         "name": "Partials",
-        "func": "msg.page = {\n    style:\n    '<style>' + \n    '    body {padding-top: 10px; padding-bottom: 10px;background-color: aliceblue;}' + \n    '    .page-header {background-color: #e3f1ff}' + \n    '</style>',\n    navbar: \n    '<div class=\"header clearfix\"><nav>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '<ul class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/blog\">Home</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-new\" class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/new\">New</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-edit\" class=\"nav nav-pills pull-left hidden\"><li role=\"presentation\"><a href=\"#\">Edit</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-delete\" class=\"nav nav-pills pull-left hidden\"><li role=\"presentation\"><a href=\"#\">Delete</a></li></ul>' +\n    '<ul class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/credits\">Credits</a></li></ul>' +\n    '</nav>' +\n    '</div>',\n    footer:\n    '<hr><footer class=\"footer\"><p>&copy; 2017 Code Scullery, LLC.</p><p>License: <a href=\"/posts/8\">MIT</a></p></footer>'\n};\n\nreturn msg;",
+        "func": "msg.page = {\n    style:\n    '<style>' + \n    '    body {padding-top: 10px; padding-bottom: 10px;background-color: aliceblue;}' + \n    '    .page-header {background-color: #e3f1ff}' + \n    '    p, li {font-size: 1.2em;}' + \n    '</style>',\n    navbar: \n    '<div class=\"header clearfix\"><nav>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '<ul class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/blog\">Home</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-new\" class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/new\">New</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-edit\" class=\"nav nav-pills pull-left hidden\"><li role=\"presentation\"><a href=\"#\">Edit</a></li></ul>' +\n    '<ul id=\"poc2go-navbar-delete\" class=\"nav nav-pills pull-left hidden\"><li role=\"presentation\"><a href=\"#\">Delete</a></li></ul>' +\n    '<ul class=\"nav nav-pills pull-left\"><li role=\"presentation\"><a href=\"/credits\">Credits</a></li></ul>' +\n    '</nav>' +\n    '</div>',\n    footer:\n    '<hr><footer class=\"footer\"><p>&copy; 2017 Code Scullery, LLC.</p><p>License: <a href=\"/posts/8\">MIT</a></p></footer>'\n};\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 240,
         "y": 60,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "3f224ba3.cd6284",
-        "type": "function",
-        "z": "db4004be.1e9df8",
-        "name": "Get post body",
-        "func": "if (msg.post) {\n    msg.payload = msg.post.body;\n}\nelse {\n    msg.payload = '';\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 180,
-        "y": 60,
-        "wires": [
-            [
-                "932f34c4.38e5b8"
-            ]
         ]
     },
     {
@@ -219,16 +136,6 @@
         "name": "Get post data from database and setup for page display",
         "info": "",
         "x": 300,
-        "y": 20,
-        "wires": []
-    },
-    {
-        "id": "f49500eb.014f2",
-        "type": "comment",
-        "z": "db4004be.1e9df8",
-        "name": "HTML markup of the Markdown text that is in the post body",
-        "info": "",
-        "x": 390,
         "y": 20,
         "wires": []
     },
