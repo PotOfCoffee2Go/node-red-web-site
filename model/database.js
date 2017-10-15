@@ -3,6 +3,7 @@
 
 const
     fs = require('fs-extra'),
+    url = require('url'),
     moment = require('moment'),
     showdown = require('showdown'),
     showdownHighlight = require('showdown-highlight'),
@@ -27,6 +28,10 @@ function timeText(post) {
 // Remove HTML tags
 function stripHtmlTags(text) {
   return striptags(text);
+}
+
+function removeEmptyFields(post) {
+  if (!post.permalink) delete post.permalink;
 }
 
 /* Business Logic */
@@ -59,6 +64,8 @@ function loadPosts() {
   // A single post placeholder in case can't read the data
   var data = [{
     id: 1,
+    permalink: 'New-post-DB',
+    striptitle: 'New post DB',
     title: 'New post DB',
     author: 'First post',
     body: '**' + postStore + '** created',
@@ -94,6 +101,7 @@ var database = {
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
+          removeEmptyFields(msg.post);
           msg.post.marked = {
             striptitle: stripHtmlTags(markDown(msg.post.title)),
             title: markDown(msg.post.title),
@@ -105,6 +113,7 @@ var database = {
     } // When all posts requested - return list in msg.posts (note the 's')
     else {
         database.posts.forEach((post) => {
+          removeEmptyFields(post);
           post.marked = {
             striptitle: stripHtmlTags(markDown(post.title)),
             title: markDown(post.title),
@@ -161,6 +170,15 @@ var database = {
     }
     return msg;
   },
+  
+  // Replace the permalink in the url with the postId 
+  permalink: (req) => {
+    var post = database.posts.find(perm => perm.permalink === req.params.permalink);
+    if (post) {
+      req.url = req.url.replace('/posts/' + req.params.permalink, '/posts/' + post.id);
+      req.url = req.url.replace('/edit/' + req.params.permalink, '/edit/' + post.id);
+    }
+  }
 
 };
 

@@ -39,8 +39,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 /* Routes */
+// Replace permalinks with the post id
+const db = config.settings.functionGlobalContext.db;
+app.all('/posts/:permalink', (req, res, next) => {db.permalink(req);next();});
+app.get('/edit/:permalink', (req, res, next) => {db.permalink(req);next();});
+
 // Use a post as the default page
-app.get('/', function(req, res, next) {req.url = config.homePage ? config.homePage : '/'; next();});
+app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : '/'; next();});
 
 // Serve static content(css, js, etc) from site root ('public') directory
 app.use("/",express.static("public"));
