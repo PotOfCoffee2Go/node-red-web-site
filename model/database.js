@@ -30,10 +30,6 @@ function stripHtmlTags(text) {
   return striptags(text);
 }
 
-function removeEmptyFields(post) {
-  if (!post.slug) delete post.slug;
-}
-
 /* Business Logic */
 // Check if a postId was given in the HTTP request
 function idPosted(msg) {
@@ -101,7 +97,6 @@ var database = {
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
-          removeEmptyFields(msg.post);
           msg.post.marked = {
             striptitle: stripHtmlTags(markDown(msg.post.title)),
             title: markDown(msg.post.title),
@@ -113,7 +108,6 @@ var database = {
     } // When all posts requested - return list in msg.posts (note the 's')
     else {
         database.posts.forEach((post) => {
-          removeEmptyFields(post);
           post.marked = {
             striptitle: stripHtmlTags(markDown(post.title)),
             title: markDown(post.title),
