@@ -31,7 +31,7 @@ function stripHtmlTags(text) {
 }
 
 function removeEmptyFields(post) {
-  if (!post.permalink) delete post.permalink;
+  if (!post.slug) delete post.slug;
 }
 
 /* Business Logic */
@@ -64,7 +64,7 @@ function loadPosts() {
   // A single post placeholder in case can't read the data
   var data = [{
     id: 1,
-    permalink: 'New-post-DB',
+    slug: 'New-post-DB',
     striptitle: 'New post DB',
     title: 'New post DB',
     author: 'First post',
@@ -171,12 +171,12 @@ var database = {
     return msg;
   },
   
-  // Replace the permalink in the url with the postId 
+  // Replace the slug in the url with the postId 
   permalink: (req) => {
-    var post = database.posts.find(perm => perm.permalink === req.params.permalink);
+    var post = database.posts.find(perm => perm.slug === req.params.slug);
     if (post) {
-      req.url = req.url.replace('/posts/' + req.params.permalink, '/posts/' + post.id);
-      req.url = req.url.replace('/edit/' + req.params.permalink, '/edit/' + post.id);
+      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);
+      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);
     }
   }
 
