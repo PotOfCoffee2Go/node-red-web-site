@@ -38,7 +38,7 @@
         ],
         "out": [
             {
-                "x": 460,
+                "x": 440,
                 "y": 60,
                 "wires": [
                     {
@@ -52,26 +52,26 @@
     {
         "id": "c330e687.8faa28",
         "type": "subflow",
-        "name": "Page Layout",
+        "name": "Presentation",
         "info": "This subflow places partials (navbar, footer, etc.) into *msg.pages*, which is used\nto provide the standard framework of the Blog web site pages.\n\n### Inputs\n  * No inputs expected\n\n### Outputs\n  * msg.page\n    * Header, Footer, etc for use by Mustache to inject in all Blog site pages.\n",
         "in": [
             {
-                "x": 100,
+                "x": 40,
                 "y": 60,
                 "wires": [
                     {
-                        "id": "39a365bb.fe1cca"
+                        "id": "4fd6e5c7.c7aa6c"
                     }
                 ]
             }
         ],
         "out": [
             {
-                "x": 380,
-                "y": 60,
+                "x": 520,
+                "y": 140,
                 "wires": [
                     {
-                        "id": "39a365bb.fe1cca",
+                        "id": "d48fa39b.61c11",
                         "port": 0
                     }
                 ]
@@ -95,25 +95,11 @@
         ]
     },
     {
-        "id": "39a365bb.fe1cca",
-        "type": "function",
-        "z": "c330e687.8faa28",
-        "name": "Partials",
-        "func": "msg.page = {\n    style:\n    '<!-- Bootstrap core CSS -->' +\n    '<link href=\"/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">' +\n\n    '<!-- Custom styles for this template -->' +\n    '<link href=\"/css/simple-sidebar.css\" rel=\"stylesheet\">' +\n    '<style>' + \n    '    body {padding-top: 10px; padding-bottom: 10px;background-color: aliceblue;}' + \n    '    .page-header {background-color: #e3f1ff}' + \n    '    p, li {font-size: 1.2em;}' + \n    '    .btn-outline-primary {margin: 0 .5rem 0 0;}' + \n    '    #menu-toggle {float:left; margin: 2px 4px 0 0;}' + \n    '</style>',\n    navbar: \n    '<div class=\"header clearfix\"><nav>' +\n    '<a href=\"#menu-toggle\" id=\"menu-toggle\"><img src=\"/icons/menu.svg\" height=\"20px\"></a>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '</nav></div>' +\n    '<a href=\"/blog\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-blog\">Posts</a>' +\n    '<a href=\"/new\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-new\">New</a>' +\n    '<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-edit\" style=\"display: none;\">Edit</a>' +\n    '<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-delete\" style=\"display: none;\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</a>',\n\n    sidebar:\n    '<!-- Sidebar -->' +\n    '<div id=\"sidebar-wrapper\">' +\n        '<ul class=\"sidebar-nav\">' +\n            '<li class=\"sidebar-brand\">' +\n                '<a href=\"#\">Start Bootstrap</a>' +\n            '</li>' +\n            '<li><a href=\"/posts/from-the-bottom\">Dashboard</a></li>' +\n            '<li><a href=\"#\">Shortcuts</a></li>' +\n            '<li><a href=\"#\">Overview</a></li>' +\n            '<li><a href=\"#\">Events</a></li>' +\n            '<li><a href=\"#\">About</a></li>' +\n            '<li><a href=\"#\">Services</a></li>' +\n            '<li><a href=\"#\">Contact</a></li>' +\n            '<li><a href=\"/credits\">Credits</a></li>' +\n        '</ul>' +\n    '</div>' +\n    '<!-- /#sidebar-wrapper -->',\n    footer:\n    '<hr><footer class=\"footer\"><p>&copy; 2017 Code Scullery, LLC.</p><p>License: <a href=\"/posts/8\">MIT</a></p></footer>',\n    deletemodal:\n    '<!-- Modal -->' +\n    '<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deleteModalLabel\" aria-hidden=\"true\">' +\n      '<div class=\"modal-dialog\" role=\"document\">' +\n        '<div class=\"modal-content\">' +\n          '<div class=\"modal-header\">' +\n            '<h5 class=\"modal-title\" id=\"deleteModalLabel\">Modal title</h5>' +\n            '<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">' +\n              '<span aria-hidden=\"true\">&times;</span>' +\n            '</button>' +\n          '</div>' +\n          '<div class=\"modal-body\" id=\"deleteModelBody\">' +\n            'Confirm removal of this post from the blog. This action can not be undone.' +\n          '</div>' +\n          '<div class=\"modal-footer\">' +\n            '<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Keep</button>' +\n            '<button type=\"button\" class=\"btn btn-danger\" id=\"deleteModelYes\">Delete</button>' +\n          '</div>' +\n        '</div>' +\n      '</div>' +\n    '</div>',\n    scripts:\n    '<!-- Bootstrap core JavaScript -->' +\n    '<script src=\"/vendor/jquery/jquery.min.js\"></script>' +\n    '<script src=\"/vendor/popper/popper.min.js\"></script>' +\n    '<script src=\"/vendor/bootstrap/js/bootstrap.min.js\"></script>' +\n    '<!-- Menu Toggle Script -->' +\n    '<script>' +\n    '$(\"#menu-toggle\").click(function(e) {' +\n    '    e.preventDefault();' +\n    '    $(\"#wrapper\").toggleClass(\"toggled\");' +\n    '});' +\n    '</script>'\n};\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 240,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "42a17f0c.4cdf3",
         "type": "subflow:c330e687.8faa28",
         "z": "ecf7de04.053ad",
         "name": "",
-        "x": 350,
+        "x": 330,
         "y": 60,
         "wires": [
             []
@@ -123,9 +109,9 @@
         "id": "dde0cb9c.ff6f08",
         "type": "comment",
         "z": "c330e687.8faa28",
-        "name": "Set standard HTML that is on all pages (navbar, footer, etc.)",
+        "name": "Set standard HTML that is on pages (styles, navigation, footer, etc.)",
         "info": "",
-        "x": 250,
+        "x": 320,
         "y": 20,
         "wires": []
     },
@@ -307,7 +293,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.marked.striptitle}} | Kim's Blog</title>\n    <style>\n        pre code {white-space: pre;overflow-x: auto;}\n        blockquote {font-size: 1em;}\n    </style>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.navbar}}}\n                        <h2>{{{post.marked.title}}}</h2>\n                        by {{post.author}} (<i>{{post.marked.lastupdated}}</i>)\n                        <div style=\"margin-top: 20px;\">{{{post.marked.body}}}</div>\n                    {{{page.footer}}}\n                    {{{page.deletemodal}}}\n                </div>\n            </div>\n        </div>\n    </div>\n{{{page.scripts}}}\n<script>\n    $(document).ready(function() {\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/edit/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post - <i>{{{post.marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/blog';\n                }\n            });\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.marked.striptitle}} | Kim's Blog</title>\n    <style>\n        pre code {white-space: pre;overflow-x: auto;}\n        blockquote {font-size: 1em;}\n    </style>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.navbar}}}\n                        <h2>{{{post.marked.title}}}</h2>\n                        Post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) by {{post.author}} updated (<i>{{post.marked.lastupdated}}</i>)\n                        <div style=\"margin-top: 20px;\">{{{post.marked.body}}}</div>\n                    {{{page.footer}}}\n                    {{{page.deletemodal}}}\n                </div>\n            </div>\n        </div>\n    </div>\n{{{page.scripts}}}\n<script>\n    $(document).ready(function() {\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/edit/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) - <i>{{{post.marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/blog';\n                }\n            });\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 580,
         "y": 300,
@@ -936,5 +922,83 @@
         "x": 390,
         "y": 300,
         "wires": []
+    },
+    {
+        "id": "4fd6e5c7.c7aa6c",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Styles",
+        "func": "msg.page = msg.page || {};\nmsg.page.style = \n    '<!-- Bootstrap core CSS -->' +\n    '<link href=\"/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">' +\n\n    '<!-- Custom styles for this template -->' +\n    '<link href=\"/css/simple-sidebar.css\" rel=\"stylesheet\">' +\n    '<style>' + \n    '    body {padding-top: 10px; padding-bottom: 10px;background-color: aliceblue;}' + \n    '    .page-header {background-color: #e3f1ff}' + \n    '    p, li {font-size: 1.2em;}' + \n    '    .btn-outline-primary {margin: 0 .5rem 0 0;}' + \n    '    #menu-toggle {float:left; margin: 2px 4px 0 0;}' + \n    '    .know-more {font-size: .8em;}' + \n    '</style>';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "e9aa884d.6662f8"
+            ]
+        ]
+    },
+    {
+        "id": "e9aa884d.6662f8",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Navigation",
+        "func": "msg.page = msg.page || {};\nmsg.page.navbar =\n    '<div class=\"header clearfix\"><nav>' +\n    '<a href=\"#menu-toggle\" id=\"menu-toggle\"><img src=\"/icons/menu.svg\" height=\"20px\"></a>' +\n    '<h3 class=\"text-muted\">PotOfCoffee2Go\\'s Node-Red Blog</h3>' +\n    '</nav></div>' +\n    '<a href=\"/blog\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-blog\">Posts</a>' +\n    '<a href=\"/new\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-new\">New</a>' +\n    '<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-edit\" style=\"display: none;\">Edit</a>' +\n    '<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-delete\" style=\"display: none;\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</a>';\n\nmsg.page.sidebar =\n    '<!-- Sidebar -->' +\n    '<div id=\"sidebar-wrapper\">' +\n        '<ul class=\"sidebar-nav\">' +\n            '<li class=\"sidebar-brand\">' +\n                '<a href=\"/posts/from-the-bottom\">Introduction</a>' +\n            '</li>' +\n            '<li><a href=\"#\">Overview</a></li>' +\n            '<li><a href=\"/posts/what-is-node-red\">What is Node-RED?</a></li>' +\n            '<li><a href=\"#\">Events</a></li>' +\n            '<li><a href=\"#\">About</a></li>' +\n            '<li><a href=\"#\">Services</a></li>' +\n            '<li><a href=\"#\">Contact</a></li>' +\n            '<li><a href=\"/credits\">Credits</a></li>' +\n        '</ul>' +\n    '</div>' +\n    '<!-- /#sidebar-wrapper -->';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 270,
+        "y": 60,
+        "wires": [
+            [
+                "7f48736f.2901fc"
+            ]
+        ]
+    },
+    {
+        "id": "7f48736f.2901fc",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Footer",
+        "func": "msg.page = msg.page || {};\nmsg.page.footer =\n    '<hr><footer class=\"footer\"><p>&copy; 2017 Code Scullery, LLC.</p><p>License: <a href=\"/posts/8\">MIT</a></p></footer>';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410,
+        "y": 60,
+        "wires": [
+            [
+                "2d6896ce.60033a"
+            ]
+        ]
+    },
+    {
+        "id": "d48fa39b.61c11",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Modal Confirm Delete",
+        "func": "msg.page = msg.page || {};\nmsg.page.deletemodal = \n    '<!-- Modal -->' +\n    '<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deleteModalLabel\" aria-hidden=\"true\">' +\n      '<div class=\"modal-dialog\" role=\"document\">' +\n        '<div class=\"modal-content\">' +\n          '<div class=\"modal-header\">' +\n            '<h5 class=\"modal-title\" id=\"deleteModalLabel\">Modal title</h5>' +\n            '<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">' +\n              '<span aria-hidden=\"true\">&times;</span>' +\n            '</button>' +\n          '</div>' +\n          '<div class=\"modal-body\" id=\"deleteModelBody\">' +\n            'Confirm removal of this post from the blog. This action can not be undone.' +\n          '</div>' +\n          '<div class=\"modal-footer\">' +\n            '<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Keep</button>' +\n            '<button type=\"button\" class=\"btn btn-danger\" id=\"deleteModelYes\">Delete</button>' +\n          '</div>' +\n        '</div>' +\n      '</div>' +\n    '</div>';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2d6896ce.60033a",
+        "type": "function",
+        "z": "c330e687.8faa28",
+        "name": "Scripts",
+        "func": "msg.page = msg.page || {};\nmsg.page.scripts = \n    '<!-- Bootstrap core JavaScript -->' +\n    '<script src=\"/vendor/jquery/jquery.min.js\"></script>' +\n    '<script src=\"/vendor/popper/popper.min.js\"></script>' +\n    '<script src=\"/vendor/bootstrap/js/bootstrap.min.js\"></script>' +\n    '<!-- Menu Toggle Script -->' +\n    '<script>' +\n    '$(\"#menu-toggle\").click(function(e) {' +\n    '    e.preventDefault();' +\n    '    $(\"#wrapper\").toggleClass(\"toggled\");' +\n    '});' +\n    '</script>';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "d48fa39b.61c11"
+            ]
+        ]
     }
 ]
