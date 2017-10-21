@@ -1,4 +1,5 @@
 'use strict'
+// {{{Modules}}}
 const
     http = require('http'),
     path = require('path'),
@@ -6,11 +7,12 @@ const
     bodyParser  = require('body-parser'),
     RED = require('node-red');
 
+// {{{Config}}}
 const config = {
     port: 8081,
-    homePage: '/posts/6',
+    homePage: '/posts/from-the-bottom',
 
-    // Node-RED settings
+    // {{{Node-RED settings}}}
     settings: {
         httpAdminRoot:"/red",     // node-RED flow editor 
         httpNodeRoot: "/",        // node 'http in' root directory
@@ -24,12 +26,13 @@ const config = {
         }
 };
 
+// {{{Current working directory}}}
 /* In some cases the runtime uses the current working dir as root
     and since server.js is in the project root directory */
 //  set current working directory to project root
 process.chdir(__dirname);
 
-/* Express Server */
+// {{{Host Server}}}
 // Create an Express app and server
 var app = express();
 var server = http.createServer(app);
@@ -38,19 +41,23 @@ var server = http.createServer(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-/* Routes */
+// {{{Host Routes}}}
+// Can use a blog post as the default page
+app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : '/'; next();});
+
 // Replace slugs with the post id
 const db = config.settings.functionGlobalContext.db;
 app.all('/posts/:slug', (req, res, next) => {db.permalink(req);next();});
 app.get('/edit/:slug', (req, res, next) => {db.permalink(req);next();});
 
-// Use a post as the default page
-app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : '/'; next();});
+// Raw ode files
+app.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});
+app.get('/code/database.js', (req, res) => {res.sendFile(path.resolve(__dirname, './model/database.js'));});
 
 // Serve static content(css, js, etc) from site root ('public') directory
 app.use("/",express.static("public"));
 
-/* Node-RED */
+// {{{Node-RED}}}
 // Initialize node-RED runtime
 RED.init(server, config.settings);
 // Serve the node-RED Editor and http-in node UIs
@@ -59,7 +66,7 @@ app.use(config.settings.httpNodeRoot, RED.httpNode);
 // Fire up our server
 server.listen(config.port ? config.port : 8081);
 
-// Start node-RED runtime
+// {{{Start Node-RED runtime}}}
 const embeddedStart = require('node-red-embedded-start');
 RED.start().then(embeddedStart(RED)).then((result) => {
     // result is whatever RED.start() resolved to 

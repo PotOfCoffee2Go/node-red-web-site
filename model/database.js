@@ -5,6 +5,7 @@ const
     fs = require('fs-extra'),
     url = require('url'),
     moment = require('moment'),
+    Mustache = require('mustache'),
     showdown = require('showdown'),
     showdownHighlight = require('showdown-highlight'),
     striptags = require('striptags');
@@ -17,7 +18,12 @@ var
 /* Presentation Logic */
 // Markup text
 function markDown(text) {
-  return converter.makeHtml(text);
+  return converter.makeHtml(text.replace(/\/\/\s*{{/g, '{{'));
+}
+
+// Markup text
+function mustache(text, hash) {
+  return Mustache.render(text, hash);
 }
 
 // Few seconds ago, a minute ago, etc.
@@ -102,7 +108,7 @@ var database = {
             title: markDown(msg.post.title),
             author: markDown(msg.post.author),
             lastupdated: timeText(msg.post),
-            body: markDown(msg.post.body)
+            body: mustache(markDown(msg.post.body), msg.post.context ? JSON.parse(msg.post.context) : {})
           };
         }
     } // When all posts requested - return list in msg.posts (note the 's')
