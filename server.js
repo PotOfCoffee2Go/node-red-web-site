@@ -50,7 +50,7 @@ const db = config.settings.functionGlobalContext.db;
 app.all('/posts/:slug', (req, res, next) => {db.permalink(req);next();});
 app.get('/edit/:slug', (req, res, next) => {db.permalink(req);next();});
 
-// Raw ode files
+// Raw code files
 app.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});
 app.get('/code/database.js', (req, res) => {res.sendFile(path.resolve(__dirname, './model/database.js'));});
 

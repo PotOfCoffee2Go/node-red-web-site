@@ -21,6 +21,35 @@
         "info": ""
     },
     {
+        "id": "f7bd7a0f.809288",
+        "type": "subflow",
+        "name": "Configuration",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "e4f4d75f.92fcc8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 440,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "c96d370c.ca0c88",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "ecf7de04.053ad",
         "type": "subflow",
         "name": "Get post(s)",
@@ -38,7 +67,7 @@
         ],
         "out": [
             {
-                "x": 661.8333597183228,
+                "x": 861.8333597183228,
                 "y": 53.83333396911621,
                 "wires": [
                     {
@@ -64,7 +93,7 @@
                 "y": 60,
                 "wires": [
                     {
-                        "id": "a50a094d.3fe9a8"
+                        "id": "507cef60.e300e"
                     }
                 ]
             }
@@ -83,6 +112,22 @@
         ]
     },
     {
+        "id": "e4f4d75f.92fcc8",
+        "type": "function",
+        "z": "f7bd7a0f.809288",
+        "name": "Config",
+        "func": "msg.config = {\n    sitename: \"PotOfCoffee2Go's Node-Red Blog\",\n    copyright: '2017- Code Scullery',\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 150,
+        "y": 40,
+        "wires": [
+            [
+                "c96d370c.ca0c88"
+            ]
+        ]
+    },
+    {
         "id": "af333205.5c8b7",
         "type": "function",
         "z": "ecf7de04.053ad",
@@ -90,7 +135,7 @@
         "func": "global.get(\"db\").getPosts(msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 160,
+        "x": 340,
         "y": 60,
         "wires": [
             [
@@ -103,7 +148,7 @@
         "type": "subflow:c330e687.8faa28",
         "z": "ecf7de04.053ad",
         "name": "",
-        "x": 530,
+        "x": 730,
         "y": 80,
         "wires": [
             []
@@ -125,7 +170,7 @@
         "z": "ecf7de04.053ad",
         "name": "Get post data from database and setup for page display",
         "info": "",
-        "x": 380,
+        "x": 580,
         "y": 20,
         "wires": []
     },
@@ -425,7 +470,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"utf-8\">\n    <title>Edit {{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n\t\t\t        {{{page.navbar}}}\n\t\t\t        <div>\n\t\t\t            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n\t\t\t                    <label for=\"slug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"slug\" value=\"{{post.slug}}\" placeholder=\"Slug\">\n\t\t\t                    <label for=\"webpage\">Is a web page</label>\n\t\t\t                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\">Post (can use <a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a>)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\">Context</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"json\">{{post.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t\t\t        </div>\n\t\t\t        {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n{{{page.scripts}}}\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"utf-8\">\n    <title>Edit {{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n\t\t\t        {{{page.navbar}}}\n\t\t\t        <div>\n\t\t\t            <form action=\"/posts/{{post.id}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n\t\t\t                    <label for=\"slug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"slug\" value=\"{{post.slug}}\" placeholder=\"Slug\">\n\t\t\t                    <label for=\"webpage\">Is a web page</label>\n\t\t\t                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{post.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"json\">{{post.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t\t\t        </div>\n\t\t\t        {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n{{{page.scripts}}}\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 510,
         "y": 200,
@@ -938,7 +983,7 @@
         "syntax": "mustache",
         "template": "\n<!-- Bootstrap core CSS -->\n<link href=\"/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n<!-- Custom styles for this template -->\n<link href=\"/css/simple-sidebar.css\" rel=\"stylesheet\">\n\n<!-- Font Awesome -->\n<link href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" integrity=\"sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN\" crossorigin=\"anonymous\">\n\n<!-- Highlightjs -->\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css\" rel=\"stylesheet\">\n\n\n<style>\n    body {background-color: aliceblue;}\n    .page-header {background-color: #e3f1ff}\n    /* p, li {font-size: 1.2em;} */\n    pre code {white-space: pre;overflow-x: auto; background:ghostwhite;}\n    blockquote {font-size: 1em;}\n    .btn-outline-primary {margin: 0 .5rem 0 0;}\n    #menu-toggle {float:left; text-decoration: none;}\n    .know-more {font-size: .8em;}\n    .sb-icon {background: white;}\n    .fa {display: inline;}\n</style>\n",
         "output": "str",
-        "x": 290,
+        "x": 510,
         "y": 60,
         "wires": [
             [
@@ -974,7 +1019,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Sidebar -->\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li class=\"sidebar-brand\">\n            <a href=\"/red\"><i class=\"fa fa-coffee\"></i> Site FLows</a>\n        </li>\n        <li><a href=\"/posts/from-the-bottom\"><i class=\"fa fa-home\"></i> Overview</a></li>\n        <li><a href=\"/posts/what-is-node-red\"><i class=\"fa fa-gears\"></i> What is Node-RED?</a></li>\n        <li><a href=\"#\"><i class=\"fa fa-pencil\"></i> Events</a></li>\n        <li><a href=\"#\">About</a></li>\n        <li><a href=\"#\">Services</a></li>\n        <li><a href=\"#\">Contact</a></li>\n        <li><a href=\"/credits\">Credits</a></li>\n    </ul>\n</div>\n<!-- /#sidebar-wrapper -->\n",
+        "template": "\n<!-- Sidebar -->\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li class=\"sidebar-brand\">\n            <a href=\"/red\"><i class=\"fa fa-share-alt\"></i> Site FLows</a>\n        </li>\n        <li><a href=\"/posts/from-the-bottom\"><i class=\"fa fa-home\"></i> Overview</a></li>\n        <li><a href=\"/posts/what-is-node-red\"><i class=\"fa fa-gears\"></i> What is Node-RED?</a></li>\n        <li><a href=\"/posts/node-red-host-server\"><i class=\"fa fa-ils\"></i> Embed Node-RED flows</a></li>\n        <li><a href=\"#\">About</a></li>\n        <li><a href=\"#\">Services</a></li>\n        <li><a href=\"#\">Contact</a></li>\n        <li><a href=\"/credits\">Credits</a></li>\n    </ul>\n</div>\n<!-- /#sidebar-wrapper -->\n",
         "output": "str",
         "x": 180,
         "y": 140,
@@ -1026,7 +1071,7 @@
         "id": "5938410e.bcfcb",
         "type": "template",
         "z": "c330e687.8faa28",
-        "name": "Delete post confirmation",
+        "name": "Delete confirmation",
         "field": "page.deletemodal",
         "fieldType": "msg",
         "format": "handlebars",
@@ -1059,7 +1104,7 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 340,
+        "x": 540,
         "y": 60,
         "wires": [
             [],
@@ -1093,22 +1138,6 @@
         "wires": []
     },
     {
-        "id": "a50a094d.3fe9a8",
-        "type": "function",
-        "z": "c330e687.8faa28",
-        "name": "Config",
-        "func": "msg.config = {\n    sitename: \"PotOfCoffee2Go's Node-Red Blog\",\n    copyright: '2017- Code Scullery',\n};\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 170,
-        "y": 60,
-        "wires": [
-            [
-                "51a3330a.cae96c"
-            ]
-        ]
-    },
-    {
         "id": "e9210c4c.63588",
         "type": "comment",
         "z": "3082454d.fb9b3a",
@@ -1117,5 +1146,44 @@
         "x": 720,
         "y": 60,
         "wires": []
+    },
+    {
+        "id": "c96d370c.ca0c88",
+        "type": "template",
+        "z": "f7bd7a0f.809288",
+        "name": "Links",
+        "field": "post.links",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "[\"Would You Like to Know More?\"]: https://www.youtube.com/watch?v=kdrjzE1SE58\n[Ace]: https://ace.c9.io/\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\n[BootStrap]: http://getbootstrap.com/\n[Business]: https://en.wikipedia.org/wiki/Business_logic\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\n[expressjs]: https://expressjs.com/\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\n[GitHub]: https://github.com/node-red\n[HTML]: https://en.wikipedia.org/wiki/HTML\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\n[JS Foundation]: https://js.foundation/community/projects\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\n[Mustache]: https://mustache.github.io/\n[mustache template engine]: https://mustache.github.io/\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\n[Node-Red]: https://nodered.org/\n[Node.js]: https://nodejs.org/\n[nodes]: https://nodered.org/docs/creating-nodes/\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[Showdown]: https://github.com/showdownjs/showdown/wiki\n",
+        "output": "str",
+        "x": 290,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "507cef60.e300e",
+        "type": "subflow:f7bd7a0f.809288",
+        "z": "c330e687.8faa28",
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "51a3330a.cae96c"
+            ]
+        ]
+    },
+    {
+        "id": "a42ae250.031f9",
+        "type": "subflow:f7bd7a0f.809288",
+        "z": "ecf7de04.053ad",
+        "x": 150,
+        "y": 60,
+        "wires": [
+            []
+        ]
     }
 ]

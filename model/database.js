@@ -103,12 +103,13 @@ var database = {
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
+          var body = msg.post.body + (msg.post.links ? ('\n' + msg.post.links) : '');
           msg.post.marked = {
             striptitle: stripHtmlTags(markDown(msg.post.title)),
             title: markDown(msg.post.title),
             author: markDown(msg.post.author),
             lastupdated: timeText(msg.post),
-            body: mustache(markDown(msg.post.body), msg.post.context ? JSON.parse(msg.post.context) : {})
+            body: mustache(markDown(body), msg.post.context ? JSON.parse(msg.post.context) : {})
           };
         }
     } // When all posts requested - return list in msg.posts (note the 's')
