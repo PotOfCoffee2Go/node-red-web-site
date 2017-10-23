@@ -103,7 +103,9 @@ var database = {
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
         if (msg.post) {
-          var body = msg.post.body + (msg.post.links ? ('\n' + msg.post.links) : '');
+          var body = msg.post.body + 
+            (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
+            (msg.postFooter ? ('\n' + msg.postFooter) : '');
           msg.post.marked = {
             striptitle: stripHtmlTags(markDown(msg.post.title)),
             title: markDown(msg.post.title),
@@ -140,7 +142,6 @@ var database = {
     if (msg.req && msg.req.params) {
       msg.req.params.postId = msg.payload.id.toString();
     }
-    database.getPosts(msg);
     return msg;
   },
 
@@ -153,7 +154,6 @@ var database = {
         msg.payload.updated = moment().toISOString();
         database.posts[idx] = msg.payload;
         storePosts();
-        database.getPosts(msg);
       }
     }
     return msg;
