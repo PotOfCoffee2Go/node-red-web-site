@@ -1,6 +1,6 @@
-// javascript object database
 'use strict'
 
+// {{{Modules}}}
 const
     fs = require('fs-extra'),
     url = require('url'),
@@ -10,18 +10,19 @@ const
     showdownHighlight = require('showdown-highlight'),
     striptags = require('striptags');
 
+// {{{Markup}}}
 var
     converter = new showdown.Converter({extensions: [showdownHighlight]});
     converter.setFlavor('github');
-    converter.setOption('parseImgDimensions', true);
+    converter.setOption('parseImgDimensions', true); // Allow sizing of images
 
-/* Presentation Logic */
+// {{{Presentation Logic}}}
 // Markup text
 function markDown(text) {
   return converter.makeHtml(text.replace(/\/\/\s*{{/g, '{{'));
 }
 
-// Markup text
+// Content substitution
 function mustache(text, hash) {
   return Mustache.render(text, hash);
 }
@@ -36,7 +37,7 @@ function stripHtmlTags(text) {
   return striptags(text);
 }
 
-/* Business Logic */
+// {{{Business Logic}}}
 // Check if a postId was given in the HTTP request
 function idPosted(msg) {
   return msg.req && msg.req.params && msg.req.params.postId;
@@ -56,14 +57,13 @@ function byDate(a,b) {
   return 0;
 }
 
-
-/* Database */
+// {{{Database storage}}}
 // Placeholder for path to JSON file database
 var postStore = '';
 
-// Load the post data
+// Load the blog data
 function loadPosts() {
-  // A single post placeholder in case can't read the data
+  // A single blog post placeholder in case can't read the data
   var data = [{
     id: 1,
     slug: 'New-post-DB',
@@ -78,7 +78,7 @@ function loadPosts() {
     data = fs.readJsonSync(postStore);
   } catch(e){}
 
-  data.sort(byDate);
+  database.posts.sort(byId);
   return data;
 }
 
@@ -89,15 +89,14 @@ function storePosts() {
       delete post.marked;
     });
 
-    database.posts.sort(byId);
     fs.writeJsonSync(postStore, database.posts, {spaces: 2});
-    database.posts.sort(byDate);
   }
 
+// {{{Database}}}
 var database = {
-  // Placeholder for array of post data
+  // Placeholder for array of blog post data
   posts: [], 
-  // Get all or single post
+  // {{{Get all or single blog post}}}
   getPosts: (msg) => {
     // When a single post requested - return in msg.post
     if (idPosted(msg)) {
@@ -116,6 +115,7 @@ var database = {
         }
     } // When all posts requested - return list in msg.posts (note the 's')
     else {
+        msg.posts = [];
         database.posts.forEach((post) => {
           post.marked = {
             striptitle: stripHtmlTags(markDown(post.title)),
@@ -123,13 +123,14 @@ var database = {
             author: markDown(post.author),
             lastupdated : timeText(post)
           };
+          msg.posts.push(post);
         });
-        msg.posts = database.posts;
+        msg.posts.sort(byDate);
     }
     return msg;
   },
 
-  // Add a post
+  // {{{Add a blog post}}}
   newPost: (msg) => {
     // Get largest id from database (+ 1) and push new post to DB
     var lastId = Math.max.apply(null, database.posts.map(post => post.id));
@@ -145,7 +146,7 @@ var database = {
     return msg;
   },
 
-  // Update a post
+  // {{{Update a blog post}}}
   updatePost: (msg) => {
     if (idPosted(msg)) {
       var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId));
@@ -159,7 +160,7 @@ var database = {
     return msg;
   },
 
-  // Delete a post
+  // {{{Delete a blog post}}}
   deletePost: (msg) => {
     if (idPosted(msg)) {
       var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId));
@@ -172,7 +173,7 @@ var database = {
     return msg;
   },
   
-  // Replace the slug in the url with the postId 
+  // {{{Replace slug}}}
   permalink: (req) => {
     var post = database.posts.find(perm => perm.slug === req.params.slug);
     if (post) {
@@ -183,6 +184,7 @@ var database = {
 
 };
 
+// {{{Module entry}}}
 module.exports = function(postStorePath) {
   // Load blog posts from file
   postStore = postStorePath;
