@@ -3,28 +3,25 @@
 // {{{Modules}}}
 const
     fs = require('fs-extra'),
-    url = require('url'),
     moment = require('moment'),
-    Mustache = require('mustache'),
     showdown = require('showdown'),
-    showdownHighlight = require('showdown-highlight'),
     striptags = require('striptags');
 
 // {{{Markup}}}
 var
-    converter = new showdown.Converter({extensions: [showdownHighlight]});
+    converter = new showdown.Converter();
     converter.setFlavor('github');
     converter.setOption('parseImgDimensions', true); // Allow sizing of images
 
 // {{{Presentation Logic}}}
 // Markup text
 function markDown(text) {
-  return converter.makeHtml(text.replace(/\/\/\s*{{/g, '{{'));
+  return converter.makeHtml(text);
 }
 
-// Content substitution
-function mustache(text, hash) {
-  return Mustache.render(text, hash);
+// Remove HTML tags
+function stripHtmlTags(text) {
+  return striptags(text);
 }
 
 // Few seconds ago, a minute ago, etc.
@@ -32,9 +29,13 @@ function timeText(post) {
   return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
 }
 
-// Remove HTML tags
-function stripHtmlTags(text) {
-  return striptags(text);
+function markMetaData(post) {
+  return {
+    striptitle: stripHtmlTags(markDown(post.title)),
+    title: markDown(post.title),
+    author: markDown(post.author),
+    lastupdated: timeText(post)
+  };
 }
 
 // {{{Business Logic}}}
@@ -100,29 +101,19 @@ var database = {
   getPosts: (msg) => {
     // When a single post requested - return in msg.post
     if (idPosted(msg)) {
-        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId));
+        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));
         if (msg.post) {
-          var body = msg.post.body + 
-            (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
-            (msg.postFooter ? ('\n' + msg.postFooter) : '');
-          msg.post.marked = {
-            striptitle: stripHtmlTags(markDown(msg.post.title)),
-            title: markDown(msg.post.title),
-            author: markDown(msg.post.author),
-            lastupdated: timeText(msg.post),
-            body: mustache(markDown(body), msg.post.context ? JSON.parse(msg.post.context) : {})
-          };
+          msg.post.marked = markMetaData(msg.post);
+          msg.post.marked.jsonbody = JSON.stringify((msg.post.body + 
+              (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
+              (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*{{/g, '{{')),
+          msg.post.marked.jsoncontext = JSON.stringify(msg.post.context ? JSON.parse(msg.post.context) : {});
         }
-    } // When all posts requested - return list in msg.posts (note the 's')
+    } // When ALL posts requested - return list in msg.posts (note the 's')
     else {
         msg.posts = [];
         database.posts.forEach((post) => {
-          post.marked = {
-            striptitle: stripHtmlTags(markDown(post.title)),
-            title: markDown(post.title),
-            author: markDown(post.author),
-            lastupdated : timeText(post)
-          };
+          post.marked = markMetaData(post);
           msg.posts.push(post);
         });
         msg.posts.sort(byDate);
@@ -149,7 +140,7 @@ var database = {
   // {{{Update a blog post}}}
   updatePost: (msg) => {
     if (idPosted(msg)) {
-      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId));
+      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));
       if (idx > -1) {
         msg.payload.id = database.posts[idx].id; // insure id is a number
         msg.payload.updated = moment().toISOString();
@@ -163,7 +154,7 @@ var database = {
   // {{{Delete a blog post}}}
   deletePost: (msg) => {
     if (idPosted(msg)) {
-      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId));
+      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));
       if (idx > -1) {
         msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy
         database.posts.splice(idx, 1); // Remove the post

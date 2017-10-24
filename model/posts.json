@@ -118,13 +118,13 @@
   },
   {
     "id": 20,
-    "title": "New stuff",
+    "title": "<i class=\"fa fa-gears\"></i> New stuff",
     "author": "PotOfCoffee2Go",
     "slug": "new-stuff",
-    "body": "This is some new stuff\r\n\r\n{{{test}}}\r\n\r\n{{=%$% %$%=}}\r\n\r\n[Node-RED]\r\n\r\n[Local]\r\n\r\n```html\r\n<a href=\"ff\" >{{hi}}</a>\r\n\r\n<a href=\"ff\" >{{testit}}</a>\r\n\r\n\r\n```\r\n\r\n",
+    "body": "This is some new stuff\r\n\r\n\r\n[Node-RED]\r\n\r\n[Local]\r\n\r\n```html\r\n<a href=\"ff\" >{{hi}}</a>\r\n\r\n<a href=\"ff\" >{{testit}}</a>\r\n\r\n\r\n```\r\n\r\n",
     "locallinks": "[Local]: http://www.example.com\r\n",
-    "context": "{\r\n    \"test\": \"see my stuff\"\r\n}",
-    "updated": "2017-10-24T02:48:01.625Z"
+    "context": "{\r\n    \"testit\": \"see my stuff\",\r\n    \"hi\": \"hi their!\"\r\n}",
+    "updated": "2017-10-24T13:42:39.588Z"
   },
   {
     "id": 22,
