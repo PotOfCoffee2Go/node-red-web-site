@@ -28,8 +28,18 @@ function stripHtmlTags(text) {
 function timeText(post) {
   return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
 }
+function timeTextComment(comment) {
+  return moment.utc(comment.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
+}
 
 function markMetaData(post) {
+  post.comments = post.comments || [];
+  post.comments.forEach(comment => {
+    comment.marked = {
+      body: markDown(comment.body),
+      lastupdated: timeTextComment(comment)
+    };
+  });
   return {
     striptitle: stripHtmlTags(markDown(post.title)),
     title: markDown(post.title),
@@ -88,6 +98,11 @@ function storePosts() {
     // Remove unwanted work fields
     database.posts.forEach(post => {
       delete post.marked;
+      if (post.comments) {
+        post.comments.forEach(comment => {
+          delete comment.marked;
+        });
+      }
     });
 
     fs.writeJsonSync(postStore, database.posts, {spaces: 2});
@@ -106,8 +121,8 @@ var database = {
           msg.post.marked = markMetaData(msg.post);
           msg.post.marked.jsonbody = JSON.stringify((msg.post.body + 
               (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
-              (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*{{/g, '{{')),
-          msg.post.marked.jsoncontext = JSON.stringify(msg.post.context ? JSON.parse(msg.post.context) : {});
+              (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*\{\{/g, '\{\{')),
+          msg.post.marked.jsoncontext = msg.post.context ? '{' + msg.post.context + '}' : '{}';
         }
     } // When ALL posts requested - return list in msg.posts (note the 's')
     else {
@@ -144,6 +159,7 @@ var database = {
       if (idx > -1) {
         msg.payload.id = database.posts[idx].id; // insure id is a number
         msg.payload.updated = moment().toISOString();
+        msg.payload.comments = database.posts[idx].comments || [] ;
         database.posts[idx] = msg.payload;
         storePosts();
       }
@@ -164,6 +180,27 @@ var database = {
     return msg;
   },
   
+  // {{{Add a comment}}}
+  newComment: (msg) => {
+    var lastId = 0;
+    if (idPosted(msg)) {
+      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));
+      if (idx > -1) {
+        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {
+          database.posts[idx].comments = [];
+        }
+        else {
+          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));
+        }
+        msg.payload.id = lastId + 1;
+        msg.payload.updated = moment().toISOString();
+        database.posts[idx].comments.unshift(msg.payload);
+        storePosts();
+      }
+    }
+    return msg;
+  },
+
   // {{{Replace slug}}}
   permalink: (req) => {
     var post = database.posts.find(perm => perm.slug === req.params.slug);

@@ -48,6 +48,7 @@ app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : 
 // Replace slugs with the post id
 const db = config.settings.functionGlobalContext.db;
 app.all('/posts/:slug', (req, res, next) => {db.permalink(req);next();});
+app.all('/posts/:slug/comments', (req, res, next) => {db.permalink(req);next();});
 app.get('/edit/:slug', (req, res, next) => {db.permalink(req);next();});
 
 // Raw code files
