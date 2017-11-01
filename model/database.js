@@ -194,8 +194,10 @@ var database = {
         }
         msg.payload.id = lastId + 1;
         msg.payload.updated = moment().toISOString();
+        msg.payload.approved = false;
         database.posts[idx].comments.unshift(msg.payload);
         storePosts();
+        msg.payload = database.posts[idx]; // return complete blog post
       }
     }
     return msg;

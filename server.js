@@ -11,25 +11,28 @@ const
 const config = {
     port: 8081,
     homePage: '/posts/from-the-bottom',
+    dataStore: './model/posts.json',
+};
 
-    // {{{Node-RED settings}}}
+// {{{Node-RED settings}}}
+const nodered = {
     settings: {
         httpAdminRoot:"/red",     // node-RED flow editor 
         httpNodeRoot: "/",        // node 'http in' root directory
         functionGlobalContext: {  // enable function nodes to reference our modules/objects
-            db: require('./model/database')('./model/posts.json') // Blog data store
+            db: require('./model/database')(config.dataStore) // Blog data store
         },
         userDir: path.resolve(__dirname, "node-red"), // Flow storage
         nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes
         flowFilePretty: true,
         flowFile: 'flows.json',
-        }
+    }
 };
 
 // {{{Current working directory}}}
 /* In some cases the runtime uses the current working dir as root
-    and since server.js is in the project root directory */
-//  set current working directory to project root
+    and since server.js is in the project root directory
+    sets current working directory to project root */
 process.chdir(__dirname);
 
 // {{{Host Server}}}
@@ -37,7 +40,7 @@ process.chdir(__dirname);
 var app = express();
 var server = http.createServer(app);
 
-// Body parsers
+// Body parsers so we can accept POSTed JSON and/or URL encoded data formats
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -45,25 +48,25 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Can use a blog post as the default page
 app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : '/'; next();});
 
-// Replace slugs with the post id
-const db = config.settings.functionGlobalContext.db;
-app.all('/posts/:slug', (req, res, next) => {db.permalink(req);next();});
-app.all('/posts/:slug/comments', (req, res, next) => {db.permalink(req);next();});
-app.get('/edit/:slug', (req, res, next) => {db.permalink(req);next();});
+// Replace slugs with the post id and continue down the route chain
+const db = nodered.settings.functionGlobalContext.db;
+app.all('/posts/:slug', (req, res, next) => {db.permalink(req); next();});
+app.all('/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});
+app.get('/edit/:slug', (req, res, next) => {db.permalink(req); next();});
 
-// Raw code files
+// Display code files
 app.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});
 app.get('/code/database.js', (req, res) => {res.sendFile(path.resolve(__dirname, './model/database.js'));});
 
 // Serve static content(css, js, etc) from site root ('public') directory
-app.use("/",express.static("public"));
+app.use("/", express.static("public"));
 
 // {{{Node-RED}}}
 // Initialize node-RED runtime
-RED.init(server, config.settings);
+RED.init(server, nodered.settings);
 // Serve the node-RED Editor and http-in node UIs
-app.use(config.settings.httpAdminRoot, RED.httpAdmin);
-app.use(config.settings.httpNodeRoot, RED.httpNode);
+app.use(nodered.settings.httpAdminRoot, RED.httpAdmin);
+app.use(nodered.settings.httpNodeRoot, RED.httpNode);
 // Fire up our server
 server.listen(config.port ? config.port : 8081);
 
