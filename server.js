@@ -10,7 +10,7 @@ const
 // {{{Config}}}
 const config = {
     port: 8081,
-    homePage: '/posts/from-the-bottom',
+    homePage: '/build/posts/from-the-bottom',
     dataStore: './model/posts.json',
 };
 
@@ -50,9 +50,9 @@ app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : 
 
 // Replace slugs with the post id and continue down the route chain
 const db = nodered.settings.functionGlobalContext.db;
-app.all('/posts/:slug', (req, res, next) => {db.permalink(req); next();});
-app.all('/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});
-app.get('/edit/:slug', (req, res, next) => {db.permalink(req); next();});
+app.all('/build/posts/:slug', (req, res, next) => {db.permalink(req); next();});
+app.all('/build/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});
+app.get('/build/edit/:slug', (req, res, next) => {db.permalink(req); next();});
 
 // Display code files
 app.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});

@@ -33,24 +33,19 @@ function timeTextComment(comment) {
 }
 
 function markMetaData(post) {
-  post.marked =  {
-    striptitle: stripHtmlTags(markDown(post.title)),
-    title: markDown(post.title),
-    author: markDown(post.author),
-    lastupdated: timeText(post)
-  };
-
   post.comments = post.comments || [];
   post.comments.forEach(comment => {
     comment.marked = {
       body: markDown(comment.body),
       lastupdated: timeTextComment(comment)
     };
-    post.marked.commenttext = 
-      post.comments.length ?
-        (post.comments.length === 1 ? ' 1 comment' : post.comments.length + ' comments')
-      : '';
   });
+  return {
+    striptitle: stripHtmlTags(markDown(post.title)),
+    title: markDown(post.title),
+    author: markDown(post.author),
+    lastupdated: timeText(post)
+  };
 }
 
 // {{{Business Logic}}}
@@ -123,7 +118,7 @@ var database = {
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));
         if (msg.post) {
-          markMetaData(msg.post);
+          msg.post.marked = markMetaData(msg.post);
           msg.post.marked.jsonbody = JSON.stringify((msg.post.body + 
               (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
               (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*\{\{/g, '\{\{')),
@@ -133,7 +128,7 @@ var database = {
     else {
         msg.posts = [];
         database.posts.forEach((post) => {
-          markMetaData(post);
+          post.marked = markMetaData(post);
           msg.posts.push(post);
         });
         msg.posts.sort(byDate);
