@@ -119,10 +119,12 @@ var database = {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));
         if (msg.post) {
           msg.post.marked = markMetaData(msg.post);
+          /*
           msg.post.marked.jsonbody = JSON.stringify((msg.post.body + 
               (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
               (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*\{\{/g, '\{\{')),
           msg.post.marked.jsoncontext = msg.post.context ? '{' + msg.post.context + '}' : '{}';
+          */
         }
     } // When ALL posts requested - return list in msg.posts (note the 's')
     else {

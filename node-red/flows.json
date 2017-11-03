@@ -2,14 +2,14 @@
     {
         "id": "3082454d.fb9b3a",
         "type": "tab",
-        "label": "Builder",
+        "label": "Builder Site",
         "disabled": false,
         "info": ""
     },
     {
         "id": "288944c7.a1ceec",
         "type": "tab",
-        "label": "Site",
+        "label": "Casual Site",
         "disabled": false,
         "info": ""
     },
@@ -30,7 +30,7 @@
     {
         "id": "f7bd7a0f.809288",
         "type": "subflow",
-        "name": "Configuration",
+        "name": "Common",
         "info": "",
         "in": [
             {
@@ -45,11 +45,11 @@
         ],
         "out": [
             {
-                "x": 480,
+                "x": 600,
                 "y": 40,
                 "wires": [
                     {
-                        "id": "c96d370c.ca0c88",
+                        "id": "1f95ac9b.e3c9a3",
                         "port": 0
                     }
                 ]
@@ -74,8 +74,8 @@
         ],
         "out": [
             {
-                "x": 866.8333740234375,
-                "y": 52.833335876464844,
+                "x": 780,
+                "y": 140,
                 "wires": [
                     {
                         "id": "42a17f0c.4cdf3",
@@ -83,6 +83,10 @@
                     },
                     {
                         "id": "45c1c9e.ebf1138",
+                        "port": "1"
+                    },
+                    {
+                        "id": "2a59651e.71538a",
                         "port": 0
                     }
                 ]
@@ -107,7 +111,7 @@
         ],
         "out": [
             {
-                "x": 660,
+                "x": 560,
                 "y": 300,
                 "wires": [
                     {
@@ -121,7 +125,7 @@
     {
         "id": "99dcc10f.77084",
         "type": "subflow",
-        "name": "Presentation (site)",
+        "name": "Presentation (casual)",
         "info": "",
         "in": [
             {
@@ -136,11 +140,11 @@
         ],
         "out": [
             {
-                "x": 640,
+                "x": 600,
                 "y": 320,
                 "wires": [
                     {
-                        "id": "e20dbd85.7cdf3",
+                        "id": "c5755d9f.f2cb",
                         "port": 0
                     }
                 ]
@@ -152,7 +156,7 @@
         "type": "function",
         "z": "f7bd7a0f.809288",
         "name": "Config",
-        "func": "msg.config = {\n    build: {\n        sitename: \"PotOfCoffee2Go's Node-Red Blog\",\n        copyright: '2017- Code Scullery'\n    }\n};\n\nreturn msg;",
+        "func": "msg.config = {\n    build: {\n        sitename: \"PotOfCoffee2Go's Node-Red Blog\",\n        copyright: '2017- Code Scullery'\n    },\n    casual: {\n        sitename: \"Poc2go Casual\",\n        sitesubname: \"1111 Somewhere Street | Somewhere, CA 12345 | (123) 456-7890\",\n        copyright: '2017- your name'\n    }\n};\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 150,
@@ -184,8 +188,8 @@
         "type": "subflow:c330e687.8faa28",
         "z": "ecf7de04.053ad",
         "name": "",
-        "x": 730,
-        "y": 80,
+        "x": 590,
+        "y": 180,
         "wires": [
             []
         ]
@@ -378,7 +382,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#post}}\n                                <h2>{{{post.marked.title}}}</h2>\n                                Post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) by {{post.author}} updated (<i>{{post.marked.lastupdated}}</i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{post.slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/post}}\n                            {{^post}}\n                                <h5>Post not found</h5>\n                            {{/post}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n{{{page.vendors}}}{{{page.scripts}}}\n\n{{{page.codeblockhighlight}}}\n\n<script>\n    $(function () {\n        $('pre code').addClass('hljs');\n        {{#post}}\n        showdown.setFlavor('github');\n        var converter = new showdown.Converter({ extensions: ['codehighlight'] }),\n            blogpost = Mustache.render(converter.makeHtml({{{post.marked.jsonbody}}}), {{{post.marked.jsoncontext}}});\n        $('#showdown-body').html(blogpost);\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) - <i>{{{post.marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n\n        {{/post}}\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            postFormAjax(e, \"#commentForm\", \"/build/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#post}}\n                                <h2 id=\"showdown-title\"></h2>\n                                Post (<a href=\"/posts/{{post.id}}\">{{post.id}}</a>) by {{post.author}} updated (<i>{{post.marked.lastupdated}}</i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{post.slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/post}}\n                            {{^post}}\n                                <h5>Post not found</h5>\n                            {{/post}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script>\n    $(function () {\n        {{#post}}\n        getAjaxBlogPost('{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', function(post){\n            $('#showdown-title').html(Mustache.render(converter.makeHtml(post.title)));            \n            $('#showdown-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n        });\n        //var blogpost = Mustache.render(converter.makeHtml({{{post.marked.jsonbody}}}), {{{post.marked.jsoncontext}}});\n        //$('#showdown-body').html(blogpost);\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) - <i>{{{post.marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n\n        {{/post}}\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            postFormAjax(e, \"#commentForm\", \"/build/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 610,
         "y": 260,
@@ -506,7 +510,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"utf-8\">\n    <title>Edit {{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t\t            <form id=\"blogpostForm\" action=\"/build/posts/{{post.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{post.slug}}\" placeholder=\"Slug\">\n\t\t\t                    <label for=\"webpage\">Is a web page</label>\n\t\t\t                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{post.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{post.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n{{{page.vendors}}}{{{page.scripts}}}\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('#poc2go-navbar-new').css('display', 'none');\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            postFormAjax(e, \"#blogpostForm\", \"/build/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"utf-8\">\n    <title>Edit {{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t\t            <form id=\"blogpostForm\" action=\"/build/posts/{{post.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{post.title}}\" placeholder=\"Title\">\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{post.author}}\" placeholder=\"Author\">\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{post.slug}}\" placeholder=\"Slug\">\n\t\t\t                    <label for=\"webpage\">Is a web page</label>\n\t\t\t                    <input type=\"checkbox\" class=\"\" name=\"webpage\" id=\"webpage\" value=\"yes\" {{#post.webpage}}checked{{/post.webpage}}>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{post.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{post.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{post.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('#poc2go-navbar-new').css('display', 'none');\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            postFormAjax(e, \"#blogpostForm\", \"/build/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 610,
         "y": 200,
@@ -751,28 +755,15 @@
         "type": "http in",
         "z": "8c3ec654.d10248",
         "name": "",
-        "url": "/v1/posts",
+        "url": "/posts",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 90,
+        "x": 80,
         "y": 100,
         "wires": [
             [
-                "a0fa696c.d180c8"
-            ]
-        ]
-    },
-    {
-        "id": "a0fa696c.d180c8",
-        "type": "subflow:ecf7de04.053ad",
-        "z": "8c3ec654.d10248",
-        "name": "",
-        "x": 370,
-        "y": 100,
-        "wires": [
-            [
-                "e4253f74.b6de1"
+                "c7290a57.980b38"
             ]
         ]
     },
@@ -799,7 +790,7 @@
         "name": "http response",
         "statusCode": "",
         "headers": {},
-        "x": 720,
+        "x": 780,
         "y": 100,
         "wires": []
     },
@@ -808,15 +799,15 @@
         "type": "http in",
         "z": "8c3ec654.d10248",
         "name": "",
-        "url": "/v1/posts/:postId",
+        "url": "/posts/:postId",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 110,
         "y": 140,
         "wires": [
             [
-                "a0fa696c.d180c8"
+                "c7290a57.980b38"
             ]
         ]
     },
@@ -832,7 +823,7 @@
         "y": 180,
         "wires": [
             [
-                "a0fa696c.d180c8"
+                "c7290a57.980b38"
             ]
         ]
     },
@@ -841,11 +832,11 @@
         "type": "http in",
         "z": "8c3ec654.d10248",
         "name": "",
-        "url": "/v1/posts",
+        "url": "/posts",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 100,
+        "x": 90,
         "y": 180,
         "wires": [
             [
@@ -865,7 +856,7 @@
         "y": 220,
         "wires": [
             [
-                "a0fa696c.d180c8"
+                "c7290a57.980b38"
             ]
         ]
     },
@@ -874,11 +865,11 @@
         "type": "http in",
         "z": "8c3ec654.d10248",
         "name": "",
-        "url": "/v1/posts/:postId",
+        "url": "/posts/:postId",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 110,
         "y": 220,
         "wires": [
             [
@@ -971,7 +962,7 @@
         "console": "false",
         "complete": "true",
         "x": 210,
-        "y": 300,
+        "y": 340,
         "wires": []
     },
     {
@@ -981,7 +972,7 @@
         "name": "",
         "scope": null,
         "x": 80,
-        "y": 300,
+        "y": 340,
         "wires": [
             [
                 "e64ae223.23a16"
@@ -995,7 +986,7 @@
         "name": "Catch errors",
         "info": "",
         "x": 390,
-        "y": 300,
+        "y": 340,
         "wires": []
     },
     {
@@ -1083,13 +1074,13 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<script>\n\nfunction postFormAjax(e, formId, url) {\n    var datastring = $(formId).serialize();\n    $.ajax({\n        type: \"POST\",\n        url: url,\n        data: datastring,\n        success: function(payload) {\n            window.location = payload.nextpage;\n        },\n        error: function() {\n            alert(\"New comment submit error\");\n            window.location = payload.nextpage;\n        }\n    });\n    e.preventDefault(); // prevent default submit behavior\n}\n\n\n$(function () {\n    <!-- Menu Toggle Script -->\n    $('a').click(function(e) { \n        // If the show/hide menu button then toggle the sidebar\n        if (e.target.id === 'menu-toggle' || this.id === 'menu-toggle') {\n            e.preventDefault();\n            $(\"#wrapper\").toggleClass(\"toggled\");\n        }\n        // Give time for the sidebar to collapse before going to link\n        else if ($(\"#wrapper\").hasClass(\"toggled\")) {\n            e.preventDefault();                   // prevent default anchor behavior\n            var goTo = this.getAttribute(\"href\"); // store anchor href\n            $(\"#wrapper\").toggleClass(\"toggled\",false);\n            setTimeout(function() {\n                 window.location = goTo;\n            },500);\n        }\n    });\n});\n</script>\n",
+        "template": "\n<script>\n$(function () {\n    <!-- Menu Toggle Script -->\n    $('a').click(function(e) { \n        // If the show/hide menu button then toggle the sidebar\n        if (e.target.id === 'menu-toggle' || this.id === 'menu-toggle') {\n            e.preventDefault();\n            $(\"#wrapper\").toggleClass(\"toggled\");\n        }\n        // Give time for the sidebar to collapse before going to link\n        else if ($(\"#wrapper\").hasClass(\"toggled\")) {\n            e.preventDefault();                   // prevent default anchor behavior\n            var goTo = this.getAttribute(\"href\"); // store anchor href\n            $(\"#wrapper\").toggleClass(\"toggled\",false);\n            setTimeout(function() {\n                 window.location = goTo;\n            },500);\n        }\n    });\n});\n</script>\n",
         "output": "str",
-        "x": 430,
+        "x": 450,
         "y": 220,
         "wires": [
             [
-                "d183dff1.41117"
+                "5938410e.bcfcb"
             ]
         ]
     },
@@ -1104,7 +1095,7 @@
         "syntax": "mustache",
         "template": "\n<!-- Confirm Delete Modal -->\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deleteModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"deleteModalLabel\">Modal title</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" id=\"deleteModelBody\">\n        Confirm removal of this post. This action can not be undone.\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Keep</button>\n        <button type=\"button\" class=\"btn btn-danger\" id=\"deleteModelYes\">Delete</button>\n      </div>\n    </div>\n  </div>\n</div>\n",
         "output": "str",
-        "x": 490,
+        "x": 350,
         "y": 300,
         "wires": [
             []
@@ -1114,13 +1105,19 @@
         "id": "45c1c9e.ebf1138",
         "type": "switch",
         "z": "ecf7de04.053ad",
-        "name": "REST request?",
+        "name": "URL requested",
         "property": "req.url",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "regex",
-                "v": "^\\/v1\\/",
+                "v": "^\\/casual\\/",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "^\\/posts\\/",
                 "vt": "str",
                 "case": false
             },
@@ -1129,18 +1126,17 @@
             }
         ],
         "checkall": "true",
-        "outputs": 2,
-        "x": 540,
-        "y": 60,
+        "outputs": 3,
+        "x": 340,
+        "y": 140,
         "wires": [
+            [
+                "2a59651e.71538a"
+            ],
             [],
             [
                 "42a17f0c.4cdf3"
             ]
-        ],
-        "outputLabels": [
-            "Yes",
-            "No"
         ]
     },
     {
@@ -1182,12 +1178,14 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n[\"Would You Like to Know More?\"]: https://www.youtube.com/watch?v=kdrjzE1SE58\n[Ace]: https://ace.c9.io/\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\n[BootStrap]: http://getbootstrap.com/\n[Business]: https://en.wikipedia.org/wiki/Business_logic\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\n[data flows]: https://en.wikipedia.org/wiki/Dataflow_programming\n[expressjs]: https://expressjs.com/\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\n[framework]: https://en.wikipedia.org/wiki/Software_framework\n[GitHub]: https://github.com/node-red\n[HTML]: https://en.wikipedia.org/wiki/HTML\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\n[JS Foundation]: https://js.foundation/community/projects\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\n[Mustache]: https://mustache.github.io/\n[mustache template engine]: https://mustache.github.io/\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\n[Node-Red]: https://nodered.org/\n[Node.js]: https://nodejs.org/\n[Node-RED flows]: https://nodered.org/docs/getting-started/first-flow\n[nodes]: https://nodered.org/docs/creating-nodes/\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\n[REST]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[Showdown]: https://github.com/showdownjs/showdown/wiki\n",
+        "template": "\n[Would You Like to Know More?]: https://www.youtube.com/watch?v=kdrjzE1SE58\n[Ace]: https://ace.c9.io/\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\n[BootStrap]: http://getbootstrap.com/\n[Business]: https://en.wikipedia.org/wiki/Business_logic\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\n[data flows]: https://en.wikipedia.org/wiki/Dataflow_programming\n[expressjs]: https://expressjs.com/\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\n[framework]: https://en.wikipedia.org/wiki/Software_framework\n[GitHub]: https://github.com/node-red\n[HTML]: https://en.wikipedia.org/wiki/HTML\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\n[JS Foundation]: https://js.foundation/community/projects\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\n[Mustache]: https://mustache.github.io/\n[mustache template engine]: https://mustache.github.io/\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\n[Node-Red]: https://nodered.org/\n[Node.js]: https://nodejs.org/\n[Node-RED flows]: https://nodered.org/docs/getting-started/first-flow\n[nodes]: https://nodered.org/docs/creating-nodes/\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\n[REST]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[Showdown]: https://github.com/showdownjs/showdown/wiki\n",
         "output": "str",
         "x": 310,
         "y": 40,
         "wires": [
-            []
+            [
+                "1f95ac9b.e3c9a3"
+            ]
         ]
     },
     {
@@ -1195,7 +1193,7 @@
         "type": "subflow:f7bd7a0f.809288",
         "z": "c330e687.8faa28",
         "name": "",
-        "x": 180,
+        "x": 170,
         "y": 60,
         "wires": [
             [
@@ -1213,25 +1211,6 @@
         "wires": [
             [
                 "af333205.5c8b7"
-            ]
-        ]
-    },
-    {
-        "id": "d183dff1.41117",
-        "type": "template",
-        "z": "c330e687.8faa28",
-        "name": "Code block highlight",
-        "field": "page.codeblockhighlight",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "\n<!-- Showdown code highlight script -->\n<script>\n    showdown.extension('codehighlight', function() {\n      function htmlunencode(text) {\n        return (\n          text\n            .replace(/&amp;/g, '&')\n            .replace(/&lt;/g, '<')\n            .replace(/&gt;/g, '>')\n          );\n      }\n      return [\n        {\n          type: 'output',\n          filter: function (text, converter, options) {\n            // use new shodown's regexp engine to conditionally parse codeblocks\n            var left  = '<pre><code\\\\b[^>]*>',\n                right = '</code></pre>',\n                flags = 'g',\n                replacement = function (wholeMatch, match, left, right) {\n                  // unescape match to prevent double escaping\n                  match = htmlunencode(match);\n                  return left + hljs.highlightAuto(match).value + right;\n                };\n            return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n          }\n        }\n      ];\n    });\n</script>\n\n",
-        "output": "str",
-        "x": 200,
-        "y": 300,
-        "wires": [
-            [
-                "5938410e.bcfcb"
             ]
         ]
     },
@@ -1356,13 +1335,13 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Bootstrap core CSS -->\n<link href=\"/build/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n<!-- Custom styles for this template -->\n<link href=\"/build/css/simple-sidebar.css\" rel=\"stylesheet\">\n\n<!-- Font Awesome -->\n<link href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" integrity=\"sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN\" crossorigin=\"anonymous\">\n\n<!-- Highlightjs -->\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css\" rel=\"stylesheet\">\n\n\n<style>\n    body {background-color: aliceblue;}\n    .page-header {background-color: #e3f1ff}\n    /* p, li {font-size: 1.2em;} */\n    pre code {white-space: pre;overflow-x: auto; background:ghostwhite;}\n    blockquote {font-size: 1em;}\n    .btn-outline-primary {margin: 0 .5rem 0 0;}\n    #menu-toggle {float:left; text-decoration: none;}\n    .know-more {font-size: .8em;}\n    .sb-icon {background: white;}\n    .fa {display: inline;}\n</style>\n",
+        "template": "\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n<meta name=\"description\" content=\"\">\n<meta name=\"author\" content=\"\">\n\n<!-- Bootstrap core CSS -->\n<link href=\"/casual/vendor/bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n<!-- Custom fonts for this template -->\n<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800\" rel=\"stylesheet\" type=\"text/css\">\n<link href=\"https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic\" rel=\"stylesheet\" type=\"text/css\">\n\n<!-- Custom styles for this template -->\n<link href=\"/casual/css/business-casual.css\" rel=\"stylesheet\">\n\n<!-- Overrides -->\n<style>\n\n</style>\n",
         "output": "str",
-        "x": 350,
+        "x": 430,
         "y": 80,
         "wires": [
             [
-                "14eba0ca.55906f"
+                "aa1d0ce.49674f"
             ]
         ]
     },
@@ -1375,32 +1354,13 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<div class=\"header clearfix\">\n    <nav>\n        <a href=\"#menu-toggle\" id=\"menu-toggle\" data-toggle=\"tooltip\" title=\"Menu\"><i class=\"fa fa-bars\"></i></a>\n        <h3 class=\"text-muted\">{{{config.sitename}}}</h3>\n    </nav>\n</div>\n",
+        "template": "\n<div class=\"tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block\">{{{config.casual.sitename}}}</div>\n<div class=\"tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block\">{{{config.casual.sitesubname}}}</div>\n",
         "output": "str",
         "x": 160,
         "y": 160,
         "wires": [
             [
                 "79deae59.2f6e3"
-            ]
-        ]
-    },
-    {
-        "id": "14eba0ca.55906f",
-        "type": "template",
-        "z": "99dcc10f.77084",
-        "name": "SideBar",
-        "field": "page.sidebar",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "\n<!-- Sidebar -->\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li class=\"sidebar-brand\">\n            <a href=\"/red\"><i class=\"fa fa-share-alt\"></i> Site FLows</a>\n        </li>\n        <li><a href=\"/build/posts/from-the-bottom\"><i class=\"fa fa-home\"></i> Overview</a></li>\n        <li><a href=\"/build/posts/what-is-node-red\"><i class=\"fa fa-gears\"></i> Why use Node-RED?</a></li>\n        <li><a href=\"/build/posts/node-red-host-server\"><i class=\"fa fa-ils\"></i> Embed Node-RED flows</a></li>\n        <li><a href=\"#\">About</a></li>\n        <li><a href=\"#\">Services</a></li>\n        <li><a href=\"#\">Contact</a></li>\n        <li><a href=\"/build/credits\">Credits</a></li>\n    </ul>\n</div>\n<!-- /#sidebar-wrapper -->\n",
-        "output": "str",
-        "x": 520,
-        "y": 80,
-        "wires": [
-            [
-                "aa1d0ce.49674f"
             ]
         ]
     },
@@ -1413,9 +1373,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<hr>\n<footer class=\"footer\">\n    <p>&copy; {{{config.copyright}}}</p>\n    <p>License: <a href=\"/build/posts/mit-license\">MIT</a></p>\n</footer>\n",
+        "template": "\n<footer class=\"bg-faded text-center py-5\">\n  <div class=\"container\">\n    <p class=\"m-0\">Copyright &copy; Your Website 2017</p>\n  </div>\n</footer>\n\n",
         "output": "str",
-        "x": 530,
+        "x": 510,
         "y": 160,
         "wires": [
             [
@@ -1432,7 +1392,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<script>\n\nfunction postFormAjax(e, formId, url) {\n    var datastring = $(formId).serialize();\n    $.ajax({\n        type: \"POST\",\n        url: url,\n        data: datastring,\n        success: function(payload) {\n            window.location = payload.nextpage;\n        },\n        error: function() {\n            alert(\"New comment submit error\");\n            window.location = payload.nextpage;\n        }\n    });\n    e.preventDefault(); // prevent default submit behavior\n}\n\n\n$(function () {\n    <!-- Menu Toggle Script -->\n    $('a').click(function(e) { \n        // If the show/hide menu button then toggle the sidebar\n        if (e.target.id === 'menu-toggle' || this.id === 'menu-toggle') {\n            e.preventDefault();\n            $(\"#wrapper\").toggleClass(\"toggled\");\n        }\n        // Give time for the sidebar to collapse before going to link\n        else if ($(\"#wrapper\").hasClass(\"toggled\")) {\n            e.preventDefault();                   // prevent default anchor behavior\n            var goTo = this.getAttribute(\"href\"); // store anchor href\n            $(\"#wrapper\").toggleClass(\"toggled\",false);\n            setTimeout(function() {\n                 window.location = goTo;\n            },500);\n        }\n    });\n});\n</script>\n",
+        "template": "\n<script>\n$(function () {\n\n});\n</script>\n",
         "output": "str",
         "x": 430,
         "y": 240,
@@ -1443,28 +1403,11 @@
         ]
     },
     {
-        "id": "e20dbd85.7cdf3",
-        "type": "template",
-        "z": "99dcc10f.77084",
-        "name": "Delete confirmation",
-        "field": "page.deletemodal",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "\n<!-- Confirm Delete Modal -->\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"deleteModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"deleteModalLabel\">Modal title</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" id=\"deleteModelBody\">\n        Confirm removal of this post. This action can not be undone.\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Keep</button>\n        <button type=\"button\" class=\"btn btn-danger\" id=\"deleteModelYes\">Delete</button>\n      </div>\n    </div>\n  </div>\n</div>\n",
-        "output": "str",
-        "x": 490,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "79f3ef08.40054",
         "type": "subflow:f7bd7a0f.809288",
         "z": "99dcc10f.77084",
         "name": "",
-        "x": 180,
+        "x": 240,
         "y": 80,
         "wires": [
             [
@@ -1481,14 +1424,12 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Showdown code highlight script -->\n<script>\n    showdown.extension('codehighlight', function() {\n      function htmlunencode(text) {\n        return (\n          text\n            .replace(/&amp;/g, '&')\n            .replace(/&lt;/g, '<')\n            .replace(/&gt;/g, '>')\n          );\n      }\n      return [\n        {\n          type: 'output',\n          filter: function (text, converter, options) {\n            // use new shodown's regexp engine to conditionally parse codeblocks\n            var left  = '<pre><code\\\\b[^>]*>',\n                right = '</code></pre>',\n                flags = 'g',\n                replacement = function (wholeMatch, match, left, right) {\n                  // unescape match to prevent double escaping\n                  match = htmlunencode(match);\n                  return left + hljs.highlightAuto(match).value + right;\n                };\n            return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n          }\n        }\n      ];\n    });\n</script>\n\n",
+        "template": "\n<!-- Showdown code highlight script -->\n<script>\n    showdown.extension('codehighlight', function() {\n      function htmlunencode(text) {\n        return (\n          text\n            .replace(/&amp;/g, '&')\n            .replace(/&lt;/g, '<')\n            .replace(/&gt;/g, '>')\n          );\n      }\n      return [\n        {\n          type: 'output',\n          filter: function (text, converter, options) {\n            // use new shodown's regexp engine to conditionally parse codeblocks\n            var left  = '<pre><code\\\\b[^>]*>',\n                right = '</code></pre>',\n                flags = 'g',\n                replacement = function (wholeMatch, match, left, right) {\n                  // unescape match to prevent double escaping\n                  match = htmlunencode(match);\n                  return left + hljs.highlightAuto(match).value + right;\n                };\n            return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n          }\n        }\n      ];\n    });\n\n    var converter;\n    $(function () {\n        $('pre code').addClass('hljs');\n        showdown.setFlavor('github');\n        converter = new showdown.Converter({ extensions: ['codehighlight'] });\n    });\n</script>\n\n",
         "output": "str",
-        "x": 200,
+        "x": 320,
         "y": 320,
         "wires": [
-            [
-                "e20dbd85.7cdf3"
-            ]
+            []
         ]
     },
     {
@@ -1500,7 +1441,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<a href=\"/build/site\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-blog\">Posts</a>\n<a href=\"/build/new\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-new\">New</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-edit\" style=\"display: none;\">Edit</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-comments\" style=\"display: none;\">Comments</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-delete\" style=\"display: none;\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</a>\n",
+        "template": "\n<!-- Navigation -->\n<nav class=\"navbar navbar-expand-lg navbar-light bg-faded py-lg-4\">\n  <div class=\"container\">\n    <a class=\"navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none\" href=\"#\">Start Bootstrap</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav mx-auto\">\n        <li class=\"nav-item active px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"index\">Home\n            <span class=\"sr-only\">(current)</span>\n          </a>\n        </li>\n        <li class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"about.html\">About</a>\n        </li>\n        <li class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"blog.html\">Blog</a>\n        </li>\n        <li class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"contact.html\">Contact</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>\n",
         "output": "str",
         "x": 340,
         "y": 160,
@@ -1519,7 +1460,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Bootstrap core JavaScript -->\n<script src=\"/build/vendor/jquery/jquery.min.js\"></script>\n<script src=\"/build/vendor/popper/popper.min.js\"></script>\n<script src=\"/build/vendor/bootstrap/js/bootstrap.min.js\"></script>\n\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n",
+        "template": "\n<!-- Bootstrap core JavaScript -->\n<script src=\"/casual/vendor/jquery/jquery.min.js\"></script>\n<script src=\"/casual/vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>\n\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n",
         "output": "str",
         "x": 240,
         "y": 240,
@@ -1534,12 +1475,12 @@
         "type": "http in",
         "z": "288944c7.a1ceec",
         "name": "",
-        "url": "/site/posts/:postId",
+        "url": "/casual/posts/:postId",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 260,
+        "x": 170,
+        "y": 220,
         "wires": [
             [
                 "a2a379fe.d221a8"
@@ -1552,7 +1493,7 @@
         "z": "288944c7.a1ceec",
         "name": "",
         "x": 430,
-        "y": 260,
+        "y": 220,
         "wires": [
             [
                 "a868125b.88a36"
@@ -1571,7 +1512,7 @@
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>{{post.marked.striptitle}}</title>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#post}}\n                                <h2>{{{post.marked.title}}}</h2>\n                                Post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) by {{post.author}} updated (<i>{{post.marked.lastupdated}}</i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{post.slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{post.id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/post}}\n                            {{^post}}\n                                <h5>Post not found</h5>\n                            {{/post}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n{{{page.vendors}}}{{{page.scripts}}}\n\n{{{page.codeblockhighlight}}}\n\n<script>\n    $(function () {\n        $('pre code').addClass('hljs');\n        {{#post}}\n        showdown.setFlavor('github');\n        var converter = new showdown.Converter({ extensions: ['codehighlight'] }),\n            blogpost = Mustache.render(converter.makeHtml({{{post.marked.jsonbody}}}), {{{post.marked.jsoncontext}}});\n        $('#showdown-body').html(blogpost);\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{post.id}}\">{{post.id}}</a>) - <i>{{{post.marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n\n        {{/post}}\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            postFormAjax(e, \"#commentForm\", \"/build/posts/{{post.slug}}{{^post.slug}}{{post.id}}{{/post.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 650,
-        "y": 260,
+        "y": 220,
         "wires": [
             [
                 "ea2adec3.8e197"
@@ -1586,7 +1527,7 @@
         "statusCode": "",
         "headers": {},
         "x": 900,
-        "y": 180,
+        "y": 160,
         "wires": []
     },
     {
@@ -1596,7 +1537,7 @@
         "name": "Display a blog post",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. It has the post ID in msg.req.params.postId thus *Get Post(s)*\nsubflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nIt also uses the Markup body subflow which takes the text from the body of the\npost and runs it through the *marked* package to markup the body from Markdown\ntext to HTML.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 890,
-        "y": 260,
+        "y": 220,
         "wires": []
     },
     {
@@ -1604,11 +1545,11 @@
         "type": "http in",
         "z": "288944c7.a1ceec",
         "name": "",
-        "url": "/site",
+        "url": "/casual/index",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 150,
         "y": 100,
         "wires": [
             [
@@ -1633,14 +1574,14 @@
         "id": "a8726f1c.d6c65",
         "type": "template",
         "z": "288944c7.a1ceec",
-        "name": "Home page view",
+        "name": "index",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n    <title>Poc2go Builder</title>\n    {{{page.style}}}\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Node-red flows a web server</h2>\n                        <p class=\"lead\">Check out the {{#showpages}}pages{{/showpages}}{{^showpages}}posts{{/showpages}} below!</p>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over blog posts and render them -->\n                            <div class=\"list-group\">\n                                {{#posts}}\n                                    <a href=\"/build/posts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      {{#webpage}}<img align=\"left\" src=\"../images/post.png\" width=\"16px\">{{/webpage}}\n                                      <h4 class=\"list-group-item-heading\" style=\"float: left;\">{{{marked.title}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{author}}} (<i>{{marked.lastupdated}}</i>) {{marked.commenttext}}\n                                      </p>\n                                    </a>\n                                {{/posts}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n    {{{page.vendors}}}{{{page.scripts}}}\n    <script>\n    $(document).ready(function() {\n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n<title>{{{config.casual.sitename}}}</title>\n{{{page.style}}}\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"first-carousel-title\" class=\"text-shadow\"></h3>\n                <div id=\"first-carousel-body\"></div>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"second-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"second-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"third-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"third-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">{{{config.casual.sitename}}}</h1>\n          <div class=\"text-heading text-muted text-lg\">By\n            <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 id=\"worth-visiting-title\" class=\"text-center text-lg text-uppercase my-0\">Build a website <strong>worth visiting</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"img/intro-pic.jpg\" alt=\"\">\n            <div id=\"worth-visiting-body\"></div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n    \n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n        $(function () {\n            getAjaxBlogPost('casual-first-slide', function(post){\n                $('#first-carousel-title').html(Mustache.render(converter.makeHtml(post.title)));            \n                $('#first-carousel-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n            });\n            getAjaxBlogPost('casual-second-slide', function(post){\n                $('#second-carousel-title').html(Mustache.render(converter.makeHtml(post.title)));            \n                $('#second-carousel-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n            });\n            getAjaxBlogPost('casual-third-slide', function(post){\n                $('#third-carousel-title').html(Mustache.render(converter.makeHtml(post.title)));            \n                $('#third-carousel-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n            });\n            getAjaxBlogPost('from-the-bottom', function(post){\n                $('#worth-visiting-title').html(Mustache.render(converter.makeHtml(post.title)));            \n                $('#worth-visiting-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n            });\n            \n            $('#worth-visiting-body').click(function(e){\n                if (/\\/casual\\//.test(e.target.pathname) || /\\/posts\\//.test(e.target.pathname)) {\n                    e.preventDefault();\n                    $.ajax({\n                        type: \"GET\",\n                        url: e.target.pathname.replace(/\\/casual\\//, '/posts/'),\n                        success: function(post) {\n                            $('#worth-visiting-title').html(Mustache.render(converter.makeHtml(post.title)));            \n                            $('#worth-visiting-body').html(Mustache.render(converter.makeHtml(post.body + '\\n' + post.locallinks), post.context));            \n                        },\n                        error: function() {\n                            alert(\"Get post \" + postid + \" error\");\n                        }\n                    });\n                }\n            });\n        });\n        \n    </script>\n\n</body>\n</html>\n",
         "output": "str",
-        "x": 650,
+        "x": 610,
         "y": 100,
         "wires": [
             [
@@ -1652,10 +1593,100 @@
         "id": "784d3d9a.1ddab4",
         "type": "comment",
         "z": "288944c7.a1ceec",
-        "name": "Blog home page",
+        "name": "Site home page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
         "x": 880,
         "y": 100,
         "wires": []
+    },
+    {
+        "id": "2a59651e.71538a",
+        "type": "subflow:99dcc10f.77084",
+        "z": "ecf7de04.053ad",
+        "x": 590,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38cc8f60.b84ca",
+        "type": "http in",
+        "z": "288944c7.a1ceec",
+        "name": "",
+        "url": "/casual/blog",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "84d57a2d.b74688"
+            ]
+        ]
+    },
+    {
+        "id": "84d57a2d.b74688",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "288944c7.a1ceec",
+        "name": "",
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "a373335b.3fdc8"
+            ]
+        ]
+    },
+    {
+        "id": "a373335b.3fdc8",
+        "type": "template",
+        "z": "288944c7.a1ceec",
+        "name": "blog",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n  <head>\n\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <meta name=\"description\" content=\"\">\n    <meta name=\"author\" content=\"\">\n\n    <title>{{{config.casual.sitename}}}</title>\n\n    {{{page.style}}}\n  </head>\n\n  <body>\n\n    <div class=\"tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block\">{{{config.casual.sitename}}}</div>\n    <div class=\"tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block\">{{{config.casual.sitesubname}}}</div>\n\n    <!-- Navigation -->\n    <nav class=\"navbar navbar-expand-lg navbar-light bg-faded py-lg-4\">\n      <div class=\"container\">\n        <a class=\"navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none\" href=\"#\">Start Bootstrap</a>\n        <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n          <span class=\"navbar-toggler-icon\"></span>\n        </button>\n        <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n          <ul class=\"navbar-nav mx-auto\">\n            <li class=\"nav-item active px-lg-4\">\n              <a class=\"nav-link text-uppercase text-expanded\" href=\"index.html\">Home\n                <span class=\"sr-only\">(current)</span>\n              </a>\n            </li>\n            <li class=\"nav-item px-lg-4\">\n              <a class=\"nav-link text-uppercase text-expanded\" href=\"about.html\">About</a>\n            </li>\n            <li class=\"nav-item px-lg-4\">\n              <a class=\"nav-link text-uppercase text-expanded\" href=\"blog.html\">Blog</a>\n            </li>\n            <li class=\"nav-item px-lg-4\">\n              <a class=\"nav-link text-uppercase text-expanded\" href=\"contact.html\">Contact</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </nav>\n\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 class=\"text-shadow\">First Slide</h3>\n                <p class=\"text-shadow\">This is the caption for the first slide.</p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 class=\"text-shadow\">Second Slide</h3>\n                <p class=\"text-shadow\">This is the caption for the second slide.</p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 class=\"text-shadow\">Third Slide</h3>\n                <p class=\"text-shadow\">This is the caption for the third slide.</p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">Business Casual</h1>\n          <div class=\"text-heading text-muted text-lg\">By\n            <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Build a website\n          <strong>worth visitng</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"img/intro-pic.jpg\" alt=\"\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit totam libero expedita magni est delectus pariatur aut, aperiam eveniet velit cum possimus, autem voluptas. Eum qui ut quasi voluptate blanditiis?</p>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    <footer class=\"bg-faded text-center py-5\">\n      <div class=\"container\">\n        <p class=\"m-0\">Copyright &copy; Your Website 2017</p>\n      </div>\n    </footer>\n\n  </body>\n\n</html>\n",
+        "output": "str",
+        "x": 610,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f95ac9b.e3c9a3",
+        "type": "template",
+        "z": "f7bd7a0f.809288",
+        "name": "Functions",
+        "field": "page.functions",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<script>\nfunction getAjaxBlogPost(postid, cb) {\n    $.ajax({\n        type: \"GET\",\n        url: '/posts/' + postid,\n        success: function(post) {\n            cb(post);\n        },\n        error: function() {\n            alert(\"Get post \" + postid + \" error\");\n        }\n    });\n}\n\nfunction postFormAjax(e, formId, url) {\n    var datastring = $(formId).serialize();\n    $.ajax({\n        type: \"POST\",\n        url: url,\n        data: datastring,\n        success: function(payload) {\n            window.location = payload.nextpage;\n        },\n        error: function() {\n            alert(\"New comment submit error\");\n            window.location = payload.nextpage;\n        }\n    });\n    e.preventDefault(); // prevent default submit behavior\n}\n\n<!-- Showdown code highlight script -->\n\nshowdown.extension('codehighlight', function() {\n  function htmlunencode(text) {\n    return (\n      text\n        .replace(/&amp;/g, '&')\n        .replace(/&lt;/g, '<')\n        .replace(/&gt;/g, '>')\n      );\n  }\n  return [\n    {\n      type: 'output',\n      filter: function (text, converter, options) {\n        // use new shodown's regexp engine to conditionally parse codeblocks\n        var left  = '<pre><code\\\\b[^>]*>',\n            right = '</code></pre>',\n            flags = 'g',\n            replacement = function (wholeMatch, match, left, right) {\n              // unescape match to prevent double escaping\n              match = htmlunencode(match);\n              return left + hljs.highlightAuto(match).value + right;\n            };\n        return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n      }\n    }\n  ];\n});\n\nvar converter;\n$(function () {\n    $('pre code').addClass('hljs');\n    showdown.setFlavor('github');\n    converter = new showdown.Converter({ extensions: ['codehighlight'] });\n});\n</script>\n\n",
+        "output": "str",
+        "x": 480,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c7290a57.980b38",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Select post data",
+        "func": "global.get(\"db\").getPosts(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "e4253f74.b6de1"
+            ]
+        ]
     }
 ]
