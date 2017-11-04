@@ -1,78 +1,23 @@
 'use strict'
 
 // {{{Modules}}}
-const
-    fs = require('fs-extra'),
-    moment = require('moment'),
-    showdown = require('showdown'),
-    striptags = require('striptags');
-
-// {{{Markup}}}
-var
-    converter = new showdown.Converter();
-    converter.setFlavor('github');
-    converter.setOption('parseImgDimensions', true); // Allow sizing of images
-
-// {{{Presentation Logic}}}
-// Markup text
-function markDown(text) {
-  return converter.makeHtml(text);
-}
-
-// Remove HTML tags
-function stripHtmlTags(text) {
-  return striptags(text);
-}
-
-// Few seconds ago, a minute ago, etc.
-function timeText(post) {
-  return moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
-}
-function timeTextComment(comment) {
-  return moment.utc(comment.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow();
-}
-
-function markMetaData(post) {
-  post.comments = post.comments || [];
-  post.comments.forEach(comment => {
-    comment.marked = {
-      body: markDown(comment.body),
-      lastupdated: timeTextComment(comment)
-    };
-  });
-  return {
-    striptitle: stripHtmlTags(markDown(post.title)),
-    title: markDown(post.title),
-    author: markDown(post.author),
-    lastupdated: timeText(post)
-  };
-}
+const fs = require('fs-extra');
 
 // {{{Business Logic}}}
 // Check if a postId was given in the HTTP request
-function idPosted(msg) {
-  return msg.req && msg.req.params && msg.req.params.postId;
-}
+function idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}
 
 // Sort by id ascending
-function byId(a,b) {
-  if (a.id < b.id) return -1;
-  if (a.id > b.id) return 1;
-  return 0;
-}
+function byId(a,b) {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;}
 
 // Sort by update date descending
-function byDate(a,b) {
-  if (a.updated < b.updated) return 1;
-  if (a.updated > b.updated) return -1;
-  return 0;
-}
+function byDate(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;}
 
 // {{{Database storage}}}
 // Placeholder for path to JSON file database
 var postStore = '';
 
-// Load the blog data
+// Read blog posts data
 function loadPosts() {
   // A single blog post placeholder in case can't read the data
   var data = [{
@@ -82,7 +27,7 @@ function loadPosts() {
     title: 'New post DB',
     author: 'First post',
     body: '**' + postStore + '** created',
-    updated: moment.utc()
+    updated: new Date().toISOString()
   }];
 
   try {
@@ -95,18 +40,8 @@ function loadPosts() {
 
 // Write blog posts data
 function storePosts() {
-    // Remove unwanted work fields
-    database.posts.forEach(post => {
-      delete post.marked;
-      if (post.comments) {
-        post.comments.forEach(comment => {
-          delete comment.marked;
-        });
-      }
-    });
-
-    fs.writeJsonSync(postStore, database.posts, {spaces: 2});
-  }
+  fs.writeJsonSync(postStore, database.posts, {spaces: 2});
+}
 
 // {{{Database}}}
 var database = {
@@ -117,23 +52,13 @@ var database = {
     // When a single post requested - return in msg.post
     if (idPosted(msg)) {
         msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));
-        if (msg.post) {
-          msg.post.marked = markMetaData(msg.post);
-          /*
-          msg.post.marked.jsonbody = JSON.stringify((msg.post.body + 
-              (msg.post.locallinks ? ('\n' + msg.post.locallinks) : '') + 
-              (msg.postFooter ? ('\n' + msg.postFooter) : '')).replace(/\/\/\s*\{\{/g, '\{\{')),
-          msg.post.marked.jsoncontext = msg.post.context ? '{' + msg.post.context + '}' : '{}';
-          */
-        }
     } // When ALL posts requested - return list in msg.posts (note the 's')
     else {
-        msg.posts = [];
-        database.posts.forEach((post) => {
-          post.marked = markMetaData(post);
-          msg.posts.push(post);
-        });
-        msg.posts.sort(byDate);
+      msg.posts = [];
+      database.posts.forEach((post) => {
+        msg.posts.push(post);
+      });
+      msg.posts.sort(byDate);
     }
     return msg;
   },
@@ -143,7 +68,7 @@ var database = {
     // Get largest id from database (+ 1) and push new post to DB
     var lastId = Math.max.apply(null, database.posts.map(post => post.id));
     msg.payload.id = lastId+1;
-    msg.payload.updated = moment().toISOString();
+    msg.payload.updated = new Date().toISOString();
     database.posts.push(msg.payload);
     storePosts();
 
@@ -160,7 +85,7 @@ var database = {
       var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));
       if (idx > -1) {
         msg.payload.id = database.posts[idx].id; // insure id is a number
-        msg.payload.updated = moment().toISOString();
+        msg.payload.updated = new Date().toISOString();
         msg.payload.comments = database.posts[idx].comments || [] ;
         database.posts[idx] = msg.payload;
         storePosts();
@@ -195,7 +120,7 @@ var database = {
           lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));
         }
         msg.payload.id = lastId + 1;
-        msg.payload.updated = moment().toISOString();
+        msg.payload.updated = new Date().toISOString();
         msg.payload.approved = false;
         database.posts[idx].comments.unshift(msg.payload);
         storePosts();
