@@ -17,6 +17,6 @@
     "fs-extra": "^4.0.2",
     "moment": "^2.18.1",
     "node-red": "^0.17.5",
-    "node-red-embedded-start": "^0.1.4",
+    "node-red-embedded-start": "^0.1.4"
   }
 }
