@@ -7,15 +7,9 @@ const fs = require('fs-extra');
 // Check if a postId was given in the HTTP request
 function idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}
 
-// Sort by id ascending
-function byId(a,b) {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;}
-
-// Sort by update date descending
-function byDate(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;}
-
 // {{{Database storage}}}
 // Placeholder for path to JSON file database
-var postStore = '';
+var dbStore = '';
 
 // Read blog posts data
 function loadPosts() {
@@ -26,21 +20,22 @@ function loadPosts() {
     striptitle: 'New post DB',
     title: 'New post DB',
     author: 'First post',
-    body: '**' + postStore + '** created',
+    body: '**' + dbStore + '** created',
     updated: new Date().toISOString()
   }];
 
   try {
-    data = fs.readJsonSync(postStore);
+    data = fs.readJsonSync(dbStore);
   } catch(e){}
 
-  database.posts.sort(byId);
+  // Storage of records will be by id ascending
+  data.sort((a,b) => {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;});
   return data;
 }
 
 // Write blog posts data
 function storePosts() {
-  fs.writeJsonSync(postStore, database.posts, {spaces: 2});
+  fs.writeJsonSync(dbStore, database.posts, {spaces: 2});
 }
 
 // {{{Database}}}
@@ -58,7 +53,6 @@ var database = {
       database.posts.forEach((post) => {
         msg.posts.push(post);
       });
-      msg.posts.sort(byDate);
     }
     return msg;
   },
@@ -71,11 +65,6 @@ var database = {
     msg.payload.updated = new Date().toISOString();
     database.posts.push(msg.payload);
     storePosts();
-
-    // Make this new id the http req paramater
-    if (msg.req && msg.req.params) {
-      msg.req.params.postId = msg.payload.id.toString();
-    }
     return msg;
   },
 
@@ -138,14 +127,12 @@ var database = {
       req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);
     }
   }
-
 };
 
 // {{{Module entry}}}
-module.exports = function(postStorePath) {
+module.exports = (dbStorePath) => {
   // Load blog posts from file
-  postStore = postStorePath;
+  dbStore = dbStorePath;
   database.posts = loadPosts();
   return database;
 };
-

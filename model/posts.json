@@ -5,7 +5,8 @@
     "author": "John",
     "body": "Blog post number 2!\r\n\r\nThis is [an example](http://example.com/ \"Title\") inline link.\r\n\r\n",
     "updated": "2017-09-25T04:11:10.802Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 6,
@@ -16,7 +17,8 @@
     "locallinks": "[Would You Like to Know More?]: https://www.youtube.com/watch?v=kdrjzE1SE58\r\n[Ace]: https://ace.c9.io/\r\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\r\n[BootStrap]: http://getbootstrap.com/\r\n[Business]: https://en.wikipedia.org/wiki/Business_logic\r\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\r\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\r\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[data flows]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[expressjs]: https://expressjs.com/\r\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[framework]: https://en.wikipedia.org/wiki/Software_framework\r\n[GitHub]: https://github.com/node-red\r\n[HTML]: https://en.wikipedia.org/wiki/HTML\r\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\r\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\r\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\r\n[JS Foundation]: https://js.foundation/community/projects\r\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\r\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\r\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\r\n[Mustache]: https://mustache.github.io/\r\n[mustache template engine]: https://mustache.github.io/\r\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\r\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\r\n[Node-Red]: https://nodered.org/\r\n[Node.js]: https://nodejs.org/\r\n[Node-RED flows]: https://nodered.org/docs/getting-started/first-flow\r\n[nodes]: https://nodered.org/docs/creating-nodes/\r\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\r\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\r\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\r\n[REST]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[Showdown]: https://github.com/showdownjs/showdown/wiki\r\n",
     "context": "{}",
     "updated": "2017-11-04T18:40:59.882Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 8,
@@ -28,7 +30,8 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-24T14:37:24.221Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 9,
@@ -36,7 +39,8 @@
     "author": "Kim",
     "body": "Test the db change too 2\r\n",
     "updated": "2017-09-25T04:04:11.059Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 10,
@@ -45,7 +49,8 @@
     "webpage": "yes",
     "body": "this is a web page cool",
     "updated": "2017-09-25T05:03:01.596Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 11,
@@ -53,7 +58,8 @@
     "author": "Kim",
     "body": "This is so new! cool",
     "updated": "2017-10-15T11:28:49.684Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 12,
@@ -65,7 +71,8 @@
     "context": "{}",
     "updated": "2017-10-29T11:21:57.617Z",
     "comments": [],
-    "result": "success"
+    "result": "success",
+    "type": "post"
   },
   {
     "id": 14,
@@ -75,7 +82,8 @@
     "body": "![](../images/design.jpg =80x*)\r\nThis is cooler\r\n\r\n - [x] This task is done\r\n - [ ] This is still pending\r\n\r\n<img src=\"/favicon.ico\" width=\"32\">\r\n\r\n![bar](/favicon.ico =64x*)\r\n![bar](/favicon.ico =128x*)\r\n\r\n",
     "updated": "2017-10-15T13:37:03.546Z",
     "links": "[\"Would You Like to Know More?\"]: https://www.youtube.com/watch?v=kdrjzE1SE58\n[Ace]: https://ace.c9.io/\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\n[BootStrap]: http://getbootstrap.com/\n[Business]: https://en.wikipedia.org/wiki/Business_logic\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\n[expressjs]: https://expressjs.com/\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\n[GitHub]: https://github.com/node-red\n[HTML]: https://en.wikipedia.org/wiki/HTML\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\n[JS Foundation]: https://js.foundation/community/projects\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\n[Mustache]: https://mustache.github.io/\n[mustache template engine]: https://mustache.github.io/\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\n[Node-Red]: https://nodered.org/\n[Node.js]: https://nodejs.org/\n[nodes]: https://nodered.org/docs/creating-nodes/\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[Showdown]: https://github.com/showdownjs/showdown/wiki\n",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 15,
@@ -88,7 +96,8 @@
     "updated": "2017-11-03T23:08:32.377Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/the-last-time-test2-2"
+    "nextpage": "/build/posts/the-last-time-test2-2",
+    "type": "post"
   },
   {
     "id": 16,
@@ -102,7 +111,8 @@
     "updated": "2017-11-03T04:06:51.533Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/what-is-node-red"
+    "nextpage": "/build/posts/what-is-node-red",
+    "type": "post"
   },
   {
     "id": 17,
@@ -116,7 +126,8 @@
     "updated": "2017-11-03T03:51:54.667Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/site-usage"
+    "nextpage": "/build/posts/site-usage",
+    "type": "post"
   },
   {
     "id": 18,
@@ -125,7 +136,8 @@
     "slug": "site-web-page-flows",
     "body": "Site Web Page Flows\r\n",
     "updated": "2017-10-17T04:47:59.614Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 19,
@@ -138,28 +150,33 @@
     "updated": "2017-11-04T18:52:59.520Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/node-red-host-server"
+    "nextpage": "/build/posts/node-red-host-server",
+    "type": "post"
   },
   {
     "id": 20,
     "title": "<i class=\"fa fa-gears\"></i> New stuff",
     "author": "PotOfCoffee2Go",
     "slug": "new-stuff",
-    "body": "This is some new stuff\r\n\r\n\r\n[Node-RED]\r\n\r\n[Local]\r\n\r\n```html\r\n<a href=\"ff\" >{{hi}}</a>\r\n\r\n<a href=\"ff\" >{{testit}}</a>\r\n\r\n\r\n```\r\n\r\n",
+    "type": "post",
+    "body": "This is some new stuff\r\n\r\n\r\n[Node-RED]\r\n\r\n[Local]\r\n\r\n```html\r\n<a href=\"ff\" >{{hi}}</a>\r\n\r\n<a href=\"ff\" >{{testit}}</a>\r\n\r\nhi me\r\n\r\n```\r\n\r\n",
     "locallinks": "[Local]: http://www.example.com\r\n",
     "context": "{\r\n    \"testit\": \"see my stuff\",\r\n    \"hi\": \"hi their!\"\r\n}\r\n",
-    "updated": "2017-11-03T23:41:55.450Z",
-    "comments": []
+    "updated": "2017-11-05T18:42:44.523Z",
+    "comments": [],
+    "result": "success",
+    "nextpage": "/build/posts/new-stuff"
   },
   {
     "id": 22,
     "title": "Blog Database",
     "author": "PotOfCoffee2Go",
     "slug": "blog-database",
-    "body": "<a href=\"/code/database.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n\r\n'use strict'\r\n\r\n// {{{Modules}}}\r\nconst\r\n    fs = require('fs-extra');\r\n\r\n// {{{Business Logic}}}\r\n// Check if a postId was given in the HTTP request\r\nfunction idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}\r\n\r\n// Sort by id ascending\r\nfunction byId(a,b) {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;}\r\n\r\n// Sort by update date descending\r\nfunction byDate(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;}\r\n\r\n// {{{Database storage}}}\r\n// Placeholder for path to JSON file database\r\nvar postStore = '';\r\n\r\n// Load the blog data\r\nfunction loadPosts() {\r\n  // A single blog post placeholder in case can't read the data\r\n  var data = [{\r\n    id: 1,\r\n    slug: 'New-post-DB',\r\n    striptitle: 'New post DB',\r\n    title: 'New post DB',\r\n    author: 'First post',\r\n    body: '**' + postStore + '** created',\r\n    updated: new Date().toISOString()\r\n  }];\r\n\r\n  try {\r\n    data = fs.readJsonSync(postStore);\r\n  } catch(e){}\r\n\r\n  database.posts.sort(byId);\r\n  return data;\r\n}\r\n\r\n// Write blog posts data\r\nfunction storePosts() {\r\n    fs.writeJsonSync(postStore, database.posts, {spaces: 2});\r\n  }\r\n\r\n// {{{Database}}}\r\nvar database = {\r\n  // Placeholder for array of blog post data\r\n  posts: [], \r\n  // {{{Get all or single blog post}}}\r\n  getPosts: (msg) => {\r\n    // When a single post requested - return in msg.post\r\n    if (idPosted(msg)) {\r\n        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));\r\n    } // When ALL posts requested - return list in msg.posts (note the 's')\r\n    else {\r\n      msg.posts = [];\r\n      database.posts.forEach((post) => {\r\n        msg.posts.push(post);\r\n      });\r\n      msg.posts.sort(byDate);\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Add a blog post}}}\r\n  newPost: (msg) => {\r\n    // Get largest id from database (+ 1) and push new post to DB\r\n    var lastId = Math.max.apply(null, database.posts.map(post => post.id));\r\n    msg.payload.id = lastId+1;\r\n    msg.payload.updated = new Date().toISOString();\r\n    database.posts.push(msg.payload);\r\n    storePosts();\r\n\r\n    // Make this new id the http req paramater\r\n    if (msg.req && msg.req.params) {\r\n      msg.req.params.postId = msg.payload.id.toString();\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Update a blog post}}}\r\n  updatePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload.id = database.posts[idx].id; // insure id is a number\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.comments = database.posts[idx].comments || [] ;\r\n        database.posts[idx] = msg.payload;\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Delete a blog post}}}\r\n  deletePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy\r\n        database.posts.splice(idx, 1); // Remove the post\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n  \r\n  // {{{Add a comment}}}\r\n  newComment: (msg) => {\r\n    var lastId = 0;\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {\r\n          database.posts[idx].comments = [];\r\n        }\r\n        else {\r\n          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));\r\n        }\r\n        msg.payload.id = lastId + 1;\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.approved = false;\r\n        database.posts[idx].comments.unshift(msg.payload);\r\n        storePosts();\r\n        msg.payload = database.posts[idx]; // return complete blog post\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Replace slug}}}\r\n  permalink: (req) => {\r\n    var post = database.posts.find(perm => perm.slug === req.params.slug);\r\n    if (post) {\r\n      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);\r\n      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);\r\n    }\r\n  }\r\n\r\n};\r\n\r\n// {{{Module entry}}}\r\nmodule.exports = function(postStorePath) {\r\n  // Load blog posts from file\r\n  postStore = postStorePath;\r\n  database.posts = loadPosts();\r\n  return database;\r\n};\r\n\r\n\r\n\r\n```",
+    "type": "page",
+    "body": "<a href=\"/code/database.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n\r\n'use strict'\r\n\r\n// {{{Modules}}}\r\nconst fs = require('fs-extra');\r\n\r\n// {{{Business Logic}}}\r\n// Check if a postId was given in the HTTP request\r\nfunction idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}\r\n\r\n// {{{Database storage}}}\r\n// Placeholder for path to JSON file database\r\nvar dbStore = '';\r\n\r\n// Read blog posts data\r\nfunction loadPosts() {\r\n  // A single blog post placeholder in case can't read the data\r\n  var data = [{\r\n    id: 1,\r\n    slug: 'New-post-DB',\r\n    striptitle: 'New post DB',\r\n    title: 'New post DB',\r\n    author: 'First post',\r\n    body: '**' + dbStore + '** created',\r\n    updated: new Date().toISOString()\r\n  }];\r\n\r\n  try {\r\n    data = fs.readJsonSync(dbStore);\r\n  } catch(e){}\r\n\r\n  // Storage of records will be by id ascending\r\n  data.sort((a,b) => {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;});\r\n  return data;\r\n}\r\n\r\n// Write blog posts data\r\nfunction storePosts() {\r\n  fs.writeJsonSync(dbStore, database.posts, {spaces: 2});\r\n}\r\n\r\n// {{{Database}}}\r\nvar database = {\r\n  // Placeholder for array of blog post data\r\n  posts: [], \r\n  // {{{Get all or single blog post}}}\r\n  getPosts: (msg) => {\r\n    // When a single post requested - return in msg.post\r\n    if (idPosted(msg)) {\r\n        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));\r\n    } // When ALL posts requested - return list in msg.posts (note the 's')\r\n    else {\r\n      msg.posts = [];\r\n      database.posts.forEach((post) => {\r\n        msg.posts.push(post);\r\n      });\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Add a blog post}}}\r\n  newPost: (msg) => {\r\n    // Get largest id from database (+ 1) and push new post to DB\r\n    var lastId = Math.max.apply(null, database.posts.map(post => post.id));\r\n    msg.payload.id = lastId+1;\r\n    msg.payload.updated = new Date().toISOString();\r\n    database.posts.push(msg.payload);\r\n    storePosts();\r\n    return msg;\r\n  },\r\n\r\n  // {{{Update a blog post}}}\r\n  updatePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload.id = database.posts[idx].id; // insure id is a number\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.comments = database.posts[idx].comments || [] ;\r\n        database.posts[idx] = msg.payload;\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Delete a blog post}}}\r\n  deletePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy\r\n        database.posts.splice(idx, 1); // Remove the post\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n  \r\n  // {{{Add a comment}}}\r\n  newComment: (msg) => {\r\n    var lastId = 0;\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {\r\n          database.posts[idx].comments = [];\r\n        }\r\n        else {\r\n          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));\r\n        }\r\n        msg.payload.id = lastId + 1;\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.approved = false;\r\n        database.posts[idx].comments.unshift(msg.payload);\r\n        storePosts();\r\n        msg.payload = database.posts[idx]; // return complete blog post\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Replace slug}}}\r\n  permalink: (req) => {\r\n    var post = database.posts.find(perm => perm.slug === req.params.slug);\r\n    if (post) {\r\n      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);\r\n      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);\r\n    }\r\n  }\r\n};\r\n\r\n// {{{Module entry}}}\r\nmodule.exports = (dbStorePath) => {\r\n  // Load blog posts from file\r\n  dbStore = dbStorePath;\r\n  database.posts = loadPosts();\r\n  return database;\r\n};\r\n\r\n\r\n```",
     "locallinks": "",
     "context": "{\r\n    \"Modules\": \"<hr><h5><i class=\\\"fa fa-gears\\\"></i><span class=\\\"text-primary\\\"> Modules</span></h5>\",\r\n    \"Business Logic\": \"<hr><h5><i class=\\\"fa fa-building-o\\\"></i><span class=\\\"text-primary\\\"> Business Logic</span></h5>\",\r\n    \"Database storage\": \"<hr><h5><i class=\\\"fa fa-folder-o\\\"></i><span class=\\\"text-primary\\\"> Database storage</span></h5>\",\r\n    \"Database\": \"<hr><h5><i class=\\\"fa fa-database\\\"></i><span class=\\\"text-primary\\\"> Database</span></h5>\",\r\n    \"Get all or single blog post\": \"<hr><h6><i class=\\\"fa fa-file-text-o\\\"></i><span class=\\\"text-primary\\\"> Get all or single blog post</span></h6>\",\r\n    \"Add a blog post\": \"<hr><h6><i class=\\\"fa fa-object-group\\\"></i><span class=\\\"text-primary\\\"> Add a blog post</span></h6>\",\r\n    \"Update a blog post\": \"<hr><h6><i class=\\\"fa fa-clipboard\\\"></i><span class=\\\"text-primary\\\"> Update a blog post</span></h6>\",\r\n    \"Delete a blog post\": \"<hr><h6><i class=\\\"fa fa-cut\\\"></i><span class=\\\"text-primary\\\"> Delete a blog post</span></h6>\",\r\n    \"Replace slug\": \"<hr><h5><i class=\\\"fa fa-pencil-square-o\\\"></i><span class=\\\"text-primary\\\"> Replace slug in the url with the postId</span></h5>\",\r\n    \"Module entry\": \"<hr><h5><i class=\\\"fa fa-gear\\\"></i><span class=\\\"text-primary\\\"> Database module entry point</span></h5>\"\r\n}\r\n\r\n",
-    "updated": "2017-11-04T19:28:42.277Z",
+    "updated": "2017-11-05T19:16:24.658Z",
     "comments": []
   },
   {
@@ -171,7 +188,8 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-24T02:49:46.598Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 24,
@@ -182,7 +200,8 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-28T20:08:50.259Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 25,
@@ -212,7 +231,8 @@
       }
     ],
     "result": "success",
-    "nextpage": "/posts/new-flow-test"
+    "nextpage": "/posts/new-flow-test",
+    "type": "post"
   },
   {
     "id": 26,
@@ -225,7 +245,8 @@
     "updated": "2017-10-29T12:28:34.126Z",
     "result": "success",
     "nextpage": "/posts/newest-one",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 27,
@@ -236,7 +257,8 @@
     "locallinks": "[./server.js]: /build/posts/node-red-host-server\r\n[./model/database.js]: /build/posts/blog-database",
     "context": "{}",
     "updated": "2017-11-01T08:00:18.820Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 28,
@@ -247,7 +269,8 @@
     "locallinks": "[example]: http://www.example.com\r\n",
     "context": "{ \"test\": \"<b>this is a test</b>\" }",
     "updated": "2017-11-02T15:36:07.760Z",
-    "comments": []
+    "comments": [],
+    "type": "post"
   },
   {
     "id": 29,
@@ -260,7 +283,8 @@
     "updated": "2017-11-03T22:34:45.196Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/casual-first-slide"
+    "nextpage": "/build/posts/casual-first-slide",
+    "type": "post"
   },
   {
     "id": 30,
@@ -273,7 +297,8 @@
     "updated": "2017-11-03T05:18:35.206Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/casual-second-slide"
+    "nextpage": "/build/posts/casual-second-slide",
+    "type": "post"
   },
   {
     "id": 31,
@@ -286,7 +311,8 @@
     "updated": "2017-11-03T22:34:28.615Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/casual-third-slide"
+    "nextpage": "/build/posts/casual-third-slide",
+    "type": "post"
   },
   {
     "id": 32,
@@ -298,6 +324,25 @@
     "context": "{\r\n    \"somecontext\": \"Hi Me!!\"\r\n}",
     "updated": "2017-11-04T18:55:13.639Z",
     "result": "success",
-    "nextpage": "/build/posts/a-new-thing"
+    "nextpage": "/build/posts/a-new-thing",
+    "type": "post",
+    "comments": [
+      {
+        "id": 2,
+        "approved": false,
+        "author": "",
+        "email": "",
+        "body": "",
+        "updated": "2017-11-05T18:35:07.239Z"
+      },
+      {
+        "id": 1,
+        "approved": false,
+        "author": "",
+        "email": "",
+        "body": "",
+        "updated": "2017-11-05T17:55:56.787Z"
+      }
+    ]
   }
 ]
