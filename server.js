@@ -11,7 +11,7 @@ const
 const config = {
     port: 8081,
     homePage: '/build/posts/from-the-bottom',
-    dataStore: './model/posts.json',
+    dbStorePath: './model/posts.json',
 };
 
 // {{{Node-RED settings}}}
@@ -20,7 +20,7 @@ const nodered = {
         httpAdminRoot:"/red",     // node-RED flow editor 
         httpNodeRoot: "/",        // node 'http in' root directory
         functionGlobalContext: {  // enable function nodes to reference our modules/objects
-            db: require('./model/database')(config.dataStore) // Blog data store
+            db: require('./model/database')(config.dbStorePath) // Data store
         },
         userDir: path.resolve(__dirname, "node-red"), // Flow storage
         nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes

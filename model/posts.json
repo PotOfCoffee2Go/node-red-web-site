@@ -173,13 +173,11 @@
     "author": "PotOfCoffee2Go",
     "slug": "blog-database",
     "type": "post",
-    "body": "<a href=\"/code/database.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n\r\n'use strict'\r\n\r\n// {{{Modules}}}\r\nconst fs = require('fs-extra');\r\n\r\n// {{{Business Logic}}}\r\n// Check if a postId was given in the HTTP request\r\nfunction idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}\r\n\r\n// {{{Database storage}}}\r\n// Placeholder for path to JSON file database\r\nvar dbStore = '';\r\n\r\n// Read blog posts data\r\nfunction loadPosts() {\r\n  // A single blog post placeholder in case can't read the data\r\n  var data = [{\r\n    id: 1,\r\n    slug: 'New-post-DB',\r\n    striptitle: 'New post DB',\r\n    title: 'New post DB',\r\n    author: 'First post',\r\n    body: '**' + dbStore + '** created',\r\n    updated: new Date().toISOString()\r\n  }];\r\n\r\n  try {\r\n    data = fs.readJsonSync(dbStore);\r\n  } catch(e){}\r\n\r\n  // Storage of records will be by id ascending\r\n  data.sort((a,b) => {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;});\r\n  return data;\r\n}\r\n\r\n// Write blog posts data\r\nfunction storePosts() {\r\n  fs.writeJsonSync(dbStore, database.posts, {spaces: 2});\r\n}\r\n\r\n// {{{Database}}}\r\nvar database = {\r\n  // Placeholder for array of blog post data\r\n  posts: [], \r\n  // {{{Get all or single blog post}}}\r\n  getPosts: (msg) => {\r\n    // When a single post requested - return in msg.post\r\n    if (idPosted(msg)) {\r\n        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));\r\n    } // When ALL posts requested - return list in msg.posts (note the 's')\r\n    else {\r\n      msg.posts = [];\r\n      database.posts.forEach((post) => {\r\n        msg.posts.push(post);\r\n      });\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Add a blog post}}}\r\n  newPost: (msg) => {\r\n    // Get largest id from database (+ 1) and push new post to DB\r\n    var lastId = Math.max.apply(null, database.posts.map(post => post.id));\r\n    msg.payload.id = lastId+1;\r\n    msg.payload.updated = new Date().toISOString();\r\n    database.posts.push(msg.payload);\r\n    storePosts();\r\n    return msg;\r\n  },\r\n\r\n  // {{{Update a blog post}}}\r\n  updatePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload.id = database.posts[idx].id; // insure id is a number\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.comments = database.posts[idx].comments || [] ;\r\n        database.posts[idx] = msg.payload;\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Delete a blog post}}}\r\n  deletePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy\r\n        database.posts.splice(idx, 1); // Remove the post\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n  \r\n  // {{{Add a comment}}}\r\n  newComment: (msg) => {\r\n    var lastId = 0;\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {\r\n          database.posts[idx].comments = [];\r\n        }\r\n        else {\r\n          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));\r\n        }\r\n        msg.payload.id = lastId + 1;\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.approved = false;\r\n        database.posts[idx].comments.unshift(msg.payload);\r\n        storePosts();\r\n        msg.payload = database.posts[idx]; // return complete blog post\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Replace slug}}}\r\n  permalink: (req) => {\r\n    var post = database.posts.find(perm => perm.slug === req.params.slug);\r\n    if (post) {\r\n      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);\r\n      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);\r\n    }\r\n  }\r\n};\r\n\r\n// {{{Module entry}}}\r\nmodule.exports = (dbStorePath) => {\r\n  // Load blog posts from file\r\n  dbStore = dbStorePath;\r\n  database.posts = loadPosts();\r\n  return database;\r\n};\r\n\r\n\r\n```",
+    "body": "This project is but-yet-another-blog-site which contains pages and posts describing techniques using [Node-RED] to handle the [process and data flow] control of HTTP requests to [node.js] applications. A combination of [Node-RED] and [node.js] modules are used to implement the site. Web pages and [RESTful] interface are implemented using [Node-RED] flows.\r\n\r\nThe focus has been to create a software framework to implement HTML and REST access to single-board [Internet of Things (IoT)] hardware.\r\n\r\n<a href=\"/code/database.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n\r\n'use strict'\r\n\r\n// {{{Modules}}}\r\nconst fs = require('fs-extra');\r\n\r\n// {{{Business Logic}}}\r\n// Check if a postId was given in the HTTP request\r\nfunction idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}\r\n\r\n// {{{Database storage}}}\r\n// Placeholder for path to JSON file database\r\nvar dbStore = '';\r\n\r\n// Read blog posts data\r\nfunction loadPosts() {\r\n  // A single blog post placeholder in case can't read the data\r\n  var data = [{\r\n    id: 1,\r\n    slug: 'New-post-DB',\r\n    striptitle: 'New post DB',\r\n    title: 'New post DB',\r\n    author: 'First post',\r\n    body: '**' + dbStore + '** created',\r\n    updated: new Date().toISOString()\r\n  }];\r\n\r\n  try {\r\n    data = fs.readJsonSync(dbStore);\r\n  } catch(e){}\r\n\r\n  // Storage of records will be by id ascending\r\n  data.sort((a,b) => {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;});\r\n  return data;\r\n}\r\n\r\n// Write blog posts data\r\nfunction storePosts() {\r\n  fs.writeJsonSync(dbStore, database.posts, {spaces: 2});\r\n}\r\n\r\n// {{{Database}}}\r\nvar database = {\r\n  // Placeholder for array of blog post data\r\n  posts: [], \r\n  // {{{Get all or single blog post}}}\r\n  getPosts: (msg) => {\r\n    // When a single post requested - return in msg.post\r\n    if (idPosted(msg)) {\r\n        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));\r\n    } // When ALL posts requested - return list in msg.posts (note the 's')\r\n    else {\r\n      msg.posts = [];\r\n      database.posts.forEach((post) => {\r\n        msg.posts.push(post);\r\n      });\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Add a blog post}}}\r\n  newPost: (msg) => {\r\n    // Get largest id from database (+ 1) and push new post to DB\r\n    var lastId = Math.max.apply(null, database.posts.map(post => post.id));\r\n    msg.payload.id = lastId+1;\r\n    msg.payload.updated = new Date().toISOString();\r\n    database.posts.push(msg.payload);\r\n    storePosts();\r\n    return msg;\r\n  },\r\n\r\n  // {{{Update a blog post}}}\r\n  updatePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload.id = database.posts[idx].id; // insure id is a number\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.comments = database.posts[idx].comments || [] ;\r\n        database.posts[idx] = msg.payload;\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Delete a blog post}}}\r\n  deletePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy\r\n        database.posts.splice(idx, 1); // Remove the post\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n  \r\n  // {{{Add a comment}}}\r\n  newComment: (msg) => {\r\n    var lastId = 0;\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {\r\n          database.posts[idx].comments = [];\r\n        }\r\n        else {\r\n          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));\r\n        }\r\n        msg.payload.id = lastId + 1;\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.approved = false;\r\n        database.posts[idx].comments.unshift(msg.payload);\r\n        storePosts();\r\n        msg.payload = database.posts[idx]; // return complete blog post\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Replace slug}}}\r\n  permalink: (req) => {\r\n    var post = database.posts.find(perm => perm.slug === req.params.slug);\r\n    if (post) {\r\n      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);\r\n      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);\r\n    }\r\n  }\r\n};\r\n\r\n// {{{Module entry}}}\r\nmodule.exports = (dbStorePath) => {\r\n  // Load blog posts from file\r\n  dbStore = dbStorePath;\r\n  database.posts = loadPosts();\r\n  return database;\r\n};\r\n\r\n\r\n```",
     "locallinks": "",
     "context": "{\r\n    \"Modules\": \"<hr><h5><i class=\\\"fa fa-gears\\\"></i><span class=\\\"text-primary\\\"> Modules</span></h5>\",\r\n    \"Business Logic\": \"<hr><h5><i class=\\\"fa fa-building-o\\\"></i><span class=\\\"text-primary\\\"> Business Logic</span></h5>\",\r\n    \"Database storage\": \"<hr><h5><i class=\\\"fa fa-folder-o\\\"></i><span class=\\\"text-primary\\\"> Database storage</span></h5>\",\r\n    \"Database\": \"<hr><h5><i class=\\\"fa fa-database\\\"></i><span class=\\\"text-primary\\\"> Database</span></h5>\",\r\n    \"Get all or single blog post\": \"<hr><h6><i class=\\\"fa fa-file-text-o\\\"></i><span class=\\\"text-primary\\\"> Get all or single blog post</span></h6>\",\r\n    \"Add a blog post\": \"<hr><h6><i class=\\\"fa fa-object-group\\\"></i><span class=\\\"text-primary\\\"> Add a blog post</span></h6>\",\r\n    \"Update a blog post\": \"<hr><h6><i class=\\\"fa fa-clipboard\\\"></i><span class=\\\"text-primary\\\"> Update a blog post</span></h6>\",\r\n    \"Delete a blog post\": \"<hr><h6><i class=\\\"fa fa-cut\\\"></i><span class=\\\"text-primary\\\"> Delete a blog post</span></h6>\",\r\n    \"Add a comment\": \"<hr><h6><i class=\\\"fa fa-object-group\\\"></i><span class=\\\"text-primary\\\"> Add a comment to a post</span></h6>\",\r\n    \"Replace slug\": \"<hr><h5><i class=\\\"fa fa-pencil-square-o\\\"></i><span class=\\\"text-primary\\\"> Replace slug in the url with the postId</span></h5>\",\r\n    \"Module entry\": \"<hr><h5><i class=\\\"fa fa-gear\\\"></i><span class=\\\"text-primary\\\"> Database module entry point</span></h5>\"\r\n}\r\n\r\n",
-    "updated": "2017-11-06T03:43:53.407Z",
-    "comments": [],
-    "result": "success",
-    "nextpage": "/build/posts/blog-database"
+    "updated": "2017-11-06T16:11:44.241Z",
+    "comments": []
   },
   {
     "id": 23,
@@ -255,14 +253,12 @@
     "title": "Title Page <span class=\"text-muted\">(Draft)</span>",
     "author": "PotOfCoffee2Go",
     "slug": "title-page",
-    "type": "post",
-    "body": "The focus of this project is to create a software [framework] to implement [HTML] and [REST] access to single-board [Internet of Things (IoT)] hardware using [Node-RED] to control the flow of web requests. The site styles, sidebars, navigation, and scripts can be modified using [Node-RED]. Site content can contain Text / [HTML] / [Markdown] / [Mustache] markup and is entered similar to a standard blog site. A combination of [Node-RED] and [node.js] modules are used to implement the site.\r\n\r\nIn the concept of `Drinking Your Own Poison`, this project uses the [framework] to implement a site describing the [Node-RED] techniques to handle the [process and data flow] control of [HTML] requests. \r\n\r\n----\r\n\r\nThe [framework] is made up of two javascript code files (excluding examples of custom [Node-RED nodes]).\r\n  * [./server.js] is the entry point of the application\r\n  * [./model/database.js] provides permanent data storage.\r\n\r\n----\r\n\r\nIt is assumed that developers have an intermediate understanding of [HTML],  [Node.js], [expressjs], [Markdown], and [Node-RED]. The web based [Ace] editor is used to create and edit site content. [Showdown] is used to convert [Markdown] text to [HTML]. The web pages use [BootStrap] V4 in an attempt to be [mobile friendly]. Minimal knowledge of [Ace], [BootStrap], and [Showdown] is sufficient.\r\n - Embed [Node-RED] into an [expressjs] server application.\r\n - Creation and debugging of application specific [Node-RED nodes].\r\n - Operation on single board systems (low cpu/memory footprint)\r\n   - [Raspberry Pi], [BeagleBoard], [Intel Edison], etc.\r\n\r\n",
+    "type": "page",
+    "body": "[(Edit)](/build/edit/title-page)\r\n\r\nMy focus on this project is to create a software [framework] to implement [HTML] and [REST] access to single-board [Internet of Things (IoT)] hardware using [Node-RED] to control the flow of web requests. The site styles, sidebars, navigation, and scripts can be modified using [Node-RED]. Site content can contain Text / [HTML] / [Markdown] / [Mustache] markup and is entered similar to a standard blog site. A combination of [Node-RED] and [node.js] modules are used to implement the site.\r\n\r\nIn the concept of `Drinking Your Own Poison`, this project uses the [framework] to implement a site describing the [Node-RED] techniques to handle the [process and data flow] control of [HTML] requests. \r\n\r\n----\r\n\r\nThe [framework] is made up of two javascript code files (excluding examples of custom [Node-RED nodes]).\r\n  * [./server.js] is the entry point of the application\r\n  * [./model/database.js] provides permanent data storage.\r\n\r\n----\r\n\r\nIt is assumed that developers have an intermediate understanding of [HTML],  [Node.js], [expressjs], [Markdown], and [Node-RED]. The web based [Ace] editor is used to create and edit site content. [Showdown] is used to convert [Markdown] text to [HTML]. The web pages use [BootStrap] V4 in an attempt to be [mobile friendly]. Minimal knowledge of [Ace], [BootStrap], and [Showdown] is sufficient.\r\n - Embed [Node-RED] into an [expressjs] server application.\r\n - Creation and debugging of application specific [Node-RED nodes].\r\n - Operation on single board systems (low cpu/memory footprint)\r\n   - [Raspberry Pi], [BeagleBoard], [Intel Edison], etc.\r\n\r\n",
     "locallinks": "[./server.js]: /posts/node-red-host-server\r\n[./model/database.js]: /posts/blog-database",
     "context": "{}",
-    "updated": "2017-11-06T03:00:16.722Z",
-    "comments": [],
-    "result": "success",
-    "nextpage": "/build/posts/title-page"
+    "updated": "2017-11-06T19:53:49.729Z",
+    "comments": []
   },
   {
     "id": 28,
@@ -278,45 +274,43 @@
   },
   {
     "id": 29,
-    "title": "Numero Uno Slide",
+    "title": "Numero Uno Slide [(Edit)](/build/edit/casual-first-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-first-slide",
-    "body": "This is the first slide\r\n",
+    "type": "post",
+    "body": "This is the first cool slide\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-03T22:34:45.196Z",
+    "updated": "2017-11-06T19:48:02.716Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/casual-first-slide",
-    "type": "post"
+    "nextpage": "/build/posts/casual-first-slide"
   },
   {
     "id": 30,
-    "title": "Numero Dos Slide",
+    "title": "Numero Dos Slide [(Edit)](/build/edit/casual-second-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-second-slide",
-    "type": "post",
-    "body": "This is the second slide\r\n",
+    "type": "page",
+    "body": "This is the second and cooler slide\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-06T03:20:18.451Z",
-    "comments": [],
-    "result": "success",
-    "nextpage": "/build/posts/casual-second-slide"
+    "updated": "2017-11-06T19:26:00.290Z",
+    "comments": []
   },
   {
     "id": 31,
-    "title": "Numero Tres Slide",
+    "title": "Numero Tres Slide [(Edit)](/build/edit/casual-third-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-third-slide",
+    "type": "post",
     "body": "This is the third slide\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-03T22:34:28.615Z",
+    "updated": "2017-11-06T19:23:19.243Z",
     "comments": [],
     "result": "success",
-    "nextpage": "/build/posts/casual-third-slide",
-    "type": "post"
+    "nextpage": "/build/posts/casual-third-slide"
   },
   {
     "id": 32,
