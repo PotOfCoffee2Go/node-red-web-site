@@ -19,7 +19,7 @@ var database = {
         msg.record = database.records.find(record => record.id === parseInt(msg.req.params.recordId, 10));
     } // When ALL records requested - return list in msg.records (note the 's')
     else {
-      types = types || ['post'];
+      types = types || ['post','page'];
       msg.records = [];
       database.records.forEach((record) => {
         if (types.indexOf(record.type) > -1)
@@ -34,9 +34,11 @@ var database = {
     // Get largest id from database (+ 1) and push new record to DB
     var lastId = Math.max.apply(null, database.records.map(record => record.id));
     msg.payload.id = lastId+1;
+    msg.payload.type = msg.payload.type || 'unknown';
     msg.payload.updated = new Date().toISOString();
     database.records.push(msg.payload);
     database.storeRecords();
+    msg.record = msg.payload;
     return msg;
   },
 
@@ -45,11 +47,12 @@ var database = {
     if (database.idRequested(msg)) {
       var idx = database.records.findIndex(record => record.id === parseInt(msg.req.params.recordId, 10));
       if (idx > -1) {
-        msg.payload.id = database.records[idx].id; // insure id is a number
+        msg.payload.id = database.records[idx].id; // insure id is set
         msg.payload.updated = new Date().toISOString();
         msg.payload.comments = database.records[idx].comments || [] ;
         database.records[idx] = msg.payload;
         database.storeRecords();
+        msg.record = msg.payload;
       }
     }
     return msg;
@@ -95,8 +98,9 @@ var database = {
   permalink: (req) => {
     var record = database.records.find(perm => perm.slug === req.params.slug);
     if (record) {
-      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + record.id);
       req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + record.id);
+      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + record.id);
+      req.url = req.url.replace('/records/' + req.params.slug, '/records/' + record.id);
     }
   },
 

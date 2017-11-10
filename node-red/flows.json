@@ -7,16 +7,16 @@
         "info": ""
     },
     {
-        "id": "288944c7.a1ceec",
+        "id": "8c3ec654.d10248",
         "type": "tab",
-        "label": "Casual Site",
+        "label": "REST interface",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "8c3ec654.d10248",
+        "id": "288944c7.a1ceec",
         "type": "tab",
-        "label": "REST interface",
+        "label": "Casual Site",
         "disabled": false,
         "info": ""
     },
@@ -30,7 +30,7 @@
     {
         "id": "c5387977.e4d928",
         "type": "subflow",
-        "name": "Get Data",
+        "name": "Select post",
         "info": "kimmypoo",
         "in": [
             {
@@ -50,6 +50,35 @@
                 "wires": [
                     {
                         "id": "179788fc.2c83c7",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "e9419896.265688",
+        "type": "subflow",
+        "name": "Select contact",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "83e9ae36.34463"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 320,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "83e9ae36.34463",
                         "port": 0
                     }
                 ]
@@ -82,12 +111,12 @@
                         "port": 0
                     },
                     {
-                        "id": "45c1c9e.ebf1138",
-                        "port": "1"
-                    },
-                    {
                         "id": "2a59651e.71538a",
                         "port": 0
+                    },
+                    {
+                        "id": "45c1c9e.ebf1138",
+                        "port": 1
                     }
                 ]
             }
@@ -290,7 +319,7 @@
         "y": 100,
         "wires": [
             [
-                "f2548757.e2dc68"
+                "83c9c693.058a38"
             ]
         ]
     },
@@ -305,7 +334,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Poc2go Builder</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Node-red flows a web server</h2>\n                        <p class=\"lead\">Check out the {{#showpages}}pages{{/showpages}}{{^showpages}}posts{{/showpages}} below!</p>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over blog posts and render them -->\n                            <div class=\"list-group\">\n                                {{#records}}\n                                    <a href=\"/build/posts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      {{#webpage}}<img align=\"left\" src=\"../images/post.png\" width=\"16px\">{{/webpage}}\n                                      <h4 class=\"list-group-item-heading post-title\" style=\"float: left;\">{{{title}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{author}}} (<i class=\"post-updated\">{{updated}}</i>)\n                                      </p>\n                                    </a>\n                                {{/records}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    $(function () {\n        $('.post-title').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        $('.post-updated').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(moment.utc(text, 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        });\n        \n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
         "output": "str",
-        "x": 650,
+        "x": 750,
         "y": 100,
         "wires": [
             [
@@ -320,7 +349,7 @@
         "name": "http response",
         "statusCode": "",
         "headers": {},
-        "x": 900,
+        "x": 1000,
         "y": 180,
         "wires": []
     },
@@ -337,7 +366,7 @@
         "y": 260,
         "wires": [
             [
-                "7fbbf0ad.aef68"
+                "2db86998.f4ead6"
             ]
         ]
     },
@@ -350,9 +379,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title id=\"page-title\"></title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#record}}\n                                <h2 id=\"showdown-title\"></h2>\n                                Post (<a href=\"/posts/{{id}}\">{{id}}</a>) by {{author}} updated (<i id=\"last-updated\"></i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/record}}\n                            {{^record}}\n                                <h5>Post not found</h5>\n                            {{/record}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script>\n    $(function () {\n        {{#record}}\n        poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post) {\n            var marked = poc2go.markup(post);\n            $('#showdown-title').html(marked.title);            \n            $('#showdown-body').html(marked.body); \n            $('#last-updated').html(marked.lastupdated);\n            $('#page-title').html(striptags(marked.title));            \n        });\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{slug}}{{^slug}}{{id}}{{/slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{id}}\">{{id}}</a>) - <i>{{{marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/build/posts/{{slug}}{{^slug}}{{id}}{{/slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n        {{/record}}\n\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            poc2go.postForm(e, \"#commentForm\", \"/build/posts/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title id=\"page-title\"></title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#record}}\n                                <h2 id=\"showdown-title\"></h2>\n                                Post (<a href=\"/records/{{id}}\">{{id}}</a>) by {{author}} updated (<i id=\"last-updated\"></i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/record}}\n                            {{^record}}\n                                <h5>Post not found</h5>\n                            {{/record}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script>\n    $(function () {\n        {{#record}}\n        poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post) {\n            var marked = poc2go.markup(post);\n            $('#showdown-title').html(marked.title);            \n            $('#showdown-body').html(marked.body); \n            $('#last-updated').html(marked.lastupdated);\n            $('#page-title').html(striptags(marked.title));            \n        });\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{slug}}{{^slug}}{{id}}{{/slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{id}}\">{{id}}</a>) - <i>{{{marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/records/{{slug}}{{^slug}}{{id}}{{/slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n        {{/record}}\n\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            poc2go.postForm(e, \"#commentForm\", \"/build/posts/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
-        "x": 650,
+        "x": 750,
         "y": 260,
         "wires": [
             [
@@ -365,7 +394,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "x": 470,
+        "x": 570,
         "y": 100,
         "wires": [
             [
@@ -378,7 +407,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "x": 470,
+        "x": 570,
         "y": 260,
         "wires": [
             [
@@ -414,28 +443,11 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Kim's Blog</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">On the shoulders of giants</h2>\n                        <p class=\"lead\">Kudo's to few of many developers and services below!</p>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                            <!-- display the credits-->\n                            <h4>Developers</h4>\n                            <div class=\"list-group\">\n                                <a href=\"https://github.com/knolleary\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Nick O'Leary</h4>\n                                  <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                                </a>\n                                <a href=\"https://github.com/dceejay\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Dave Conway-Jones</h4>\n                                  <p class=\"list-group-item-text\">Node-Red maintainer</p>\n                                </a>\n                                <a href=\"https://disqus.com/home/forums/coligo/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">coligo</h4>\n                                  <p class=\"list-group-item-text\">Site Design</p>\n                                </a>\n                                <a href=\"https://github.com/arnauorriols\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Arnau Orriols</h4>\n                                  <p class=\"list-group-item-text\">Markdown node-red node</p>\n                                </a>\n                                <a href=\"https://gist.github.com/duncansmart\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Duncan Smart</h4>\n                                  <p class=\"list-group-item-text\">Script to tun Ace editor in a textarea</p>\n                                </a>\n                            </div>\n                            <h4>Packages</h4>\n                            <div class=\"list-group\">\n                                <a href=\"https://nodejs.org/en/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Node.js and npm</h4>\n                                  <p class=\"list-group-item-text\">Server side javascript engine and package manager</p>\n                                </a>\n                                <a href=\"https://nodered.org/docs/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Node-RED</h4>\n                                  <p class=\"list-group-item-text\">Site server</p>\n                                </a>\n                                <a href=\"https://mustache.github.io/mustache.5.html\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Mustache Template Engine</h4>\n                                  <p class=\"list-group-item-text\">Inject variable data into site pages</p>\n                                </a>\n                                <a href=\"https://daringfireball.net/projects/markdown/syntax\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Markdown HTML markup</h4>\n                                  <p class=\"list-group-item-text\">Markdown text to HTML syntax</p>\n                                </a>\n                                <a href=\"http://showdownjs.github.io/showdown/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Showdown Markdown engine</h4>\n                                  <p class=\"list-group-item-text\">Convert Markdown text to HTML</p>\n                                </a>\n                                <a href=\"https://startbootstrap.com/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">StartBootStrap Templates</h4>\n                                  <p class=\"list-group-item-text\">Free Bootstrap templates</p>\n                                </a>\n                                <a href=\"http://fontawesome.io/\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Font Awesome!</h4>\n                                  <p class=\"list-group-item-text\">Icon Library</p>\n                                </a>\n                            </div>\n                            <h4>Services</h4>\n                            <div class=\"list-group\">\n                                <a href=\"https://c9.io/?redirect=0\" class=\"list-group-item\">\n                                  <h4 class=\"list-group-item-heading\">Cloud9</h4>\n                                  <p class=\"list-group-item-text\">Site host and IDE</p>\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    {{{page.vendors}}}{{{page.scripts}}}\n</body>\n\n</html>",
         "output": "str",
-        "x": 650,
+        "x": 750,
         "y": 140,
         "wires": [
             [
                 "dc8d1969.d2e888"
-            ]
-        ]
-    },
-    {
-        "id": "abf218ef.b13a88",
-        "type": "http in",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "url": "/build/posts/:recordId",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 420,
-        "wires": [
-            [
-                "d4b18d08.4d311"
             ]
         ]
     },
@@ -452,7 +464,7 @@
         "y": 220,
         "wires": [
             [
-                "84ab8c0f.f0764"
+                "8c2586d5.53ed18"
             ]
         ]
     },
@@ -461,7 +473,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "x": 470,
+        "x": 570,
         "y": 220,
         "wires": [
             [
@@ -478,9 +490,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t\t            <form id=\"blogpostForm\" action=\"/build/posts/{{record.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{record.title}}\" placeholder=\"Title\">\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{record.author}}\" placeholder=\"Author\">\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{record.slug}}\" placeholder=\"Slug\">\n                            </div>\n\t\t\t                <div class=\"form-group\">\n                                <input type=\"radio\" name=\"type\" value=\"post\" id=\"type-post\" autocomplete=\"off\" > Post\n                                <input type=\"radio\" name=\"type\" value=\"page\" id=\"type-page\" autocomplete=\"off\" > Page\n                                <input type=\"radio\" name=\"type\" value=\"hidden\" id=\"type-hidden\" autocomplete=\"off\" > Hidden\n\t\t\t                </div>\n             \n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{record.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{record.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{record.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        {{^record}}\n            $(\"#type-post\").prop(\"checked\", true);\n            $(\"#inputContext\").html(\"{\\n\\n}\\n\");\n        {{/record}}\n        \n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post){\n                var marked = poc2go.markup(post);\n                $('#page-title').html('Edit ' + striptags(marked.title));            \n            });\n            \n            // Check post type radio button\n            if (\"{{type}}\" === \"post\") {$(\"#type-post\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"page\") {$(\"#type-page\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"hidden\") {$(\"#type-hidden\").prop(\"checked\", true);}\n            else {$(\"#type-post\").prop(\"checked\", true);}\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            poc2go.postForm(e, \"#blogpostForm\", \"/build/posts/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\");\n        });\n\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n                        (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.author}} updated (<i id=\"last-updated\"></i>)\n                        <form id=\"blogpostForm\" action=\"/build/posts/{{record.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"title-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Title of this record\">\n                                </span>\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{record.title}}\" placeholder=\"Title\">\n                                \n                                <span id=\"author-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of entity adding this record\">\n                                </span>\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{record.author}}\" placeholder=\"Author\">\n                                \n                                <span id=\"slug-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of this record in URL requests \">\n                                </span>\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{record.slug}}\" placeholder=\"Slug\">\n                            </div>\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"type-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"\n                                        'Post'<br>shows in list of site posts<br>\n                                        'Page'<br>shows in list of site pages<br>\n                                        'Hidden'<br>must know the URL to access\">\n                                </span>\n                                <input type=\"radio\" name=\"type\" value=\"post\" id=\"type-post\" autocomplete=\"off\" > Post\n                                <input type=\"radio\" name=\"type\" value=\"page\" id=\"type-page\" autocomplete=\"off\" > Page\n                                <input type=\"radio\" name=\"type\" value=\"hidden\" id=\"type-hidden\" autocomplete=\"off\" > Hidden\n                            </div>\n             \n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{record.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{record.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{record.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        {{^record}}\n            $(\"#type-post\").prop(\"checked\", true);\n            $(\"#inputContext\").html(\"{\\n\\n}\\n\");\n        {{/record}}\n        \n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post){\n                var marked = poc2go.markup(post);\n                $('#page-title').html('Edit ' + striptags(marked.title));  \n                $('#last-updated').html(marked.lastupdated);\n            });\n\n            // Check post type radio button\n            if (\"{{type}}\" === \"post\") {$(\"#type-post\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"page\") {$(\"#type-page\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"hidden\") {$(\"#type-hidden\").prop(\"checked\", true);}\n            else {$(\"#type-post\").prop(\"checked\", true);}\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            poc2go.postForm(e, \"#blogpostForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {window.location = '/build/posts/' + record.slug;} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
         "output": "str",
-        "x": 660,
+        "x": 760,
         "y": 200,
         "wires": [
             [
@@ -494,7 +506,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Blog home page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 880,
+        "x": 980,
         "y": 100,
         "wires": []
     },
@@ -516,39 +528,12 @@
         ]
     },
     {
-        "id": "5578a03b.e965f",
-        "type": "http in",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "url": "/build/posts",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 100,
-        "y": 380,
-        "wires": [
-            [
-                "f5dbeceb.dd8f5"
-            ]
-        ]
-    },
-    {
-        "id": "cad7e461.752a18",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Enter new post",
-        "info": "This request inserts into the database _title_, _author_, _body_ that is given in\nthe body of the [post].\n\nThe database is then queried for the _id_ of the last record insert. That id is\nmoved to the msg.req.params.postId, then the _Display post page_ flow is used\nto display the blog post just inserted.",
-        "x": 880,
-        "y": 380,
-        "wires": []
-    },
-    {
         "id": "ff27670.1b10698",
         "type": "comment",
         "z": "3082454d.fb9b3a",
         "name": "Create / Edit a blog post",
         "info": "This page uses the *Page Layout* subflow to add the site standard\nheader, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 900,
+        "x": 1000,
         "y": 220,
         "wires": []
     },
@@ -558,18 +543,8 @@
         "z": "3082454d.fb9b3a",
         "name": "Display a blog post",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. It has the post ID in msg.req.params.postId thus *Get Post(s)*\nsubflow returns that post in _msg.post_ object, which is passed onto\nthe _Edit a post_ web page template which uses Mustache to inject *msg.page* and\nthe post *msg.post* data into the page.\n\nIt also uses the Markup body subflow which takes the text from the body of the\npost and runs it through the *marked* package to markup the body from Markdown\ntext to HTML.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 890,
+        "x": 990,
         "y": 260,
-        "wires": []
-    },
-    {
-        "id": "5abcb01d.218c7",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Update existing post",
-        "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
-        "x": 890,
-        "y": 420,
         "wires": []
     },
     {
@@ -578,7 +553,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Credits page",
         "info": "This page is a simple page that uses the *Page Layout* subflow to add the\nsite standard header, navbar, footer, etc.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 870,
+        "x": 970,
         "y": 140,
         "wires": []
     },
@@ -588,7 +563,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Web Site Builder",
         "info": "There are five [get] pages and two [post] processes to run the blog site.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\nThe HTTP [post] requests update the database\nand then display the appropriate **blog post** page.\n\n*Note:* Some confusion can happen between the HTTP method **[post]** and a **blog _post_**. In\nnode descriptions and documentation the **HTTP _[get]_ **and** _[post]_ ** methods are encloded in square-brackets [].\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n\n  * Processes (see _Blog Site Processes_ comment for more details)\n    * [Post] '/post'\n        * Insert new blog post into database\n        * Return page that displays that post\n    * [Post] '/post/:postId'\n        * Update existing blog post on database \n        * Return page that displays updated post\n",
-        "x": 440,
+        "x": 540,
         "y": 20,
         "wires": []
     },
@@ -598,227 +573,9 @@
         "z": "3082454d.fb9b3a",
         "name": "Views",
         "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
-        "x": 550,
+        "x": 650,
         "y": 60,
         "wires": []
-    },
-    {
-        "id": "d4b18d08.4d311",
-        "type": "function",
-        "z": "3082454d.fb9b3a",
-        "name": "Update post",
-        "func": "global.get(\"db\").updateRecord(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 420,
-        "wires": [
-            [
-                "a064f54a.1a7fe8"
-            ]
-        ]
-    },
-    {
-        "id": "f5dbeceb.dd8f5",
-        "type": "function",
-        "z": "3082454d.fb9b3a",
-        "name": "New post",
-        "func": "global.get(\"db\").newRecord(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 380,
-        "wires": [
-            [
-                "a064f54a.1a7fe8"
-            ]
-        ]
-    },
-    {
-        "id": "bf6ba13b.05803",
-        "type": "http in",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "url": "/build/posts/:recordId",
-        "method": "delete",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 460,
-        "wires": [
-            [
-                "13534473.7b4cbc"
-            ]
-        ]
-    },
-    {
-        "id": "13534473.7b4cbc",
-        "type": "function",
-        "z": "3082454d.fb9b3a",
-        "name": "Delete post",
-        "func": "global.get(\"db\").deleteRecord(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 390,
-        "y": 460,
-        "wires": [
-            [
-                "a064f54a.1a7fe8"
-            ]
-        ]
-    },
-    {
-        "id": "2235bf90.30b4b",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Delete existing post",
-        "info": "This request updates the blog post of the postId given in the request URL. The\n_title_, _author_, _body_ that is given in the body (payload) of the [post]\noverwrites the existing blog post.\n\nThe _Display post page_ flow is used to display the blog post just updated.\n",
-        "x": 890,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "a064f54a.1a7fe8",
-        "type": "function",
-        "z": "3082454d.fb9b3a",
-        "name": "JSON Result",
-        "func": "if (msg.payload && msg.payload.id) {\n    msg.payload.result = 'success';\n    msg.payload.nextpage = '/build/posts/' + (msg.payload.slug ? msg.payload.slug : msg.payload.id);\n}\nelse {\n    msg.payload.result = 'failed';\n    msg.payload.nextpage = '/';\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 670,
-        "y": 500,
-        "wires": [
-            [
-                "f01dd371.e8196"
-            ]
-        ]
-    },
-    {
-        "id": "8068fa43.384938",
-        "type": "http in",
-        "z": "8c3ec654.d10248",
-        "name": "",
-        "url": "/posts",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 80,
-        "y": 100,
-        "wires": [
-            [
-                "c7290a57.980b38"
-            ]
-        ]
-    },
-    {
-        "id": "e4253f74.b6de1",
-        "type": "function",
-        "z": "8c3ec654.d10248",
-        "name": "Load payload",
-        "func": "if (msg.records) {\n    msg.payload = msg.records;\n}\nelse {\n    msg.payload = msg.record;\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 540,
-        "y": 100,
-        "wires": [
-            [
-                "24ac2218.b9a99e"
-            ]
-        ]
-    },
-    {
-        "id": "24ac2218.b9a99e",
-        "type": "http response",
-        "z": "8c3ec654.d10248",
-        "name": "http response",
-        "statusCode": "",
-        "headers": {},
-        "x": 780,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "fb53fdc5.fe6d1",
-        "type": "http in",
-        "z": "8c3ec654.d10248",
-        "name": "",
-        "url": "/posts/:recordId",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 140,
-        "wires": [
-            [
-                "c7290a57.980b38"
-            ]
-        ]
-    },
-    {
-        "id": "c2d7b1ce.e9f5a",
-        "type": "function",
-        "z": "8c3ec654.d10248",
-        "name": "New post",
-        "func": "global.get(\"db\").newPost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 320,
-        "y": 180,
-        "wires": [
-            [
-                "c7290a57.980b38"
-            ]
-        ]
-    },
-    {
-        "id": "8d3b5576.d4d9f8",
-        "type": "http in",
-        "z": "8c3ec654.d10248",
-        "name": "",
-        "url": "/posts",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 90,
-        "y": 180,
-        "wires": [
-            [
-                "c2d7b1ce.e9f5a"
-            ]
-        ]
-    },
-    {
-        "id": "40f622ee.740a7c",
-        "type": "function",
-        "z": "8c3ec654.d10248",
-        "name": "Update post",
-        "func": "global.get(\"db\").updatePost(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 310,
-        "y": 220,
-        "wires": [
-            [
-                "c7290a57.980b38"
-            ]
-        ]
-    },
-    {
-        "id": "3364cb00.b30536",
-        "type": "http in",
-        "z": "8c3ec654.d10248",
-        "name": "",
-        "url": "/posts/:recordId",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 120,
-        "y": 220,
-        "wires": [
-            [
-                "40f622ee.740a7c"
-            ]
-        ]
     },
     {
         "id": "6cdd0ee4.8f07f",
@@ -831,72 +588,6 @@
         "wires": []
     },
     {
-        "id": "b2a3e2d1.50084",
-        "type": "comment",
-        "z": "8c3ec654.d10248",
-        "name": "Submit new blog post",
-        "info": "",
-        "x": 560,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "f4430969.6d6798",
-        "type": "comment",
-        "z": "8c3ec654.d10248",
-        "name": "Update blog post",
-        "info": "",
-        "x": 540,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "e2806d47.d12a9",
-        "type": "comment",
-        "z": "8c3ec654.d10248",
-        "name": "Get all or single post",
-        "info": "",
-        "x": 550,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "89c45d4c.da0e1",
-        "type": "debug",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 210,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "95d9f0ae.61ab7",
-        "type": "catch",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "scope": null,
-        "x": 80,
-        "y": 660,
-        "wires": [
-            [
-                "89c45d4c.da0e1"
-            ]
-        ]
-    },
-    {
-        "id": "88f5aef8.c2be5",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Catch errors",
-        "info": "",
-        "x": 390,
-        "y": 660,
-        "wires": []
-    },
-    {
         "id": "e64ae223.23a16",
         "type": "debug",
         "z": "8c3ec654.d10248",
@@ -905,7 +596,7 @@
         "console": "false",
         "complete": "true",
         "x": 210,
-        "y": 340,
+        "y": 300,
         "wires": []
     },
     {
@@ -915,7 +606,7 @@
         "name": "",
         "scope": null,
         "x": 80,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "e64ae223.23a16"
@@ -929,7 +620,7 @@
         "name": "Catch errors",
         "info": "",
         "x": 390,
-        "y": 340,
+        "y": 300,
         "wires": []
     },
     {
@@ -979,7 +670,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Sidebar -->\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li class=\"sidebar-brand\">\n            <a href=\"/red\"><i class=\"fa fa-share-alt\"></i> Site FLows</a>\n        </li>\n        <li><a href=\"/build/posts/from-the-bottom\"><i class=\"fa fa-home\"></i> Overview</a></li>\n        <li><a href=\"/build/posts/what-is-node-red\"><i class=\"fa fa-gears\"></i> Why use Node-RED?</a></li>\n        <li><a href=\"/build/posts/node-red-host-server\"><i class=\"fa fa-ils\"></i> Embed Node-RED flows</a></li>\n        <li><a href=\"#\">About</a></li>\n        <li><a href=\"#\">Services</a></li>\n        <li><a href=\"#\">Contact</a></li>\n        <li><a href=\"/build/credits\">Credits</a></li>\n    </ul>\n</div>\n<!-- /#sidebar-wrapper -->\n",
+        "template": "\n<!-- Sidebar -->\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li class=\"sidebar-brand\">\n            <a href=\"/red\"><i class=\"fa fa-share-alt\"></i> Site FLows</a>\n        </li>\n        <li><a href=\"/build/site\"><i class=\"fa fa-home\"></i> Posts</a></li>\n        <li><a href=\"/build/contacts\"><i class=\"fa fa-gears\"></i> Contacts</a></li>\n        <li><a href=\"/build/posts/node-red-host-server\"><i class=\"fa fa-ils\"></i> Embed Node-RED flows</a></li>\n        <li><a href=\"#\">About</a></li>\n        <li><a href=\"#\">Services</a></li>\n        <li><a href=\"#\">Contact</a></li>\n        <li><a href=\"/build/credits\">Credits</a></li>\n    </ul>\n</div>\n<!-- /#sidebar-wrapper -->\n",
         "output": "str",
         "x": 120,
         "y": 140,
@@ -1060,7 +751,7 @@
             },
             {
                 "t": "regex",
-                "v": "^\\/posts\\/",
+                "v": "^\\/records\\/",
                 "vt": "str",
                 "case": false
             },
@@ -1083,7 +774,7 @@
         ],
         "outputLabels": [
             "Casual Theme",
-            "REST Request",
+            "REST",
             "Builder Theme"
         ]
     },
@@ -1103,7 +794,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Model",
         "info": "",
-        "x": 310,
+        "x": 390,
         "y": 60,
         "wires": []
     },
@@ -1113,62 +804,8 @@
         "z": "3082454d.fb9b3a",
         "name": "Operations",
         "info": "",
-        "x": 860,
+        "x": 960,
         "y": 60,
-        "wires": []
-    },
-    {
-        "id": "80ba3dfb.87213",
-        "type": "http in",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "url": "/build/posts/:recordId/comments",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 170,
-        "y": 540,
-        "wires": [
-            [
-                "25edd695.746a1a"
-            ]
-        ]
-    },
-    {
-        "id": "25edd695.746a1a",
-        "type": "function",
-        "z": "3082454d.fb9b3a",
-        "name": "New comment",
-        "func": "global.get(\"db\").newComment(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 540,
-        "wires": [
-            [
-                "a064f54a.1a7fe8"
-            ]
-        ]
-    },
-    {
-        "id": "b8b908c7.7753c8",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Enter new comment",
-        "info": "",
-        "x": 890,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "f01dd371.e8196",
-        "type": "http response",
-        "z": "3082454d.fb9b3a",
-        "name": "http response",
-        "statusCode": "",
-        "headers": {},
-        "x": 900,
-        "y": 500,
         "wires": []
     },
     {
@@ -1208,16 +845,6 @@
                 "1bc40764.a84739"
             ]
         ]
-    },
-    {
-        "id": "83a0fd0f.f377a",
-        "type": "comment",
-        "z": "3082454d.fb9b3a",
-        "name": "Ajax",
-        "info": "",
-        "x": 460,
-        "y": 340,
-        "wires": []
     },
     {
         "id": "a32b0046.46f62",
@@ -1312,7 +939,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<!-- Navigation -->\n<nav class=\"navbar navbar-expand-lg navbar-light bg-faded py-lg-4\">\n  <div class=\"container\">\n    <a class=\"navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none\" href=\"#\">Start Bootstrap</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav mx-auto\">\n        <li id=\"nav-item-index\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"index\">Home\n            <span class=\"sr-only\">(current)</span>\n          </a>\n        </li>\n        <li id=\"nav-item-about\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"about\">About</a>\n        </li>\n        <li id=\"nav-item-blog\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"blog\">Blog</a>\n        </li>\n        <li id=\"nav-item-contact\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"contact\">Contact</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>\n",
+        "template": "\n<!-- Navigation -->\n<nav class=\"navbar navbar-expand-lg navbar-light bg-faded py-lg-4\">\n  <div class=\"container\">\n    <a class=\"navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none\" href=\"#\">Start Bootstrap</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav mx-auto\">\n        <li id=\"nav-item-index\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"/casual/index\">Home\n            <span class=\"sr-only\">(current)</span>\n          </a>\n        </li>\n        <li id=\"nav-item-about\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"/casual/about\">About</a>\n        </li>\n        <li id=\"nav-item-blog\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"/casual/blog\">Blog</a>\n        </li>\n        <li id=\"nav-item-contact\" class=\"nav-item px-lg-4\">\n          <a class=\"nav-link text-uppercase text-expanded\" href=\"/casual/contact\">Contact</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>\n",
         "output": "str",
         "x": 340,
         "y": 160,
@@ -1348,7 +975,7 @@
         "name": "http response",
         "statusCode": "",
         "headers": {},
-        "x": 840,
+        "x": 880,
         "y": 180,
         "wires": []
     },
@@ -1374,7 +1001,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 440,
+        "x": 470,
         "y": 100,
         "wires": [
             [
@@ -1393,7 +1020,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"first-carousel-title\" class=\"text-shadow\"></h3>\n                <div id=\"first-carousel-body\"></div>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"second-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"second-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"third-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"third-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">{{{config.casual.sitename}}}</h1>\n          <div class=\"text-heading text-muted text-lg\">\n            By <strong>PotOfCoffee2Go</strong> template by <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 id=\"worth-visiting-title\" class=\"text-center text-lg text-uppercase my-0\">Build a website <strong>worth visiting</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"/casual/img/intro-pic.jpg\" alt=\"\">\n            <div id=\"worth-visiting-body\"></div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n    \n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n        $(function () {\n            $(\"#nav-item-index\").addClass(\"active\");\n            \n            poc2go.getBlogPost(\"{{config.casual.carousel1post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#first-carousel-title').html(marked.title);            \n                $('#first-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel2post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#second-carousel-title').html(marked.title);            \n                $('#second-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel3post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#third-carousel-title').html(marked.title);            \n                $('#third-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.mainpost}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#worth-visiting-title').html(marked.title);            \n                $('#worth-visiting-body').html(marked.body);            \n             });\n            \n            $('#worth-visiting-body').click(function(e){\n                if (/\\/casual\\//.test(e.target.pathname) || /\\/posts\\//.test(e.target.pathname)) {\n                    e.preventDefault();\n                    $.ajax({\n                        type: \"GET\",\n                        url: e.target.pathname.replace(/\\/casual\\//, '/posts/'),\n                        success: function(post) {\n                            var marked = poc2go.markup(post);\n                            $('#worth-visiting-title').html(marked.title);            \n                            $('#worth-visiting-body').html(marked.body);            \n                        },\n                        error: function() {\n                            alert(\"Get post \" + postid + \" error\");\n                        }\n                    });\n                }\n            });\n        });\n        \n    </script>\n\n</body>\n</html>\n",
         "output": "str",
-        "x": 610,
+        "x": 640,
         "y": 100,
         "wires": [
             [
@@ -1407,7 +1034,7 @@
         "z": "288944c7.a1ceec",
         "name": "Site home page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 840,
+        "x": 860,
         "y": 100,
         "wires": []
     },
@@ -1432,7 +1059,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "84d57a2d.b74688"
@@ -1444,8 +1071,8 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 440,
-        "y": 220,
+        "x": 470,
+        "y": 180,
         "wires": [
             [
                 "a373335b.3fdc8"
@@ -1463,27 +1090,11 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">About\n          <strong>Business Casual</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-lg-6\">\n            <img class=\"img-fluid mb-4 mb-lg-0\" src=\"img/slide-2.jpg\" alt=\"\">\n          </div>\n          <div class=\"col-lg-6\">\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Our\n          <strong>Team</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-md-4 mb-4 mb-md-0\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-4 mb-4 mb-md-0\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-4\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n\n    $(function () {\n        $(\"#nav-item-about\").addClass(\"active\");\n    });\n\n    </script>\n\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 610,
-        "y": 220,
+        "x": 640,
+        "y": 180,
         "wires": [
             [
                 "ea2adec3.8e197"
-            ]
-        ]
-    },
-    {
-        "id": "c7290a57.980b38",
-        "type": "function",
-        "z": "8c3ec654.d10248",
-        "name": "Select post data",
-        "func": "global.get(\"db\").getRecords(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 340,
-        "y": 100,
-        "wires": [
-            [
-                "e4253f74.b6de1"
             ]
         ]
     },
@@ -1547,7 +1158,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 440,
+        "x": 470,
         "y": 140,
         "wires": [
             [
@@ -1566,7 +1177,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-1.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-1\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-1\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-1\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-2.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-2\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-2\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-2\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-3.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-3\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-3\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-3\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <!-- Pagination -->\n      <div class=\"bg-faded p-4 my-4\">\n        <ul class=\"pagination justify-content-center mb-0\">\n          <li class=\"page-item\">\n            <a class=\"page-link\" href=\"#\">&larr; Older</a>\n          </li>\n          <li class=\"page-item disabled\">\n            <a class=\"page-link\" href=\"#\">Newer &rarr;</a>\n          </li>\n        </ul>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    \n    function loadPostSummaries(threePostSlugs) {\n        for(let i=0; i<3; i++) {\n            let summaryNbr = i + 1;\n            poc2go.getBlogPost(threePostSlugs[i], function(post) {\n                var marked = poc2go.markup(post);\n                $('#showdown-title-' + summaryNbr).html(marked.title);            \n                $('#showdown-date-' + summaryNbr).html('( ' + marked.lastupdated + ' )');\n\n                var text = striptags(marked.body, ['p']);\n                var nrw = 80;                       // the number of words we want to extract\n                var rgxwords = new RegExp('([^ ]*[ ]{0,1}){1,'+nrw+'}', 'g'); // regexp for specified number of spaces\n                text = text.replace(/\\s\\s+/g, ' '); // replace multiple whitespaces with single space\n                var txt = text.match(rgxwords)[0];  // get the substring with \"nrw\" number of words\n\n                $('#showdown-body-' + summaryNbr).html(txt + ' ...');            \n            });\n        }\n    }\n\n    $(function () {\n        $(\"#nav-item-blog\").addClass(\"active\");\n        loadPostSummaries(['what-is-node-red', 'node-red-host-server', 'from-the-bottom']);\n    });\n       \n\n    \n\n    </script>\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 620,
+        "x": 650,
         "y": 140,
         "wires": [
             [
@@ -1584,7 +1195,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 260,
+        "y": 220,
         "wires": [
             [
                 "2f6f6d27.411472"
@@ -1596,8 +1207,8 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 440,
-        "y": 260,
+        "x": 470,
+        "y": 220,
         "wires": [
             [
                 "435fc46.7453d3c"
@@ -1613,10 +1224,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Business Casual</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-lg-8\">\n            <div class=\"embed-responsive embed-responsive-16by9 map-container mb-4 mb-lg-0\">\n                <iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d107370.88445665692!2d-79.91109491284257!3d32.756708070312534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1509933083900\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n            </div>\n          </div>\n          <div class=\"col-lg-4\">\n            <h5 class=\"mb-0\">Phone:</h5>\n            <div class=\"mb-4\">123.456.7890</div>\n            <h5 class=\"mb-0\">Email:</h5>\n            <div class=\"mb-4\">\n              <a href=\"mailto:name@example.com\">name@example.com</a>\n            </div>\n            <h5 class=\"mb-0\">Address:</h5>\n            <div class=\"mb-4\">\n              3481 Melrose Place\n              <br>\n              Beverly Hills, CA 90210\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Form</strong>\n        </h2>\n        <hr class=\"divider\">\n        <form>\n          <div class=\"row\">\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Name</label>\n              <input type=\"text\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Email Address</label>\n              <input type=\"email\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Phone Number</label>\n              <input type=\"tel\" class=\"form-control\">\n            </div>\n            <div class=\"clearfix\"></div>\n            <div class=\"form-group col-lg-12\">\n              <label class=\"text-heading\">Message</label>\n              <textarea class=\"form-control\" rows=\"6\"></textarea>\n            </div>\n            <div class=\"form-group col-lg-12\">\n              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n            </div>\n          </div>\n        </form>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    \n    function loadPostSummaries(threePostSlugs) {\n        for(let i=0; i<3; i++) {\n            let summaryNbr = i + 1;\n            poc2go.getBlogPost(threePostSlugs[i], function(post) {\n                var marked = poc2go.markup(post);\n                $('#showdown-title-' + summaryNbr).html(marked.title);            \n                $('#showdown-date-' + summaryNbr).html('( ' + marked.lastupdated + ' )');\n\n                var text = striptags(marked.body, ['p']);\n                var nrw = 80;                       // the number of words we want to extract\n                var rgxwords = new RegExp('([^ ]*[ ]{0,1}){1,'+nrw+'}', 'g'); // regexp for specified number of spaces\n                text = text.replace(/\\s\\s+/g, ' '); // replace multiple whitespaces with single space\n                var txt = text.match(rgxwords)[0];  // get the substring with \"nrw\" number of words\n\n                $('#showdown-body-' + summaryNbr).html(txt + ' ...');            \n            });\n        }\n    }\n\n    $(function () {\n        $(\"#nav-item-contact\").addClass(\"active\");\n        loadPostSummaries(['what-is-node-red', 'node-red-host-server', 'from-the-bottom']);\n    });\n       \n\n    \n\n    </script>\n  </body>\n\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Business Casual</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-lg-8\">\n            <div class=\"embed-responsive embed-responsive-16by9 map-container mb-4 mb-lg-0\">\n                <iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d107370.88445665692!2d-79.91109491284257!3d32.756708070312534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1509933083900\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n            </div>\n          </div>\n          <div class=\"col-lg-4\">\n            <h5 class=\"mb-0\">Phone:</h5>\n            <div class=\"mb-4\">123.456.7890</div>\n            <h5 class=\"mb-0\">Email:</h5>\n            <div class=\"mb-4\">\n              <a href=\"mailto:name@example.com\">name@example.com</a>\n            </div>\n            <h5 class=\"mb-0\">Address:</h5>\n            <div class=\"mb-4\">\n              3481 Melrose Place\n              <br>\n              Beverly Hills, CA 90210\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Form</strong>\n        </h2>\n        <hr class=\"divider\">\n        <form id=\"contactForm\">\n          <div class=\"row\">\n            <input type=\"hidden\" name=\"type\" value=\"contact\">\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Name</label>\n              <input type=\"text\" name=\"name\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Email Address</label>\n              <input type=\"email\" name=\"email\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Phone Number</label>\n              <input type=\"tel\" name=\"phone\" class=\"form-control\">\n            </div>\n            <div class=\"clearfix\"></div>\n            <div class=\"form-group col-lg-12\">\n              <label class=\"text-heading\">Message</label>\n              <textarea class=\"form-control\" name=\"message\" rows=\"6\"></textarea>\n            </div>\n            <div class=\"form-group col-lg-12\">\n              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n            </div>\n          </div>\n          <div id=\"contact-sent\"></div>\n        </form>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    \n    function loadPostSummaries(threePostSlugs) {\n        for(let i=0; i<3; i++) {\n            let summaryNbr = i + 1;\n            poc2go.getBlogPost(threePostSlugs[i], function(post) {\n                var marked = poc2go.markup(post);\n                $('#showdown-title-' + summaryNbr).html(marked.title);            \n                $('#showdown-date-' + summaryNbr).html('( ' + marked.lastupdated + ' )');\n\n                var text = striptags(marked.body, ['p']);\n                var nrw = 80;                       // the number of words we want to extract\n                var rgxwords = new RegExp('([^ ]*[ ]{0,1}){1,'+nrw+'}', 'g'); // regexp for specified number of spaces\n                text = text.replace(/\\s\\s+/g, ' '); // replace multiple whitespaces with single space\n                var txt = text.match(rgxwords)[0];  // get the substring with \"nrw\" number of words\n\n                $('#showdown-body-' + summaryNbr).html(txt + ' ...');            \n            });\n        }\n    }\n\n    $(function () {\n        $(\"#nav-item-contact\").addClass(\"active\");\n        loadPostSummaries(['what-is-node-red', 'node-red-host-server', 'from-the-bottom']);\n\n        // Submit New or Update blog post\n        $(\"#contactForm\").submit(function(e) {\n            poc2go.postForm(e, \"#contactForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {\n                    $(\"#contact-sent\").html(\"<strong>\" + record.name + \" info sent - thanks!</strong>\")\n                });\n        });\n\n    });\n       \n\n    \n\n    </script>\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 610,
-        "y": 260,
+        "x": 640,
+        "y": 220,
         "wires": [
             [
                 "ea2adec3.8e197"
@@ -1628,7 +1239,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "x": 470,
+        "x": 570,
         "y": 140,
         "wires": [
             [
@@ -1641,7 +1252,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "x": 470,
+        "x": 570,
         "y": 180,
         "wires": [
             [
@@ -1690,7 +1301,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "plain",
-        "template": "<!-- Libraries to markup posts -->\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n\n<!-- Strip HTML tags - sanitize post title, author, body -->\n<script src=\"/vendor/ericnorris/striptags.js\"></script>\n\n<script>\n// Showdown code highlight script\nshowdown.extension('codehighlight', function() {\n  function htmlunencode(text) {\n    return (\n      text\n        .replace(/&amp;/g, '&')\n        .replace(/&lt;/g, '<')\n        .replace(/&gt;/g, '>')\n      );\n  }\n  return [\n    {\n      type: 'output',\n      filter: function (text, converter, options) {\n        // use new shodown's regexp engine to conditionally parse codeblocks\n        var left  = '<pre><code\\\\b[^>]*>',\n            right = '</code></pre>',\n            flags = 'g',\n            replacement = function (wholeMatch, match, left, right) {\n              // unescape match to prevent double escaping\n              match = htmlunencode(match);\n              return left + hljs.highlightAuto(match).value + right;\n            };\n        return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n      }\n    }\n  ];\n});\n\n// PotOfCoffee2Go Namespace\nvar poc2go = {\n    converter: new showdown.Converter({ extensions: ['codehighlight'] }),\n    render: function(text, context) {\n        return Mustache.render(poc2go.converter.makeHtml(text), context);\n    },\n    markup: function(post) {\n        var body = post.body.replace(/\\/\\/\\s*\\{\\{/g,'\\{\\{'); // Handle mustache in code files\n        return {\n            title: poc2go.render(post.title, post.context),\n            author: poc2go.render(post.author, post.context),\n            body: poc2go.render(body + '\\n' + post.locallinks, post.context),\n            lastupdated: moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow()\n        }\n    },\n\n\n\n    getBlogPost: function getBlogPost(postid, cb) {\n        $.ajax({\n            type: \"GET\",\n            url: '/posts/' + postid,\n            success: function(post) {\n                post.context = post.context ? JSON.parse(post.context) : {};\n                if (cb) cb(post);\n            },\n            error: function() {\n                alert(\"Get post \" + postid + \" error\");\n            }\n        });\n    },\n    \n    postForm: function postForm(e, formId, url) {\n        var datastring = $(formId).serialize();\n        $.ajax({\n            type: \"POST\",\n            url: url,\n            data: datastring,\n            success: function(payload) {\n                window.location = payload.nextpage;\n            },\n            error: function() {\n                alert(\"New comment submit error\");\n                window.location = payload.nextpage;\n            }\n        });\n        e.preventDefault(); // prevent default submit behavior\n    }\n\n};\n\n$(function () {\n    $('pre code').addClass('hljs');\n    showdown.setFlavor('github');\n});\n</script>\n\n",
+        "template": "<!-- Libraries to markup posts -->\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n\n<!-- Strip HTML tags - sanitize post title, author, body -->\n<script src=\"/vendor/ericnorris/striptags.js\"></script>\n\n<script>\n// Showdown code highlight script\nshowdown.extension('codehighlight', function() {\n  function htmlunencode(text) {\n    return (\n      text\n        .replace(/&amp;/g, '&')\n        .replace(/&lt;/g, '<')\n        .replace(/&gt;/g, '>')\n      );\n  }\n  return [\n    {\n      type: 'output',\n      filter: function (text, converter, options) {\n        // use new shodown's regexp engine to conditionally parse codeblocks\n        var left  = '<pre><code\\\\b[^>]*>',\n            right = '</code></pre>',\n            flags = 'g',\n            replacement = function (wholeMatch, match, left, right) {\n              // unescape match to prevent double escaping\n              match = htmlunencode(match);\n              return left + hljs.highlightAuto(match).value + right;\n            };\n        return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n      }\n    }\n  ];\n});\n\n// PotOfCoffee2Go Namespace\nvar poc2go = {\n    converter: new showdown.Converter({ extensions: ['codehighlight'] }),\n    render: function(text, context) {\n        return Mustache.render(poc2go.converter.makeHtml(text), context);\n    },\n    markup: function(post) {\n        var body = post.body ? post.body.replace(/\\/\\/\\s*\\{\\{/g,'\\{\\{') : ''; // Handle mustache in code files\n        return {\n            title: poc2go.render(post.title ? post.title : '', post.context),\n            author: poc2go.render(post.author ? post.author : '', post.context),\n            body: poc2go.render(body + (post.locallinks ? '\\n' + post.locallinks : ''), post.context),\n            lastupdated: moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow()\n        }\n    },\n\n\n\n    getBlogPost: function getBlogPost(postid, cb) {\n        $.ajax({\n            type: \"GET\",\n            url: '/records/' + postid,\n            success: function(record) {\n                record.context = record.context ? JSON.parse(record.context) : {};\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Get post \" + postid + \" error\");\n            }\n        });\n    },\n    \n    postForm: function postForm(e, formId, url, cb) {\n        var datastring = $(formId).serialize();\n        $.ajax({\n            type: \"POST\",\n            url: url,\n            data: datastring,\n            success: function(record) {\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Form submit error\");\n            }\n        });\n        e.preventDefault(); // prevent default submit behavior\n    }\n\n};\n\n$(function () {\n    $('pre code').addClass('hljs');\n    showdown.setFlavor('github');\n});\n</script>\n\n",
         "output": "str",
         "x": 160,
         "y": 120,
@@ -1723,7 +1334,7 @@
         "z": "288944c7.a1ceec",
         "name": "Views",
         "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
-        "x": 530,
+        "x": 560,
         "y": 60,
         "wires": []
     },
@@ -1743,7 +1354,7 @@
         "z": "288944c7.a1ceec",
         "name": "Model",
         "info": "",
-        "x": 290,
+        "x": 320,
         "y": 60,
         "wires": []
     },
@@ -1752,7 +1363,7 @@
         "type": "function",
         "z": "c5387977.e4d928",
         "name": "Select data",
-        "func": "global.get(\"db\").getRecords(msg,['post','page']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "func": "global.get(\"db\").getRecords(msg,['post']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 170,
@@ -1765,7 +1376,7 @@
         "id": "2af638b2.d385c8",
         "type": "subflow:c5387977.e4d928",
         "z": "288944c7.a1ceec",
-        "x": 290,
+        "x": 320,
         "y": 100,
         "wires": [
             [
@@ -1777,48 +1388,11 @@
         "id": "7bbe7b27.c56ac4",
         "type": "subflow:c5387977.e4d928",
         "z": "288944c7.a1ceec",
-        "x": 290,
+        "x": 320,
         "y": 140,
         "wires": [
             [
                 "cda40516.935dd8"
-            ]
-        ]
-    },
-    {
-        "id": "f2548757.e2dc68",
-        "type": "subflow:c5387977.e4d928",
-        "z": "3082454d.fb9b3a",
-        "name": "",
-        "x": 310,
-        "y": 100,
-        "wires": [
-            [
-                "45652580.f4e51c"
-            ]
-        ]
-    },
-    {
-        "id": "84ab8c0f.f0764",
-        "type": "subflow:c5387977.e4d928",
-        "z": "3082454d.fb9b3a",
-        "x": 310,
-        "y": 220,
-        "wires": [
-            [
-                "9fea3bab.7627c8"
-            ]
-        ]
-    },
-    {
-        "id": "7fbbf0ad.aef68",
-        "type": "subflow:c5387977.e4d928",
-        "z": "3082454d.fb9b3a",
-        "x": 310,
-        "y": 260,
-        "wires": [
-            [
-                "8c4ad8db.a73178"
             ]
         ]
     },
@@ -1830,6 +1404,484 @@
         "info": "",
         "x": 410,
         "y": 20,
+        "wires": []
+    },
+    {
+        "id": "89c45d4c.da0e1",
+        "type": "debug",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 210,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "95d9f0ae.61ab7",
+        "type": "catch",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "scope": null,
+        "x": 80,
+        "y": 520,
+        "wires": [
+            [
+                "89c45d4c.da0e1"
+            ]
+        ]
+    },
+    {
+        "id": "88f5aef8.c2be5",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Catch errors",
+        "info": "",
+        "x": 390,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b6f7d73d.0c33e8",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 360,
+        "wires": [
+            [
+                "1996bcdc.80c293"
+            ]
+        ]
+    },
+    {
+        "id": "933a5ef2.ab30c",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Builder Contacts</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Contact List</h2>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over contacts and render them -->\n                            <div class=\"list-group\">\n                                {{#records}}\n                                    <a href=\"/build/contacts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      <h4 class=\"list-group-item-heading post-title\" style=\"float: left;\">{{{name}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{email}}} (<i class=\"post-updated\">{{updated}}</i>)\n                                      </p>\n                                      <p class=\"post-message\">{{{message}}}</p>\n                                    </a>\n                                {{/records}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    $(function () {\n        $('.post-title').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        $('.post-updated').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(moment.utc(text, 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        });\n        $('.post-message').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        \n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 760,
+        "y": 360,
+        "wires": [
+            [
+                "5f3730d0.abbad"
+            ]
+        ]
+    },
+    {
+        "id": "d14988.3a179678",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "933a5ef2.ab30c"
+            ]
+        ]
+    },
+    {
+        "id": "83e9ae36.34463",
+        "type": "function",
+        "z": "e9419896.265688",
+        "name": "Select contact",
+        "func": "global.get(\"db\").getRecords(msg,['contact']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80864004.db18a",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts/:recordId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 460,
+        "wires": [
+            [
+                "d27b84e6.933348"
+            ]
+        ]
+    },
+    {
+        "id": "58186541.52574c",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 460,
+        "wires": [
+            [
+                "c682fb20.8f0048"
+            ]
+        ]
+    },
+    {
+        "id": "6adbe29c.7ad46c",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts",
+        "info": "",
+        "x": 520,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "c682fb20.8f0048",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "New/Edit contact",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t                (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.name}} updated (<i id=\"last-updated\">{{record.updated}}</i>)\n                        <form id=\"contactForm\">\n                          <div class=\"row\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n                            <input type=\"hidden\" name=\"type\" value=\"contact\">\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Name</label>\n                              <input type=\"text\" name=\"name\" class=\"form-control\" value=\"{{record.name}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Email Address</label>\n                              <input type=\"email\" name=\"email\" class=\"form-control\" value=\"{{record.email}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Phone Number</label>\n                              <input type=\"tel\" name=\"phone\" class=\"form-control\" value=\"{{record.phone}}\">\n                            </div>\n                            <div class=\"clearfix\"></div>\n                            <div class=\"form-group col-lg-12\">\n                              <label class=\"text-heading\">Message</label>\n                              <textarea class=\"form-control\" name=\"message\" rows=\"6\" >{{record.message}}</textarea>\n                            </div>\n                            <div class=\"form-group col-lg-12\">\n                              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n                            </div>\n                          </div>\n                          <div id=\"contact-sent\" style=\"display: none;\"></div>\n                        </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            $('#last-updated').html(moment.utc($('#last-updated').html(), 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#contactForm\").submit(function(e) {\n            poc2go.postForm(e, \"#contactForm\",\n                \"/records/\" + {{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}},\n                function(record) {window.location = '/build/contacts';} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 770,
+        "y": 440,
+        "wires": [
+            [
+                "5f3730d0.abbad"
+            ]
+        ]
+    },
+    {
+        "id": "27de8d66.373c42",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts/new",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 420,
+        "wires": [
+            [
+                "2afa8194.6bd08e"
+            ]
+        ]
+    },
+    {
+        "id": "2afa8194.6bd08e",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 420,
+        "wires": [
+            [
+                "c682fb20.8f0048"
+            ]
+        ]
+    },
+    {
+        "id": "5f3730d0.abbad",
+        "type": "http response",
+        "z": "3082454d.fb9b3a",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1000,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "83c9c693.058a38",
+        "type": "subflow:c5387977.e4d928",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "45652580.f4e51c"
+            ]
+        ]
+    },
+    {
+        "id": "8c2586d5.53ed18",
+        "type": "subflow:c5387977.e4d928",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 220,
+        "wires": [
+            [
+                "9fea3bab.7627c8"
+            ]
+        ]
+    },
+    {
+        "id": "2db86998.f4ead6",
+        "type": "subflow:c5387977.e4d928",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 260,
+        "wires": [
+            [
+                "8c4ad8db.a73178"
+            ]
+        ]
+    },
+    {
+        "id": "3acaa572.d7bc5a",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Load payload",
+        "func": "if (msg.records) {\n    msg.payload = msg.records;\n}\nelse {\n    msg.payload = msg.record;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 120,
+        "wires": [
+            [
+                "d7985e2c.425f6"
+            ]
+        ]
+    },
+    {
+        "id": "d7985e2c.425f6",
+        "type": "http response",
+        "z": "8c3ec654.d10248",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 820,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "4252a994.a8a838",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/records/:recordId?",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "74df57a0.987898"
+            ]
+        ]
+    },
+    {
+        "id": "df895ce8.6b53a",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "New record",
+        "func": "global.get(\"db\").newRecord(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 160,
+        "wires": [
+            [
+                "3acaa572.d7bc5a"
+            ]
+        ]
+    },
+    {
+        "id": "e194fef8.15c36",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/records",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "df895ce8.6b53a"
+            ]
+        ]
+    },
+    {
+        "id": "78af8f18.b9f5f",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Update record",
+        "func": "global.get(\"db\").updateRecord(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "3acaa572.d7bc5a"
+            ]
+        ]
+    },
+    {
+        "id": "98a4e3fd.1df57",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/records/:recordId",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "78af8f18.b9f5f"
+            ]
+        ]
+    },
+    {
+        "id": "3d9e4631.39c99a",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Submit new record",
+        "info": "",
+        "x": 610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "f484e25d.f234d",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Update record",
+        "info": "",
+        "x": 590,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "18be74ca.2c699b",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Get all of a type or single record",
+        "info": "",
+        "x": 650,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "74df57a0.987898",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Select Record",
+        "func": "global.get(\"db\").getRecords(msg);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 80,
+        "wires": [
+            [
+                "3acaa572.d7bc5a"
+            ]
+        ]
+    },
+    {
+        "id": "db8364fa.358778",
+        "type": "function",
+        "z": "8c3ec654.d10248",
+        "name": "Delete record",
+        "func": "global.get(\"db\").deleteRecord(msg);\nmsg.payload.result = \"success\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 240,
+        "wires": [
+            [
+                "3acaa572.d7bc5a"
+            ]
+        ]
+    },
+    {
+        "id": "2a922c76.f59c14",
+        "type": "http in",
+        "z": "8c3ec654.d10248",
+        "name": "",
+        "url": "/records/:recordId",
+        "method": "delete",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "db8364fa.358778"
+            ]
+        ]
+    },
+    {
+        "id": "1996bcdc.80c293",
+        "type": "subflow:e9419896.265688",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 360,
+        "wires": [
+            [
+                "d14988.3a179678"
+            ]
+        ]
+    },
+    {
+        "id": "d27b84e6.933348",
+        "type": "subflow:e9419896.265688",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "58186541.52574c"
+            ]
+        ]
+    },
+    {
+        "id": "235fb762.682948",
+        "type": "comment",
+        "z": "8c3ec654.d10248",
+        "name": "Delete record",
+        "info": "",
+        "x": 590,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2e87a263.05160e",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts home page",
+        "info": "",
+        "x": 990,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6ab3d1d7.1c93b",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Create / Edit a contacts",
+        "info": "",
+        "x": 1000,
+        "y": 440,
         "wires": []
     }
 ]

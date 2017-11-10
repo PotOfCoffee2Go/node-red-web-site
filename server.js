@@ -10,8 +10,8 @@ const
 // {{{Config}}}
 const config = {
     port: 8081,
-    homePage: '/build/posts/from-the-bottom',
-    dbStorePath: './model/posts.json',
+    homePage: '/casual/index',
+    dbStorePath: './model/database.json',
 };
 
 // {{{Node-RED settings}}}
@@ -40,9 +40,8 @@ process.chdir(__dirname);
 var app = express();
 var server = http.createServer(app);
 
-// Body parsers so we can accept POSTed JSON and/or URL encoded data formats
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// Body parser to accept JSON in the body
+app.use(bodyParser.json({limit: '5mb'}));
 
 // {{{Host Routes}}}
 // Can use a blog post as the default page
@@ -50,10 +49,10 @@ app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : 
 
 // Replace slugs with the post id and continue down the route chain
 const db = nodered.settings.functionGlobalContext.db;
+app.all('/records/:slug', (req, res, next) => {db.permalink(req); next();});
 app.all('/build/posts/:slug', (req, res, next) => {db.permalink(req); next();});
 app.all('/build/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});
 app.get('/build/edit/:slug', (req, res, next) => {db.permalink(req); next();});
-app.get('/posts/:slug', (req, res, next) => {db.permalink(req); next();});
 
 // Display code files
 app.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});
