@@ -32,7 +32,7 @@ const nodered = {
 // {{{Current working directory}}}
 /* In some cases the runtime uses the current working dir as root
     and since server.js is in the project root directory
-    sets current working directory to project root */
+    set current working directory to project root */
 process.chdir(__dirname);
 
 // {{{Host Server}}}
@@ -51,7 +51,7 @@ app.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : 
 const db = nodered.settings.functionGlobalContext.db;
 app.all('/records/:slug', (req, res, next) => {db.permalink(req); next();});
 app.all('/build/posts/:slug', (req, res, next) => {db.permalink(req); next();});
-app.all('/build/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});
+app.all('/build/comments/:slug', (req, res, next) => {db.permalink(req); next();});
 app.get('/build/edit/:slug', (req, res, next) => {db.permalink(req); next();});
 
 // Display code files

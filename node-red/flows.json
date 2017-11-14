@@ -1,8 +1,15 @@
 [
     {
+        "id": "288944c7.a1ceec",
+        "type": "tab",
+        "label": "Casual Site",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "3082454d.fb9b3a",
         "type": "tab",
-        "label": "Builder Site",
+        "label": "Site Builder",
         "disabled": false,
         "info": ""
     },
@@ -10,13 +17,6 @@
         "id": "8c3ec654.d10248",
         "type": "tab",
         "label": "REST interface",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "288944c7.a1ceec",
-        "type": "tab",
-        "label": "Casual Site",
         "disabled": false,
         "info": ""
     },
@@ -57,9 +57,9 @@
         ]
     },
     {
-        "id": "e9419896.265688",
+        "id": "269e4e9c.582ef2",
         "type": "subflow",
-        "name": "Select contact",
+        "name": "Select comment",
         "info": "",
         "in": [
             {
@@ -74,11 +74,40 @@
         ],
         "out": [
             {
-                "x": 320,
+                "x": 360,
                 "y": 40,
                 "wires": [
                     {
                         "id": "83e9ae36.34463",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "e9419896.265688",
+        "type": "subflow",
+        "name": "Select contact",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "d56f2495.34e408"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 320,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "d56f2495.34e408",
                         "port": 0
                     }
                 ]
@@ -311,11 +340,11 @@
         "type": "http in",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "url": "/build/site",
+        "url": "/build/index",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 90,
+        "x": 100,
         "y": 100,
         "wires": [
             [
@@ -379,7 +408,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title id=\"page-title\"></title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#record}}\n                                <h2 id=\"showdown-title\"></h2>\n                                Post (<a href=\"/records/{{id}}\">{{id}}</a>) by {{author}} updated (<i id=\"last-updated\"></i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{id}}\" placeholder=\"Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/record}}\n                            {{^record}}\n                                <h5>Post not found</h5>\n                            {{/record}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script>\n    $(function () {\n        {{#record}}\n        poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post) {\n            var marked = poc2go.markup(post);\n            $('#showdown-title').html(marked.title);            \n            $('#showdown-body').html(marked.body); \n            $('#last-updated').html(marked.lastupdated);\n            $('#page-title').html(striptags(marked.title));            \n        });\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{slug}}{{^slug}}{{id}}{{/slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{id}}\">{{id}}</a>) - <i>{{{marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/records/{{slug}}{{^slug}}{{id}}{{/slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n        {{/record}}\n\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            poc2go.postForm(e, \"#commentForm\", \"/build/posts/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}/comments\");\n        });\n    });\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title id=\"page-title\"></title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    <!-- Make page display smoothly - so do not display until page has been built by the browser -->\n                    <div id=\"poc2go-page\" style=\"display: none;\">\n                        {{{page.header}}}\n                        {{{page.navbar}}}\n                            {{#record}}\n                                <h2 id=\"showdown-title\"></h2>\n                                Post (<a href=\"/records/{{id}}\">{{id}}</a>) by {{author}} updated (<i id=\"last-updated\"></i>)\n                                <hr>\n                                <div id=\"showdown-body\" class=\"hidden\" style=\"margin-top: 20px;\"></div>\n                                <hr>\n                                <div>\n                                    {{#post.comments}}\n                                        {{author}} ( commented {{{marked.lastupdated}}} )<br>{{{marked.body}}}<hr>\n                                    {{/post.comments}}\n                                </div>\n            \t\t\t        <div>\n            \t\t\t            <h6>Your comments are appreciated</h6>\n            \t\t\t            <form id=\"commentForm\" action=\"/build/posts/{{slug}}/comments\" method=\"post\" role=\"form\">\n            \t\t\t                <input type=\"hidden\" name=\"type\" id=\"inputType\" value=\"comment\" placeholder=\"Comment Type\">\n            \t\t\t                <input type=\"hidden\" name=\"z\" id=\"inputParentId\" value=\"{{id}}\" placeholder=\"Parent Id\">\n            \t\t\t                <input type=\"hidden\" name=\"approved\" id=\"inputApproved\" value=\"false\" placeholder=\"Approved\">\n            \t\t\t                <div class=\"form-group\">\n            \t\t\t                    <label for=\"inputAuthor\">Name</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"\" placeholder=\"Author\">\n            \t\t\t                    <label for=\"inputEmail\">Email (optional)</label>\n            \t\t\t                    <input type=\"text\" class=\"form-control\" name=\"email\" id=\"inputEmail\" value=\"\" placeholder=\"EMail\">\n              \t\t\t                    <label for=\"inputComment\">Please comment using Text/<a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown</a></label>\n            \t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"body\" id=\"inputComment\" data-editor=\"markdown\">{{}}</textarea>\n            \t\t\t                </div>\n            \t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n            \t\t\t            </form>\n            \t\t\t        </div>\n                            {{/record}}\n                            {{^record}}\n                                <h5>Post not found</h5>\n                            {{/record}}\n                        {{{page.footer}}}\n                        {{{page.deletemodal}}}\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<script>\n    $(function () {\n        {{#record}}\n        poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post) {\n            var marked = poc2go.markup(post);\n            $('#showdown-title').html(marked.title);            \n            $('#showdown-body').html(marked.body); \n            $('#last-updated').html(marked.lastupdated);\n            $('#page-title').html(striptags(marked.title));            \n        });\n\n        $('#poc2go-navbar-edit').css('display', '');\n        $('#poc2go-navbar-edit').attr( \"href\", \"/build/edit/{{slug}}{{^slug}}{{id}}{{/slug}}\");\n\n        $('#poc2go-navbar-delete').css('display', '');\n        $('#deleteModalLabel').html('Delete post (<a href=\"/v1/posts/{{id}}\">{{id}}</a>) - <i>{{{marked.striptitle}}}</i>!');\n        $('#deleteModelYes').click(function() {\n            $.ajax({\n                url: '/records/{{slug}}{{^slug}}{{id}}{{/slug}}', method: 'DELETE',\n                complete: function() {\n                    window.location = '/build/site';\n                }\n            });\n        });\n\n        $('#poc2go-navbar-comments').css('display', '');\n        {{/record}}\n\n        $(\"#poc2go-page\").css('display', ''); // Display the page\n        \n        // Submit New comment\n        $(\"#commentForm\").submit(function(e) {\n            poc2go.postForm(e, \"#commentForm\",\n                \"/records\",\n                function(record) {window.location = '/build/posts/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}';} );\n        });\n    });\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 750,
         "y": 260,
@@ -490,7 +519,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n                        (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.author}} updated (<i id=\"last-updated\"></i>)\n                        <form id=\"blogpostForm\" action=\"/build/posts/{{record.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"title-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Title of this record\">\n                                </span>\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{record.title}}\" placeholder=\"Title\">\n                                \n                                <span id=\"author-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of entity adding this record\">\n                                </span>\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{record.author}}\" placeholder=\"Author\">\n                                \n                                <span id=\"slug-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of this record in URL requests \">\n                                </span>\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{record.slug}}\" placeholder=\"Slug\">\n                            </div>\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"type-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"\n                                        'Post'<br>shows in list of site posts<br>\n                                        'Page'<br>shows in list of site pages<br>\n                                        'Hidden'<br>must know the URL to access\">\n                                </span>\n                                <input type=\"radio\" name=\"type\" value=\"post\" id=\"type-post\" autocomplete=\"off\" > Post\n                                <input type=\"radio\" name=\"type\" value=\"page\" id=\"type-page\" autocomplete=\"off\" > Page\n                                <input type=\"radio\" name=\"type\" value=\"hidden\" id=\"type-hidden\" autocomplete=\"off\" > Hidden\n                            </div>\n             \n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{record.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{record.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{record.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        {{^record}}\n            $(\"#type-post\").prop(\"checked\", true);\n            $(\"#inputContext\").html(\"{\\n\\n}\\n\");\n        {{/record}}\n        \n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post){\n                var marked = poc2go.markup(post);\n                $('#page-title').html('Edit ' + striptags(marked.title));  \n                $('#last-updated').html(marked.lastupdated);\n            });\n\n            // Check post type radio button\n            if (\"{{type}}\" === \"post\") {$(\"#type-post\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"page\") {$(\"#type-page\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"hidden\") {$(\"#type-hidden\").prop(\"checked\", true);}\n            else {$(\"#type-post\").prop(\"checked\", true);}\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            poc2go.postForm(e, \"#blogpostForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {window.location = '/build/posts/' + record.slug;} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n                        (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.author}} updated (<i id=\"last-updated\"></i>)\n                        <form id=\"blogpostForm\" action=\"/build/posts/{{record.slug}}\" method=\"post\" role=\"form\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"title-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Title of this record\">\n                                </span>\n\t\t\t                    <label for=\"inputTitle\">Title</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"title\" id=\"inputTitle\" value=\"{{record.title}}\" placeholder=\"Title\">\n                                \n                                <span id=\"author-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of entity adding this record\">\n                                </span>\n\t\t\t                    <label for=\"inputAuthor\">Author</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"author\" id=\"inputAuthor\" value=\"{{record.author}}\" placeholder=\"Author\">\n                                \n                                <span id=\"slug-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"Name of this record in URL requests \">\n                                </span>\n\t\t\t                    <label for=\"inputSlug\">Slug</label>\n\t\t\t                    <input type=\"text\" class=\"form-control\" name=\"slug\" id=\"inputSlug\" value=\"{{record.slug}}\" placeholder=\"Slug\">\n                            </div>\n\t\t\t                <div class=\"form-group\">\n                                <span id=\"type-tooltip\" class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-html=\"true\"\n                                    title=\"\n                                        'Post'<br>shows in list of site posts<br>\n                                        'Page'<br>shows in list of site pages<br>\n                                        'Hidden'<br>must know the URL to access\">\n                                </span>\n                                <input type=\"radio\" name=\"type\" value=\"post\" id=\"type-post\" autocomplete=\"off\" > Post\n                                <input type=\"radio\" name=\"type\" value=\"page\" id=\"type-page\" autocomplete=\"off\" > Page\n                                <input type=\"radio\" name=\"type\" value=\"hidden\" id=\"type-hidden\" autocomplete=\"off\" > Hidden\n                            </div>\n             \n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputPost\"><a href=\"https://en.wikipedia.org/wiki/HTML\">HTML/</a><a href=\"https://daringfireball.net/projects/markdown/syntax\">Markdown/</a><a href=\"https://mustache.github.io/\">Mustache</a> Post</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"20\" name=\"body\" id=\"inputPost\" data-editor=\"markdown\">{{record.body}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputLocalLinks\">Post specific <a href=\"https://daringfireball.net/projects/markdown/syntax#link\">Markdown reference links</a></label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"locallinks\" id=\"inputLocalLinks\" data-editor=\"markdown\">{{record.locallinks}}</textarea>\n\t\t\t                </div>\n\t\t\t                <div class=\"form-group\">\n\t\t\t                    <label for=\"inputContext\"><a href=\"https://mustache.github.io/\">Mustache</a> Context - (<a href=\"http://www.json.org/\">JSON</a> format)</label>\n\t\t\t                    <textarea class=\"form-control\" rows=\"8\" name=\"context\" id=\"inputContext\" data-editor=\"javascript\">{{record.context}}</textarea>\n\t\t\t                </div>\n\t\t\t                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n\t\t\t            </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        {{^record}}\n            $(\"#type-post\").prop(\"checked\", true);\n            $(\"#inputContext\").html(\"{\\n\\n}\\n\");\n        {{/record}}\n        \n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            poc2go.getBlogPost('{{slug}}{{^slug}}{{id}}{{/slug}}', function(post){\n                var marked = poc2go.markup(post);\n                $('#page-title').html('Edit ' + striptags(marked.title));  \n                $('#last-updated').html(marked.lastupdated);\n            });\n\n            // Check post type radio button\n            if (\"{{type}}\" === \"post\") {$(\"#type-post\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"page\") {$(\"#type-page\").prop(\"checked\", true);}\n            else if (\"{{type}}\" === \"hidden\") {$(\"#type-hidden\").prop(\"checked\", true);}\n            else {$(\"#type-post\").prop(\"checked\", true);}\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#blogpostForm\").submit(function(e) {\n            poc2go.postForm(e, \"#blogpostForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {window.location = '/build/posts/' + record.slug;} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 760,
         "y": 200,
@@ -817,7 +846,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "\n<a href=\"/build/site\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-blog\">Posts</a>\n<a href=\"/build/new\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-new\">New</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-edit\" style=\"display: none;\">Edit</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-comments\" style=\"display: none;\">Comments</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-delete\" style=\"display: none;\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</a>\n",
+        "template": "\n<a href=\"/build/index\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-blog\">Posts</a>\n<a href=\"/build/new\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-new\">New</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-edit\" style=\"display: none;\">Edit</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-comments\" style=\"display: none;\">Comments</a>\n<a href=\"#\" class=\"btn btn-outline-primary btn-sm\" id=\"poc2go-navbar-delete\" style=\"display: none;\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</a>\n",
         "output": "str",
         "x": 460,
         "y": 140,
@@ -1018,7 +1047,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"first-carousel-title\" class=\"text-shadow\"></h3>\n                <div id=\"first-carousel-body\"></div>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"second-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"second-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"third-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"third-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">{{{config.casual.sitename}}}</h1>\n          <div class=\"text-heading text-muted text-lg\">\n            By <strong>PotOfCoffee2Go</strong> template by <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 id=\"worth-visiting-title\" class=\"text-center text-lg text-uppercase my-0\">Build a website <strong>worth visiting</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"/casual/img/intro-pic.jpg\" alt=\"\">\n            <div id=\"worth-visiting-body\"></div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n    \n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n        $(function () {\n            $(\"#nav-item-index\").addClass(\"active\");\n            \n            poc2go.getBlogPost(\"{{config.casual.carousel1post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#first-carousel-title').html(marked.title);            \n                $('#first-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel2post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#second-carousel-title').html(marked.title);            \n                $('#second-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel3post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#third-carousel-title').html(marked.title);            \n                $('#third-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.mainpost}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#worth-visiting-title').html(marked.title);            \n                $('#worth-visiting-body').html(marked.body);            \n             });\n            \n            $('#worth-visiting-body').click(function(e){\n                if (/\\/casual\\//.test(e.target.pathname) || /\\/posts\\//.test(e.target.pathname)) {\n                    e.preventDefault();\n                    $.ajax({\n                        type: \"GET\",\n                        url: e.target.pathname.replace(/\\/casual\\//, '/posts/'),\n                        success: function(post) {\n                            var marked = poc2go.markup(post);\n                            $('#worth-visiting-title').html(marked.title);            \n                            $('#worth-visiting-body').html(marked.body);            \n                        },\n                        error: function() {\n                            alert(\"Get post \" + postid + \" error\");\n                        }\n                    });\n                }\n            });\n        });\n        \n    </script>\n\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"first-carousel-title\" class=\"text-shadow\"></h3>\n                <div id=\"first-carousel-body\"></div>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"second-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"second-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"third-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"third-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">{{{config.casual.sitename}}}</h1>\n          <div class=\"text-heading text-muted text-lg\">\n            By <strong>PotOfCoffee2Go</strong> template by <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <a id=\"worth-visiting-edit-link\" href=\"/build/edit/{{config.casual.mainpost}}\">Edit</a>\n        <hr class=\"divider\">\n        <h2 id=\"worth-visiting-title\" class=\"text-center text-lg text-uppercase my-0\">Build a website <strong>worth visiting</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"/casual/img/intro-pic.jpg\" alt=\"\">\n            <div id=\"worth-visiting-body\"></div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n    \n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n        $(function () {\n            $(\"#nav-item-index\").addClass(\"active\");\n            \n            poc2go.getBlogPost(\"{{config.casual.carousel1post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#first-carousel-title').html(marked.title);            \n                $('#first-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel2post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#second-carousel-title').html(marked.title);            \n                $('#second-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel3post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#third-carousel-title').html(marked.title);            \n                $('#third-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.mainpost}}\", function(post) {\n                var marked = poc2go.markup(post);\n                $('#worth-visiting-title').html(marked.title);            \n                $('#worth-visiting-body').html(marked.body);            \n             });\n            \n            $('#worth-visiting-body').click(function(e){\n                if (/\\/casual\\//.test(e.target.pathname) || /\\/records\\//.test(e.target.pathname)) {\n                    e.preventDefault();\n                    $.ajax({\n                        type: \"GET\",\n                        url: e.target.pathname.replace(/\\/casual\\//, '/records/'),\n                        success: function(post) {\n                            var marked = poc2go.markup(post);\n                            $('#worth-visiting-title').html(marked.title);            \n                            $('#worth-visiting-body').html(marked.body);\n                            $('#worth-visiting-edit-link').attr('href','/build/edit/' + e.target.pathname.split('/').pop());\n                        },\n                        error: function() {\n                            alert(\"Get post \" + postid + \" error\");\n                        }\n                    });\n                }\n            });\n        });\n        \n    </script>\n</body>\n</html>\n",
         "output": "str",
         "x": 640,
         "y": 100,
@@ -1301,7 +1330,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "plain",
-        "template": "<!-- Libraries to markup posts -->\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n\n<!-- Strip HTML tags - sanitize post title, author, body -->\n<script src=\"/vendor/ericnorris/striptags.js\"></script>\n\n<script>\n// Showdown code highlight script\nshowdown.extension('codehighlight', function() {\n  function htmlunencode(text) {\n    return (\n      text\n        .replace(/&amp;/g, '&')\n        .replace(/&lt;/g, '<')\n        .replace(/&gt;/g, '>')\n      );\n  }\n  return [\n    {\n      type: 'output',\n      filter: function (text, converter, options) {\n        // use new shodown's regexp engine to conditionally parse codeblocks\n        var left  = '<pre><code\\\\b[^>]*>',\n            right = '</code></pre>',\n            flags = 'g',\n            replacement = function (wholeMatch, match, left, right) {\n              // unescape match to prevent double escaping\n              match = htmlunencode(match);\n              return left + hljs.highlightAuto(match).value + right;\n            };\n        return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n      }\n    }\n  ];\n});\n\n// PotOfCoffee2Go Namespace\nvar poc2go = {\n    converter: new showdown.Converter({ extensions: ['codehighlight'] }),\n    render: function(text, context) {\n        return Mustache.render(poc2go.converter.makeHtml(text), context);\n    },\n    markup: function(post) {\n        var body = post.body ? post.body.replace(/\\/\\/\\s*\\{\\{/g,'\\{\\{') : ''; // Handle mustache in code files\n        return {\n            title: poc2go.render(post.title ? post.title : '', post.context),\n            author: poc2go.render(post.author ? post.author : '', post.context),\n            body: poc2go.render(body + (post.locallinks ? '\\n' + post.locallinks : ''), post.context),\n            lastupdated: moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow()\n        }\n    },\n\n\n\n    getBlogPost: function getBlogPost(postid, cb) {\n        $.ajax({\n            type: \"GET\",\n            url: '/records/' + postid,\n            success: function(record) {\n                record.context = record.context ? JSON.parse(record.context) : {};\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Get post \" + postid + \" error\");\n            }\n        });\n    },\n    \n    postForm: function postForm(e, formId, url, cb) {\n        var datastring = $(formId).serialize();\n        $.ajax({\n            type: \"POST\",\n            url: url,\n            data: datastring,\n            success: function(record) {\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Form submit error\");\n            }\n        });\n        e.preventDefault(); // prevent default submit behavior\n    }\n\n};\n\n$(function () {\n    $('pre code').addClass('hljs');\n    showdown.setFlavor('github');\n});\n</script>\n\n",
+        "template": "<!-- Libraries to markup posts -->\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js\"></script>\n\n<!-- Strip HTML tags - sanitize post title, author, body -->\n<script src=\"/vendor/ericnorris/striptags.js\"></script>\n\n<script>\n// Showdown code highlight script\nshowdown.extension('codehighlight', function() {\n  function htmlunencode(text) {\n    return (\n      text\n        .replace(/&amp;/g, '&')\n        .replace(/&lt;/g, '<')\n        .replace(/&gt;/g, '>')\n      );\n  }\n  return [\n    {\n      type: 'output',\n      filter: function (text, converter, options) {\n        // use new shodown's regexp engine to conditionally parse codeblocks\n        var left  = '<pre><code\\\\b[^>]*>',\n            right = '</code></pre>',\n            flags = 'g',\n            replacement = function (wholeMatch, match, left, right) {\n              // unescape match to prevent double escaping\n              match = htmlunencode(match);\n              return left + hljs.highlightAuto(match).value + right;\n            };\n        return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);\n      }\n    }\n  ];\n});\n\n// PotOfCoffee2Go Namespace\nvar poc2go = {\n    converter: new showdown.Converter({ extensions: ['codehighlight'] }),\n    render: function(text, context) {\n        return Mustache.render(poc2go.converter.makeHtml(text), context);\n    },\n    markup: function(post) {\n        var body = post.body ? post.body.replace(/\\/\\/\\s*\\{\\{/g,'\\{\\{') : ''; // Handle mustache in code files\n        return {\n            title: poc2go.render(post.title ? post.title : '', post.context),\n            author: poc2go.render(post.author ? post.author : '', post.context),\n            body: poc2go.render(body + (post.locallinks ? '\\n' + post.locallinks : ''), post.context),\n            lastupdated: moment.utc(post.updated, 'YYYY-MM-DD HH:mm:ss').local().fromNow()\n        }\n    },\n\n\n\n    getBlogPost: function getBlogPost(postid, cb) {\n        $.ajax({\n            type: \"GET\",\n            url: '/records/' + postid,\n            success: function(record) {\n                record.context = record.context ? JSON.parse(record.context) : {};\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Get post \" + postid + \" error\");\n            }\n        });\n    },\n    \n    postForm: function postForm(e, formId, url, cb) {\n        var datastring = $(formId).serialize();\n        $.ajax({\n            type: \"POST\",\n            url: url,\n            data: datastring,\n            success: function(record) {\n                if (cb) cb(record);\n            },\n            error: function() {\n                alert(\"Form submit error\");\n            }\n        });\n        e.preventDefault(); // prevent default submit behavior\n    }\n\n};\n\n$(function () {\n    $('[data-toggle=\"tooltip\"]').tooltip(); \n    $('pre code').addClass('hljs');\n    showdown.setFlavor('github');\n});\n</script>\n\n",
         "output": "str",
         "x": 160,
         "y": 120,
@@ -1414,8 +1443,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 210,
-        "y": 520,
+        "x": 230,
+        "y": 720,
         "wires": []
     },
     {
@@ -1424,8 +1453,8 @@
         "z": "3082454d.fb9b3a",
         "name": "",
         "scope": null,
-        "x": 80,
-        "y": 520,
+        "x": 100,
+        "y": 720,
         "wires": [
             [
                 "89c45d4c.da0e1"
@@ -1438,8 +1467,8 @@
         "z": "3082454d.fb9b3a",
         "name": "Catch errors",
         "info": "",
-        "x": 390,
-        "y": 520,
+        "x": 410,
+        "y": 720,
         "wires": []
     },
     {
@@ -1447,15 +1476,15 @@
         "type": "http in",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "url": "/build/contacts",
+        "url": "/build/comments",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
+        "x": 120,
         "y": 360,
         "wires": [
             [
-                "1996bcdc.80c293"
+                "2f4605ce.887d8a"
             ]
         ]
     },
@@ -1463,7 +1492,7 @@
         "id": "933a5ef2.ab30c",
         "type": "template",
         "z": "3082454d.fb9b3a",
-        "name": "Contacts page",
+        "name": "Comment page",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
@@ -1494,12 +1523,12 @@
     {
         "id": "83e9ae36.34463",
         "type": "function",
-        "z": "e9419896.265688",
-        "name": "Select contact",
-        "func": "global.get(\"db\").getRecords(msg,['contact']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "z": "269e4e9c.582ef2",
+        "name": "Select comment",
+        "func": "global.get(\"db\").getRecords(msg,['comment']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 180,
+        "x": 200,
         "y": 40,
         "wires": [
             []
@@ -1510,15 +1539,15 @@
         "type": "http in",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "url": "/build/contacts/:recordId",
+        "url": "/build/comments/:recordId",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 140,
+        "x": 150,
         "y": 460,
         "wires": [
             [
-                "d27b84e6.933348"
+                "6944bcb1.1fe8a4"
             ]
         ]
     },
@@ -1539,7 +1568,7 @@
         "id": "6adbe29c.7ad46c",
         "type": "comment",
         "z": "3082454d.fb9b3a",
-        "name": "Contacts",
+        "name": "Comments",
         "info": "",
         "x": 520,
         "y": 320,
@@ -1549,12 +1578,12 @@
         "id": "c682fb20.8f0048",
         "type": "template",
         "z": "3082454d.fb9b3a",
-        "name": "New/Edit contact",
+        "name": "New/Edit comment",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t                (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.name}} updated (<i id=\"last-updated\">{{record.updated}}</i>)\n                        <form id=\"contactForm\">\n                          <div class=\"row\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n                            <input type=\"hidden\" name=\"type\" value=\"contact\">\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Name</label>\n                              <input type=\"text\" name=\"name\" class=\"form-control\" value=\"{{record.name}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Email Address</label>\n                              <input type=\"email\" name=\"email\" class=\"form-control\" value=\"{{record.email}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Phone Number</label>\n                              <input type=\"tel\" name=\"phone\" class=\"form-control\" value=\"{{record.phone}}\">\n                            </div>\n                            <div class=\"clearfix\"></div>\n                            <div class=\"form-group col-lg-12\">\n                              <label class=\"text-heading\">Message</label>\n                              <textarea class=\"form-control\" name=\"message\" rows=\"6\" >{{record.message}}</textarea>\n                            </div>\n                            <div class=\"form-group col-lg-12\">\n                              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n                            </div>\n                          </div>\n                          <div id=\"contact-sent\" style=\"display: none;\"></div>\n                        </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            $('#last-updated').html(moment.utc($('#last-updated').html(), 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#contactForm\").submit(function(e) {\n            poc2go.postForm(e, \"#contactForm\",\n                \"/records/\" + {{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}},\n                function(record) {window.location = '/build/contacts';} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t                (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.name}} updated (<i id=\"last-updated\">{{record.updated}}</i>)\n                        <form id=\"commentForm\">\n                          <div class=\"row\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n                            <input type=\"hidden\" name=\"type\" value=\"contact\">\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Name</label>\n                              <input type=\"text\" name=\"name\" class=\"form-control\" value=\"{{record.name}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Email Address</label>\n                              <input type=\"email\" name=\"email\" class=\"form-control\" value=\"{{record.email}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Phone Number</label>\n                              <input type=\"tel\" name=\"phone\" class=\"form-control\" value=\"{{record.phone}}\">\n                            </div>\n                            <div class=\"clearfix\"></div>\n                            <div class=\"form-group col-lg-12\">\n                              <label class=\"text-heading\">Message</label>\n                              <textarea class=\"form-control\" name=\"message\" rows=\"6\" >{{record.message}}</textarea>\n                            </div>\n                            <div class=\"form-group col-lg-12\">\n                              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n                            </div>\n                          </div>\n                          <div id=\"contact-sent\" style=\"display: none;\"></div>\n                        </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            $('#last-updated').html(moment.utc($('#last-updated').html(), 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#commentForm\").submit(function(e) {\n            poc2go.postForm(e, \"#commentForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {window.location = '/build/contacts';} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
         "output": "str",
         "x": 770,
         "y": 440,
@@ -1569,11 +1598,11 @@
         "type": "http in",
         "z": "3082454d.fb9b3a",
         "name": "",
-        "url": "/build/contacts/new",
+        "url": "/build/comments/new",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 130,
         "y": 420,
         "wires": [
             [
@@ -1609,7 +1638,7 @@
         "id": "83c9c693.058a38",
         "type": "subflow:c5387977.e4d928",
         "z": "3082454d.fb9b3a",
-        "x": 380,
+        "x": 370,
         "y": 100,
         "wires": [
             [
@@ -1621,7 +1650,7 @@
         "id": "8c2586d5.53ed18",
         "type": "subflow:c5387977.e4d928",
         "z": "3082454d.fb9b3a",
-        "x": 380,
+        "x": 370,
         "y": 220,
         "wires": [
             [
@@ -1633,7 +1662,7 @@
         "id": "2db86998.f4ead6",
         "type": "subflow:c5387977.e4d928",
         "z": "3082454d.fb9b3a",
-        "x": 380,
+        "x": 370,
         "y": 260,
         "wires": [
             [
@@ -1831,30 +1860,6 @@
         ]
     },
     {
-        "id": "1996bcdc.80c293",
-        "type": "subflow:e9419896.265688",
-        "z": "3082454d.fb9b3a",
-        "x": 380,
-        "y": 360,
-        "wires": [
-            [
-                "d14988.3a179678"
-            ]
-        ]
-    },
-    {
-        "id": "d27b84e6.933348",
-        "type": "subflow:e9419896.265688",
-        "z": "3082454d.fb9b3a",
-        "x": 380,
-        "y": 460,
-        "wires": [
-            [
-                "58186541.52574c"
-            ]
-        ]
-    },
-    {
         "id": "235fb762.682948",
         "type": "comment",
         "z": "8c3ec654.d10248",
@@ -1878,10 +1883,241 @@
         "id": "6ab3d1d7.1c93b",
         "type": "comment",
         "z": "3082454d.fb9b3a",
-        "name": "Create / Edit a contacts",
+        "name": "Create / Edit a contact",
         "info": "",
         "x": 1000,
         "y": 440,
         "wires": []
+    },
+    {
+        "id": "b1506cd.112659",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 560,
+        "wires": [
+            [
+                "ae7ae662.cee218"
+            ]
+        ]
+    },
+    {
+        "id": "6d7f498c.b982e8",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Builder Contacts</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Contact List</h2>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over contacts and render them -->\n                            <div class=\"list-group\">\n                                {{#records}}\n                                    <a href=\"/build/contacts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      <h4 class=\"list-group-item-heading post-title\" style=\"float: left;\">{{{name}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{email}}} (<i class=\"post-updated\">{{updated}}</i>)\n                                      </p>\n                                      <p class=\"post-message\">{{{message}}}</p>\n                                    </a>\n                                {{/records}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    $(function () {\n        $('.post-title').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        $('.post-updated').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(moment.utc(text, 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        });\n        $('.post-message').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        \n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
+        "output": "str",
+        "x": 760,
+        "y": 560,
+        "wires": [
+            [
+                "7fc5e6b5.32ce88"
+            ]
+        ]
+    },
+    {
+        "id": "db51cd08.4bd9",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 560,
+        "wires": [
+            [
+                "6d7f498c.b982e8"
+            ]
+        ]
+    },
+    {
+        "id": "e6c9f298.90b5b",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts/:recordId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 660,
+        "wires": [
+            [
+                "cdac8841.ac2eb8"
+            ]
+        ]
+    },
+    {
+        "id": "7e7affc.923f8",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 660,
+        "wires": [
+            [
+                "5f7b7651.5246e8"
+            ]
+        ]
+    },
+    {
+        "id": "6e93d55a.9cc38c",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts",
+        "info": "",
+        "x": 520,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "5f7b7651.5246e8",
+        "type": "template",
+        "z": "3082454d.fb9b3a",
+        "name": "New/Edit contact",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n</head>\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n\t\t\t    <div class=\"container\">\n                    {{{page.header}}}\n\t\t            {{{page.navbar}}}\n\t\t            <div>\n\t\t                (<a href=\"/records/{{record.id}}\">{{record.id}}</a>) by {{record.name}} updated (<i id=\"last-updated\">{{record.updated}}</i>)\n                        <form id=\"contactForm\">\n                          <div class=\"row\">\n\t\t\t                <input type=\"hidden\" name=\"id\" id=\"inputId\" value=\"{{record.id}}\" placeholder=\"Id\">\n                            <input type=\"hidden\" name=\"type\" value=\"contact\">\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Name</label>\n                              <input type=\"text\" name=\"name\" class=\"form-control\" value=\"{{record.name}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Email Address</label>\n                              <input type=\"email\" name=\"email\" class=\"form-control\" value=\"{{record.email}}\">\n                            </div>\n                            <div class=\"form-group col-lg-4\">\n                              <label class=\"text-heading\">Phone Number</label>\n                              <input type=\"tel\" name=\"phone\" class=\"form-control\" value=\"{{record.phone}}\">\n                            </div>\n                            <div class=\"clearfix\"></div>\n                            <div class=\"form-group col-lg-12\">\n                              <label class=\"text-heading\">Message</label>\n                              <textarea class=\"form-control\" name=\"message\" rows=\"6\" >{{record.message}}</textarea>\n                            </div>\n                            <div class=\"form-group col-lg-12\">\n                              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n                            </div>\n                          </div>\n                          <div id=\"contact-sent\" style=\"display: none;\"></div>\n                        </form>\n\t                </div>\n\t\t            {{{page.footer}}}\n\t\t\t    </div>\n\t\t    </div>\n\t\t</div>\n\t</div>\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n<!-- Ace Editor -->\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js\" type=\"text/javascript\" charset=\"utf-8\"></script>\n<script>\n    // Hook up ACE editor to all textareas with data-editor attribute\n    // https://gist.github.com/duncansmart/5267653\n    $(function () {\n        $('[data-toggle=\"tooltip\"]').tooltip(); \n\n        $('#poc2go-navbar-new').css('display', 'none');\n\n        // Init the ACE editors\n        $('textarea[data-editor]').each(function () {\n            var textarea = $(this);\n            var mode = textarea.data('editor');\n            var editDiv = $('<div>', {\n                position: 'absolute',\n                width: textarea.width(),\n                height: textarea.height(),\n                'class': textarea.attr('class')\n            }).insertBefore(textarea);\n            textarea.css('display', 'none');\n            var editor = ace.edit(editDiv[0]);\n            editor.renderer.setShowGutter(true);\n            editor.getSession().setValue(textarea.val());\n            editor.getSession().setMode(\"ace/mode/\" + mode);\n            editor.getSession().setUseWrapMode(true);\n            // editor.setTheme(\"ace/theme/idle_fingers\");\n            \n            // copy back to textarea on form submit...\n            textarea.closest('form').submit(function () {\n                textarea.val(editor.getSession().getValue());\n            });\n        });\n\n        {{#record}}\n            $('#last-updated').html(moment.utc($('#last-updated').html(), 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        {{/record}}\n\n        // Default slug value is lower case title with spaces to dashes\n        $(\"#inputTitle\").change(function() {\n            if ($(\"#inputSlug\").val() === \"\") {\n                var slug = $(\"#inputTitle\").val().replace(/[^\\w\\s]/g,'').replace(/\\s/g,'-').toLowerCase();\n                $(\"#inputSlug\").val(slug);\n            }\n        });\n\n        // Submit New or Update blog post\n        $(\"#contactForm\").submit(function(e) {\n            poc2go.postForm(e, \"#contactForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {window.location = '/build/contacts';} );\n        });\n    });\n\n</script>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 770,
+        "y": 640,
+        "wires": [
+            [
+                "7fc5e6b5.32ce88"
+            ]
+        ]
+    },
+    {
+        "id": "81db5960.2a5d98",
+        "type": "http in",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "url": "/build/contacts/new",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 620,
+        "wires": [
+            [
+                "a7d522ee.9e357"
+            ]
+        ]
+    },
+    {
+        "id": "a7d522ee.9e357",
+        "type": "subflow:ecf7de04.053ad",
+        "z": "3082454d.fb9b3a",
+        "name": "",
+        "x": 570,
+        "y": 620,
+        "wires": [
+            [
+                "5f7b7651.5246e8"
+            ]
+        ]
+    },
+    {
+        "id": "7fc5e6b5.32ce88",
+        "type": "http response",
+        "z": "3082454d.fb9b3a",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1000,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "ae7ae662.cee218",
+        "type": "subflow:e9419896.265688",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 560,
+        "wires": [
+            [
+                "db51cd08.4bd9"
+            ]
+        ]
+    },
+    {
+        "id": "cdac8841.ac2eb8",
+        "type": "subflow:e9419896.265688",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 660,
+        "wires": [
+            [
+                "7e7affc.923f8"
+            ]
+        ]
+    },
+    {
+        "id": "27aa7214.d5b7be",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Contacts home page",
+        "info": "",
+        "x": 990,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "3eb673b8.d2c43c",
+        "type": "comment",
+        "z": "3082454d.fb9b3a",
+        "name": "Create / Edit a contact",
+        "info": "",
+        "x": 1000,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "2f4605ce.887d8a",
+        "type": "subflow:269e4e9c.582ef2",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 360,
+        "wires": [
+            [
+                "d14988.3a179678"
+            ]
+        ]
+    },
+    {
+        "id": "6944bcb1.1fe8a4",
+        "type": "subflow:269e4e9c.582ef2",
+        "z": "3082454d.fb9b3a",
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "58186541.52574c"
+            ]
+        ]
+    },
+    {
+        "id": "d56f2495.34e408",
+        "type": "function",
+        "z": "e9419896.265688",
+        "name": "Select contact",
+        "func": "global.get(\"db\").getRecords(msg,['contact']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 40,
+        "wires": [
+            []
+        ]
     }
 ]

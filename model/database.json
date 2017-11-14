@@ -1,15 +1,14 @@
 [
   {
-    "id": 2,
+    "id": "2d1a1a84.e718a6",
     "title": "Templating with mustache",
     "author": "John",
     "body": "Blog post number 2!\r\n\r\nThis is [an example](http://example.com/ \"Title\") inline link.\r\n\r\n",
     "updated": "2017-09-25T04:11:10.802Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 6,
+    "id": "e281a8f8.8e2a88",
     "title": "![](/images/node-red-icon.svg =24x*)  Node-RED integration: <span style=\"color: red;\"> From the Bottom Up </span>",
     "author": "PotOfCoffee2Go",
     "slug": "from-the-bottom",
@@ -17,11 +16,10 @@
     "body": "<img align=\"left\" src=\"/images/HAL9000.png\" width=\"80px\">\r\n<div>\r\n <p><span style=\"font-size: 1.4em;\">&nbsp;&nbsp;&nbsp;&#8220;... all my circuits are functioning perfectly.&#8221;</span></p>\r\n <p><span style=\"padding-left:60px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <i>HAL 9000</i>\r\n    <a href=\"https://en.wikiquote.org/wiki/2001:_A_Space_Odyssey_(film)\">(2001: A Space Odyssey)</a> </span></p>\r\n</div>\r\n\r\nThis project is but-yet-another-blog-site which contains pages and posts describing techniques using [Node-RED] to handle the [process and data flow] control of HTTP requests to [node.js] applications. A combination of [Node-RED] and [node.js] modules are used to implement the site. Web pages and [RESTful] interface are implemented using [Node-RED] flows.\r\n\r\nThe focus has been to create a software framework to implement HTML and REST access to single-board [Internet of Things (IoT)] hardware.\r\n\r\n----\r\n###### [Would You Like to Know More?]\r\n<ul class=\"nav know-more\">\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"site-installation\">Installation</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"site-usage\">Usage</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"what-is-node-red\">What is Node-RED?</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"single-board-systems-compatibility\">Single-board systems compatibility</a></li>\r\n</ul>\r\n----\r\n\r\nThis site is made up of only two javascript code files (excluding custom [Node-RED nodes]). `./server.js` is the entry point of the application and `./model/database.js` provides permanent data storage.\r\n\r\nIt is assumed that developers have an intermediate understanding of [HTML],  [Node.js], [expressjs], [Markdown], and [Node-RED]. The web based [Ace] editor is used to create and edit the site page/post entries, while [Showdown] is used to convert [Markdown] text to [HTML]. The web pages use [BootStrap] V4 in an attempt to be [mobile friendly]. Minimal knowledge of [Ace], [BootStrap], and [Showdown] is sufficient.\r\n - Embed [Node-RED] into an [expressjs] server application.\r\n - Creation and debugging of application specific [Node-RED nodes].\r\n - Operation on single board systems (low cpu/memory footprint)\r\n   - [Raspberry Pi], [BeagleBoard], [Intel Edison], etc.\r\n\r\n----\r\n###### [Would You Like to Know More?]\r\n<ul class=\"nav know-more\">\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"embed-node-red\">Embed Node-RED into Expressjs server</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"app-specific-node-red-nodes\">Application specific Node-RED nodes</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"single-board-systems-compatibility\">Single-board systems compatibility</a></li>\r\n</ul>\r\n----\r\n\r\nThe [MVC] paradigm is used as a framework. A JSON file stores data, keeping inline with the minimalist concept of [Node-RED]. [Node-RED] accesses the `model and business logic` (database) via four javascript procedures `newPost`, `getPosts`, `updatePost`, and `deletePost` which are analogous to the [CRUD] operations in a [RESTful] interface. [Business] logic is implemented with-in the `model` component as suggested by the [MVC] paradigm.\r\n\r\nFor larger machines, one could implement the four javascript procedures to access _for example_ [MySQL], [Oracle], or [MongoDB]; which would work without any changes to the [Node-RED] flows as long as the resulting data content, format, and order are identical.\r\n - Interface [Node-RED] to [MVC] model and business logic components written as conventional [node.js] modules.\r\n\r\n----\r\n###### [Would You Like to Know More?]\r\n<ul class=\"nav know-more\">\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"mvc-logic\">MVC model and business logic</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Common Node.js Database Modules</a></li>\r\n</ul>\r\n----\r\n\r\nThe MVC [controller and view] components are implemented using [Node-RED] flows. The `controller` part is straight forward by using [Node-RED] `Http in and out` nodes. Web page `views` are constructed using the [Node-RED] built-in [mustache template engine] `template node`. Mustache is logic-less, which basically means there is only a most basic method to implement if-then-else conditionals with-in the template. Because of this, [Presentation] Logic is implemented as a Node-RED [sub-flow] to be shared by higher level flows.\r\n - Implement [MVC] control, view, and [presentation] logic components using [node-red] flows.\r\n - Using [node-red] sub-flows for presentation of web page styles, header, footer, navigation, and client-side scripts .\r\n\r\n----\r\n###### [Would You Like to Know More?]\r\n<ul class=\"nav know-more\">\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"node-red-subflows\">Node-RED subflows</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"control-view-and-presentation-logic\">MVC control, view, and presentation logic</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Building presentation logic in Node-RED</a></li>\r\n</ul>\r\n\r\n----\r\n###### [Would You Like to Know More?]\r\n<ul class=\"nav know-more\">\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"site-web-page-flows\">Site Web Page Flows</a></li>\r\n  <li class=\"nav-item\"><a class=\"nav-link\" href=\"site-restful-flows\">Site RESTful flows</a></li>\r\n</ul>\r\n\r\n----\r\n\r\n > **Note:** This project is an instructive tool installing itself locally at `http://localhost:8081`. **Anybody** with access to the site can modify blog pages and posts. \r\n\r\n----\r\n\r\n**Discuss**:\r\n - Situations when a conventional nodejs module is appropriate versus a node-red node\r\n - Scenarios when usage of node-red sub-flows is advantageous\r\n\r\n**IMHO**:\r\n - Where is the **'Logic'** in [MVC]???\r\n\r\n----\r\n\r\n\r\n### Installation\r\nTo see if you are interested, or wish to only see blog pages and posts:\r\n```bat\r\nnpm install node-red-from-the-bottom\r\ncd node-red-from-the-bottom\r\nnpm start\r\n```\r\nThen in address bar of your web browser:\r\n```\r\nhttp://localhost:8081\r\n```\r\n\r\nHowever; `node-red-from-the-bottom` is designed to be cloned so that you can inspect, modify, and play around with it.\r\n```bat\r\ngit clone https://github.com/PotOfCoffee2Go/node-red-from-the-bottom.git\r\ncd node-red-from-the-bottom\r\nnpm install\r\nnpm start\r\n```\r\n\r\n",
     "locallinks": "[Would You Like to Know More?]: https://www.youtube.com/watch?v=kdrjzE1SE58\r\n[Ace]: https://ace.c9.io/\r\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\r\n[BootStrap]: http://getbootstrap.com/\r\n[Business]: https://en.wikipedia.org/wiki/Business_logic\r\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\r\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\r\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[data flows]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[expressjs]: https://expressjs.com/\r\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[framework]: https://en.wikipedia.org/wiki/Software_framework\r\n[GitHub]: https://github.com/node-red\r\n[HTML]: https://en.wikipedia.org/wiki/HTML\r\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\r\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\r\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\r\n[JS Foundation]: https://js.foundation/community/projects\r\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\r\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\r\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\r\n[Mustache]: https://mustache.github.io/\r\n[mustache template engine]: https://mustache.github.io/\r\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\r\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\r\n[Node-Red]: https://nodered.org/\r\n[Node.js]: https://nodejs.org/\r\n[Node-RED flows]: https://nodered.org/docs/getting-started/first-flow\r\n[nodes]: https://nodered.org/docs/creating-nodes/\r\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\r\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\r\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\r\n[REST]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[Showdown]: https://github.com/showdownjs/showdown/wiki\r\n",
     "context": "{}",
-    "updated": "2017-11-06T00:18:27.957Z",
-    "comments": []
+    "updated": "2017-11-06T00:18:27.957Z"
   },
   {
-    "id": 8,
+    "id": "1a351d9.3be43e2",
     "title": "MIT License",
     "author": "PotOfCoffee2Go",
     "slug": "mit-license",
@@ -30,39 +28,35 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-24T14:37:24.221Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 9,
+    "id": "1650802d.3658c",
     "title": "Test of db change",
     "author": "Kim",
     "body": "Test the db change too 2\r\n",
     "updated": "2017-09-25T04:04:11.059Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 10,
+    "id": "1a374e0d.7f6ed2",
     "title": "A web page",
     "author": "Kim",
     "webpage": "yes",
     "body": "this is a web page cool",
     "updated": "2017-09-25T05:03:01.596Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 11,
+    "id": "32d1ef5b.b9f4c",
     "title": "newest yett",
     "author": "Kim",
     "body": "This is so new! cool",
     "updated": "2017-10-15T11:28:49.684Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 12,
+    "id": "5eae7c6a.e39514",
     "title": "newnew",
     "author": "Kim",
     "slug": "",
@@ -70,33 +64,30 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-29T11:21:57.617Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 14,
+    "id": "e5b6b687.b21158",
     "title": "![](../images/design.jpg =24x*) newnwenwenwne",
     "author": "kim",
     "slug": "newer-than-new-than-new",
     "body": "![](../images/design.jpg =80x*)\r\nThis is cooler\r\n\r\n - [x] This task is done\r\n - [ ] This is still pending\r\n\r\n<img src=\"/favicon.ico\" width=\"32\">\r\n\r\n![bar](/favicon.ico =64x*)\r\n![bar](/favicon.ico =128x*)\r\n\r\n",
     "updated": "2017-10-15T13:37:03.546Z",
     "links": "[\"Would You Like to Know More?\"]: https://www.youtube.com/watch?v=kdrjzE1SE58\n[Ace]: https://ace.c9.io/\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\n[BootStrap]: http://getbootstrap.com/\n[Business]: https://en.wikipedia.org/wiki/Business_logic\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\n[expressjs]: https://expressjs.com/\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\n[GitHub]: https://github.com/node-red\n[HTML]: https://en.wikipedia.org/wiki/HTML\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\n[JS Foundation]: https://js.foundation/community/projects\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\n[Mustache]: https://mustache.github.io/\n[mustache template engine]: https://mustache.github.io/\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\n[Node-Red]: https://nodered.org/\n[Node.js]: https://nodejs.org/\n[nodes]: https://nodered.org/docs/creating-nodes/\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\n[Showdown]: https://github.com/showdownjs/showdown/wiki\n",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 15,
+    "id": "de0b76af.8f0b18",
     "title": "The last time",
     "author": "Kim",
     "slug": "the-last-time-test2-2",
     "body": "This is the last one! again! test of post update\r\n<!-- <form action=\"https://google.com\"><input type=\"submit\" value=\"Go to Google\" /></form> -->\r\n{{{test}}}\r\n\r\n[Node-RED]\r\n\r\n\r\n\r\n[local link]\r\n\r\n\r\n\r\n",
     "locallinks": "[local link]: http://www.example.com\r\n",
     "context": "{\r\n    \"test\":\"<b>my test</b>\"\r\n}\r\n",
-    "updated": "2017-11-03T23:08:32.377Z",
-    "comments": []
+    "updated": "2017-11-03T23:08:32.377Z"
   },
   {
-    "id": 16,
+    "id": "a83e6e23.6b082",
     "title": "<img src=\"/images/node-red-icon.svg\" width=\"24px\"> What is node-RED?",
     "author": "PotOfCoffee2Go",
     "slug": "what-is-node-red",
@@ -105,11 +96,10 @@
     "locallinks": "[Apache-2.0]: https://github.com/node-red/node-red/blob/master/LICENSE\r\n[contributors]: https://github.com/node-red/node-red/graphs/contributors\r\n[Would You Like to Know More?]: https://www.youtube.com/watch?v=kdrjzE1SE58\r\n[Ace]: https://ace.c9.io/\r\n[BeagleBoard]: https://en.wikipedia.org/wiki/BeagleBoard\r\n[BootStrap]: http://getbootstrap.com/\r\n[Business]: https://en.wikipedia.org/wiki/Business_logic\r\n[control and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[controller and view]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[core nodes]: https://github.com/node-red/node-red/tree/master/nodes/core\r\n[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete\r\n[data flow]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[data flows]: https://en.wikipedia.org/wiki/Dataflow_programming\r\n[expressjs]: https://expressjs.com/\r\n[flows]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[flow based]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[framework]: https://en.wikipedia.org/wiki/Software_framework\r\n[GitHub]: https://github.com/node-red\r\n[HTML]: https://en.wikipedia.org/wiki/HTML\r\n[IBM Emerging Technology Group]: https://emerging-technology.co.uk/\r\n[Intel Edison]: https://en.wikipedia.org/wiki/Intel_Edison\r\n[Internet of Things (IoT)]: https://en.wikipedia.org/wiki/Internet_of_things\r\n[JS Foundation]: https://js.foundation/community/projects\r\n[Markdown]: https://daringfireball.net/projects/markdown/syntax\r\n[mobile friendly]: https://en.wikipedia.org/wiki/Mobile_Web\r\n[Model]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MongoDB]: https://en.wikipedia.org/wiki/MongoDB\r\n[Mustache]: https://mustache.github.io/\r\n[mustache template engine]: https://mustache.github.io/\r\n[MVC]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller\r\n[MySQL]: https://en.wikipedia.org/wiki/MySQL\r\n[Node-RED nodes]: https://nodered.org/docs/creating-nodes/\r\n[Node-Red]: https://nodered.org/\r\n[Node.js]: https://nodejs.org/\r\n[Node-RED flows]: https://nodered.org/docs/getting-started/first-flow\r\n[nodes]: https://nodered.org/docs/creating-nodes/\r\n[Oracle]: https://en.wikipedia.org/wiki/Oracle_Database\r\n[Presentation]: https://en.wikipedia.org/wiki/Presentation_logic\r\n[process and data flow]: https://en.wikipedia.org/wiki/Flow-based_programming\r\n[Raspberry Pi]: https://en.wikipedia.org/wiki/Raspberry_Pi\r\n[REST]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[RESTful]: https://en.wikipedia.org/wiki/Representational_state_transfer\r\n[Showdown]: https://github.com/showdownjs/showdown/wiki\r\n",
     "context": "{}",
     "updated": "2017-11-03T04:06:51.533Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 17,
+    "id": "59c90920.9ade38",
     "title": "PotOfCoffee2Go Blog Site Usage",
     "author": "PotOfCoffee2Go",
     "slug": "site-usage",
@@ -118,21 +108,26 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-11-03T03:51:54.667Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 18,
+    "id": "840b5dae.70e5b",
     "title": "Site Web Page Flows",
     "author": "PotOfCoffee2Go",
     "slug": "site-web-page-flows",
     "body": "Site Web Page Flows\r\n",
-    "updated": "2017-10-17T04:47:59.614Z",
-    "comments": [],
-    "type": "post"
+    "updated": "2017-11-13T01:52:51.472Z",
+    "type": "post",
+    "myprivate": [
+      {
+        "author": "Kim comment",
+        "author1": "Kim comment",
+        "author2": "Kim comment"
+      }
+    ]
   },
   {
-    "id": 19,
+    "id": "cdd3f33a.54516",
     "title": "Node-RED Host Server",
     "author": "PotOfCoffee2Go",
     "slug": "node-red-host-server",
@@ -140,11 +135,10 @@
     "body": "The Node-RED runtime is embedded by passing a HTTP server to it's initialize function.\r\n\r\n<a href=\"/code/server.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n'use strict'\r\n// {{{Modules}}}\r\nconst\r\n    http = require('http'),\r\n    path = require('path'),\r\n    express = require(\"express\"),\r\n    bodyParser  = require('body-parser'),\r\n    RED = require('node-red');\r\n\r\n// {{{Config}}}\r\nconst config = {\r\n    port: 8081,\r\n    homePage: '/build/posts/from-the-bottom',\r\n    dataStore: './model/posts.json',\r\n};\r\n\r\n// {{{Node-RED settings}}}\r\nconst nodered = {\r\n    settings: {\r\n        httpAdminRoot:\"/red\",     // node-RED flow editor \r\n        httpNodeRoot: \"/\",        // node 'http in' root directory\r\n        functionGlobalContext: {  // enable function nodes to reference our modules/objects\r\n            db: require('./model/database')(config.dataStore) // Blog data store\r\n        },\r\n        userDir: path.resolve(__dirname, \"node-red\"), // Flow storage\r\n        nodesDir: path.resolve(__dirname, \"node-red/nodes\"), // Custom nodes\r\n        flowFilePretty: true,\r\n        flowFile: 'flows.json',\r\n    }\r\n};\r\n\r\n// {{{Current working directory}}}\r\n/* In some cases the runtime uses the current working dir as root\r\n    and since server.js is in the project root directory\r\n    sets current working directory to project root */\r\nprocess.chdir(__dirname);\r\n\r\n// {{{Host Server}}}\r\n// Create an Express app and server\r\nvar app = express();\r\nvar server = http.createServer(app);\r\n\r\n// Body parsers so we can accept POSTed JSON and/or URL encoded data formats\r\napp.use(bodyParser.json());\r\napp.use(bodyParser.urlencoded({extended: true}));\r\n\r\n// {{{Host Routes}}}\r\n// Can use a blog post as the default page\r\napp.get('/', (req, res, next) => {req.url = config.homePage ? config.homePage : '/'; next();});\r\n\r\n// Replace slugs with the post id and continue down the route chain\r\nconst db = nodered.settings.functionGlobalContext.db;\r\napp.all('/build/posts/:slug', (req, res, next) => {db.permalink(req); next();});\r\napp.all('/build/posts/:slug/comments', (req, res, next) => {db.permalink(req); next();});\r\napp.get('/edit/:slug', (req, res, next) => {db.permalink(req); next();});\r\n\r\n// Display code files\r\napp.get('/code/server.js', (req, res) => {res.sendFile(path.resolve(__dirname, './server.js'));});\r\napp.get('/code/database.js', (req, res) => {res.sendFile(path.resolve(__dirname, './model/database.js'));});\r\n\r\n// Serve static content(css, js, etc) from site root ('public') directory\r\napp.use(\"/\", express.static(\"public\"));\r\n\r\n// {{{Node-RED}}}\r\n// Initialize node-RED runtime\r\nRED.init(server, nodered.settings);\r\n// Serve the node-RED Editor and http-in node UIs\r\napp.use(nodered.settings.httpAdminRoot, RED.httpAdmin);\r\napp.use(nodered.settings.httpNodeRoot, RED.httpNode);\r\n// Fire up our server\r\nserver.listen(config.port ? config.port : 8081);\r\n\r\n// {{{Start Node-RED runtime}}}\r\nconst embeddedStart = require('node-red-embedded-start');\r\nRED.start().then(embeddedStart(RED)).then((result) => {\r\n    // result is whatever RED.start() resolved to \r\n    // RED.node.getFlows() etc are now ready to use \r\n}).catch((err) => {\r\n    if (/^timed out/.test(err.message)) {\r\n        // embeddedStart() timed out \r\n        // the value that RED.start() resolved to is available as err.result \r\n    }\r\n});\r\n```",
     "locallinks": "",
     "context": "{\r\n    \"Modules\": \"<hr><h5><i class=\\\"fa fa-gears\\\"></i><span class=\\\"text-primary\\\"> Modules</span></h5>\",\r\n    \"Config\": \"<hr><h5><i class=\\\"fa fa-gear\\\"></i><span class=\\\"text-primary\\\"> Configuration </span></h5>\",\r\n    \"Node-RED settings\": \"<h5><i class=\\\"fa fa-gear\\\"></i><span class=\\\"text-primary\\\"> Node-RED settings</span></h5>\",\r\n    \"Current working directory\": \"<hr><h5><i class=\\\"fa fa-folder\\\"></i><span class=\\\"text-primary\\\"> Current working directory</span></h5>\",\r\n    \"Host Server\": \"<hr><h5><i class=\\\"fa fa-server\\\"></i><span class=\\\"text-primary\\\"> Express js server</span></h5>\",\r\n    \"Host Routes\": \"<hr><h5><i class=\\\"fa fa-code-fork\\\"></i><span class=\\\"text-primary\\\"> Host Routes</span></h5>\",\r\n    \"Node-RED\": \"<hr><h5><i class=\\\"fa fa-share-alt-square\\\"></i><span class=\\\"text-primary\\\"> Node-RED</span></h5>\",\r\n    \"Start Node-RED runtime\": \"<hr><h5><i class=\\\"fa fa-forward\\\"></i><span class=\\\"text-primary\\\"> Start Node-RED runtime</span></h5>\"\r\n}\r\n",
-    "updated": "2017-11-06T04:32:17.294Z",
-    "comments": []
+    "updated": "2017-11-06T04:32:17.294Z"
   },
   {
-    "id": 20,
+    "id": "b5f9d0d1.8b82c",
     "title": "<i class=\"fa fa-gears\"></i> New stuff",
     "author": "PotOfCoffee2Go",
     "slug": "new-stuff",
@@ -152,11 +146,10 @@
     "body": "This is some new stuff\r\n\r\n\r\n[Node-RED]\r\n\r\n[Local]\r\n\r\n```html\r\n<a href=\"ff\" >{{hi}}</a>\r\n\r\n<a href=\"ff\" >{{testit}}</a>\r\n\r\nhi me\r\n\r\nagain and again\r\n\r\n\r\n```\r\n\r\n",
     "locallinks": "[Local]: http://www.example.com\r\n",
     "context": "{\r\n    \"testit\": \"see my test post\",\r\n    \"hi\": \"hi there!\"\r\n}\r\n",
-    "updated": "2017-11-10T00:00:59.067Z",
-    "comments": []
+    "updated": "2017-11-10T00:00:59.067Z"
   },
   {
-    "id": 22,
+    "id": "7caddfaa.63a5d",
     "title": "Blog Database",
     "author": "PotOfCoffee2Go",
     "slug": "blog-database",
@@ -164,11 +157,10 @@
     "body": "This project is but-yet-another-blog-site which contains pages and posts describing techniques using [Node-RED] to handle the [process and data flow] control of HTTP requests to [node.js] applications. A combination of [Node-RED] and [node.js] modules are used to implement the site. Web pages and [RESTful] interface are implemented using [Node-RED] flows.\r\n\r\nThe focus has been to create a software framework to implement HTML and REST access to single-board [Internet of Things (IoT)] hardware.\r\n\r\n<a href=\"/code/database.js\" class=\"btn btn-outline-success btn-sm\">Raw</a>\r\n\r\n```javascript\r\n\r\n'use strict'\r\n\r\n// {{{Modules}}}\r\nconst fs = require('fs-extra');\r\n\r\n// {{{Business Logic}}}\r\n// Check if a postId was given in the HTTP request\r\nfunction idPosted(msg) {return msg.req && msg.req.params && msg.req.params.postId;}\r\n\r\n// {{{Database storage}}}\r\n// Placeholder for path to JSON file database\r\nvar dbStore = '';\r\n\r\n// Read blog posts data\r\nfunction loadPosts() {\r\n  // A single blog post placeholder in case can't read the data\r\n  var data = [{\r\n    id: 1,\r\n    slug: 'New-post-DB',\r\n    striptitle: 'New post DB',\r\n    title: 'New post DB',\r\n    author: 'First post',\r\n    body: '**' + dbStore + '** created',\r\n    updated: new Date().toISOString()\r\n  }];\r\n\r\n  try {\r\n    data = fs.readJsonSync(dbStore);\r\n  } catch(e){}\r\n\r\n  // Storage of records will be by id ascending\r\n  data.sort((a,b) => {return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;});\r\n  return data;\r\n}\r\n\r\n// Write blog posts data\r\nfunction storePosts() {\r\n  fs.writeJsonSync(dbStore, database.posts, {spaces: 2});\r\n}\r\n\r\n// {{{Database}}}\r\nvar database = {\r\n  // Placeholder for array of blog post data\r\n  posts: [], \r\n  // {{{Get all or single blog post}}}\r\n  getPosts: (msg) => {\r\n    // When a single post requested - return in msg.post\r\n    if (idPosted(msg)) {\r\n        msg.post = database.posts.find(post => post.id === parseInt(msg.req.params.postId, 10));\r\n    } // When ALL posts requested - return list in msg.posts (note the 's')\r\n    else {\r\n      msg.posts = [];\r\n      database.posts.forEach((post) => {\r\n        msg.posts.push(post);\r\n      });\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Add a blog post}}}\r\n  newPost: (msg) => {\r\n    // Get largest id from database (+ 1) and push new post to DB\r\n    var lastId = Math.max.apply(null, database.posts.map(post => post.id));\r\n    msg.payload.id = lastId+1;\r\n    msg.payload.updated = new Date().toISOString();\r\n    database.posts.push(msg.payload);\r\n    storePosts();\r\n    return msg;\r\n  },\r\n\r\n  // {{{Update a blog post}}}\r\n  updatePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload.id = database.posts[idx].id; // insure id is a number\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.comments = database.posts[idx].comments || [] ;\r\n        database.posts[idx] = msg.payload;\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Delete a blog post}}}\r\n  deletePost: (msg) => {\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        msg.payload = JSON.parse(JSON.stringify(database.posts[idx]));// copy\r\n        database.posts.splice(idx, 1); // Remove the post\r\n        storePosts();\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n  \r\n  // {{{Add a comment}}}\r\n  newComment: (msg) => {\r\n    var lastId = 0;\r\n    if (idPosted(msg)) {\r\n      var idx = database.posts.findIndex(post => post.id === parseInt(msg.req.params.postId, 10));\r\n      if (idx > -1) {\r\n        if (!database.posts[idx].comments || database.posts[idx].comments.length === 0) {\r\n          database.posts[idx].comments = [];\r\n        }\r\n        else {\r\n          lastId = Math.max.apply(null, database.posts[idx].comments.map(comment => comment.id));\r\n        }\r\n        msg.payload.id = lastId + 1;\r\n        msg.payload.updated = new Date().toISOString();\r\n        msg.payload.approved = false;\r\n        database.posts[idx].comments.unshift(msg.payload);\r\n        storePosts();\r\n        msg.payload = database.posts[idx]; // return complete blog post\r\n      }\r\n    }\r\n    return msg;\r\n  },\r\n\r\n  // {{{Replace slug}}}\r\n  permalink: (req) => {\r\n    var post = database.posts.find(perm => perm.slug === req.params.slug);\r\n    if (post) {\r\n      req.url = req.url.replace('/posts/' + req.params.slug, '/posts/' + post.id);\r\n      req.url = req.url.replace('/edit/' + req.params.slug, '/edit/' + post.id);\r\n    }\r\n  }\r\n};\r\n\r\n// {{{Module entry}}}\r\nmodule.exports = (dbStorePath) => {\r\n  // Load blog posts from file\r\n  dbStore = dbStorePath;\r\n  database.posts = loadPosts();\r\n  return database;\r\n};\r\n\r\n\r\n```",
     "locallinks": "",
     "context": "{\r\n    \"Modules\": \"<hr><h5><i class=\\\"fa fa-gears\\\"></i><span class=\\\"text-primary\\\"> Modules</span></h5>\",\r\n    \"Business Logic\": \"<hr><h5><i class=\\\"fa fa-building-o\\\"></i><span class=\\\"text-primary\\\"> Business Logic</span></h5>\",\r\n    \"Database storage\": \"<hr><h5><i class=\\\"fa fa-folder-o\\\"></i><span class=\\\"text-primary\\\"> Database storage</span></h5>\",\r\n    \"Database\": \"<hr><h5><i class=\\\"fa fa-database\\\"></i><span class=\\\"text-primary\\\"> Database</span></h5>\",\r\n    \"Get all or single blog post\": \"<hr><h6><i class=\\\"fa fa-file-text-o\\\"></i><span class=\\\"text-primary\\\"> Get all or single blog post</span></h6>\",\r\n    \"Add a blog post\": \"<hr><h6><i class=\\\"fa fa-object-group\\\"></i><span class=\\\"text-primary\\\"> Add a blog post</span></h6>\",\r\n    \"Update a blog post\": \"<hr><h6><i class=\\\"fa fa-clipboard\\\"></i><span class=\\\"text-primary\\\"> Update a blog post</span></h6>\",\r\n    \"Delete a blog post\": \"<hr><h6><i class=\\\"fa fa-cut\\\"></i><span class=\\\"text-primary\\\"> Delete a blog post</span></h6>\",\r\n    \"Add a comment\": \"<hr><h6><i class=\\\"fa fa-object-group\\\"></i><span class=\\\"text-primary\\\"> Add a comment to a post</span></h6>\",\r\n    \"Replace slug\": \"<hr><h5><i class=\\\"fa fa-pencil-square-o\\\"></i><span class=\\\"text-primary\\\"> Replace slug in the url with the postId</span></h5>\",\r\n    \"Module entry\": \"<hr><h5><i class=\\\"fa fa-gear\\\"></i><span class=\\\"text-primary\\\"> Database module entry point</span></h5>\"\r\n}\r\n\r\n",
-    "updated": "2017-11-06T16:11:44.241Z",
-    "comments": []
+    "updated": "2017-11-06T16:11:44.241Z"
   },
   {
-    "id": 23,
+    "id": "b5464226.43abd",
     "title": "Test of new thingy",
     "author": "PotOfCoffee2Go",
     "slug": "test-of-new-thingy",
@@ -176,11 +168,10 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-24T02:49:46.598Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 24,
+    "id": "5c3667da.3383e8",
     "title": "No slug",
     "author": "Kim",
     "slug": "",
@@ -188,11 +179,10 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-28T20:08:50.259Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 25,
+    "id": "973d1fa1.16121",
     "title": "New flow test",
     "author": "Kim",
     "slug": "new-flow-test",
@@ -200,28 +190,10 @@
     "locallinks": "[for example]: http://www.example.com",
     "context": "{}",
     "updated": "2017-10-29T12:26:07.250Z",
-    "comments": [
-      {
-        "id": 2,
-        "approved": false,
-        "author": "Massachusetts Institute of Technology",
-        "email": "me@somewhere.com",
-        "body": "Second comment\r\n",
-        "updated": "2017-11-01T17:09:53.926Z"
-      },
-      {
-        "id": 1,
-        "approved": false,
-        "author": "Kim",
-        "email": "me@somewhere.com",
-        "body": "comments\r\n",
-        "updated": "2017-10-29T11:56:01.199Z"
-      }
-    ],
     "type": "post"
   },
   {
-    "id": 26,
+    "id": "f2687a6b.f700c8",
     "title": "Newest one",
     "author": "Kim",
     "slug": "newest-one",
@@ -229,25 +201,21 @@
     "locallinks": "",
     "context": "{}",
     "updated": "2017-10-29T12:28:34.126Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 27,
+    "id": "327d508a.468dd",
     "title": "Title Page <span class=\"text-muted\">(Draft)</span>",
     "author": "PotOfCoffee2Go",
     "slug": "title-page",
     "type": "page",
-    "body": "[(Edit)](/build/edit/title-page) {{! Quick access to edit this record. Remove when happy with content.}}\r\n\r\nThe focus of this project is to create a software [framework] to implement [HTML] and [REST] access to single-board [Internet of Things (IoT)] hardware using [Node-RED] to control the flow of web requests. The site styles, sidebars, navigation, and scripts can be modified using [Node-RED]. Site content can contain Text / [HTML] / [Markdown] / [Mustache] markup and is entered similar to a standard blog site. A combination of [Node-RED] and [node.js] modules are used to implement the site.\r\n\r\nIn the concept of `Drinking Your Own Poison`, this project uses the [framework] to implement a site describing the [Node-RED] techniques to handle the [process and data flow] control of [HTML] requests. \r\n\r\n----\r\n\r\nThe [framework] is made up of two javascript code files (excluding examples of custom [Node-RED nodes]).\r\n  * [./server.js] is the entry point of the application\r\n  * [./model/database.js] provides permanent data storage.\r\n\r\n----\r\n\r\nIt is assumed that developers have an intermediate understanding of [HTML],  [Node.js], [expressjs], [Markdown], and [Node-RED]. The web based [Ace] editor is used to create and edit site content. [Showdown] is used to convert [Markdown] text to [HTML]. The web pages use [BootStrap] V4 in an attempt to be [mobile friendly]. Minimal knowledge of [Ace], [BootStrap], and [Showdown] is sufficient.\r\n - Embed [Node-RED] into an [expressjs] server application.\r\n - Creation and debugging of application specific [Node-RED nodes].\r\n - Operation on single board systems (low cpu/memory footprint)\r\n   - [Raspberry Pi], [BeagleBoard], [Intel Edison], etc.\r\n\r\n",
-    "locallinks": "[./server.js]: /posts/node-red-host-server\r\n[./model/database.js]: /posts/blog-database",
+    "body": "The focus of this project is to create a software [framework] to implement [HTML] and [REST] access to single-board [Internet of Things (IoT)] hardware using [Node-RED] to control the flow of web requests. The site styles, sidebars, navigation, and scripts can be modified using [Node-RED]. Site content can contain Text / [HTML] / [Markdown] / [Mustache] markup and is entered similar to a standard blog site. A combination of [Node-RED] and [node.js] modules are used to implement the site.\r\n\r\nIn the concept of `Drinking Your Own Poison`, this project uses the [framework] to implement a site describing the [Node-RED] techniques to handle the [process and data flow] control of [HTML] requests. \r\n\r\n----\r\n\r\nThe [framework] is made up of two javascript code files (excluding examples of custom [Node-RED nodes]).\r\n  * [./server.js] is the entry point of the application\r\n  * [./model/database.js] provides permanent data storage.\r\n\r\n----\r\n\r\nIt is assumed that developers have an intermediate understanding of [HTML],  [Node.js], [expressjs], [Markdown], and [Node-RED]. The web based [Ace] editor is used to create and edit site content. [Showdown] is used to convert [Markdown] text to [HTML]. The web pages use [BootStrap] V4 in an attempt to be [mobile friendly]. Minimal knowledge of [Ace], [BootStrap], and [Showdown] is sufficient.\r\n - Embed [Node-RED] into an [expressjs] server application.\r\n - Creation and debugging of application specific [Node-RED nodes].\r\n - Operation on single board systems (low cpu/memory footprint)\r\n   - [Raspberry Pi], [BeagleBoard], [Intel Edison], etc.\r\n\r\n",
+    "locallinks": "[./server.js]: /records/node-red-host-server\r\n[./model/database.js]: /records/blog-database",
     "context": "{}",
-    "updated": "2017-11-07T07:44:12.364Z",
-    "comments": [],
-    "result": "success",
-    "nextpage": "/build/posts/title-page"
+    "updated": "2017-11-13T17:04:27.977Z"
   },
   {
-    "id": 28,
+    "id": "8b408e67.27928",
     "title": "Test After Build Update",
     "author": "",
     "slug": "test-after-build-update",
@@ -255,11 +223,10 @@
     "locallinks": "[example]: http://www.example.com\r\n",
     "context": "{ \"test\": \"<b>this is a test</b>\" }",
     "updated": "2017-11-02T15:36:07.760Z",
-    "comments": [],
     "type": "post"
   },
   {
-    "id": 29,
+    "id": "70e85bb5.fb4824",
     "title": "Numero Uno Slide [(Edit)](/build/edit/casual-first-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-first-slide",
@@ -267,11 +234,10 @@
     "body": "This is the first cool slide\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-06T19:48:02.716Z",
-    "comments": []
+    "updated": "2017-11-06T19:48:02.716Z"
   },
   {
-    "id": 30,
+    "id": "85af22c0.76a78",
     "title": "Numero Dos Slide [(Edit)](/build/edit/casual-second-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-second-slide",
@@ -279,23 +245,21 @@
     "body": "This is the second and cooler slide\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-06T19:26:00.290Z",
-    "comments": []
+    "updated": "2017-11-06T19:26:00.290Z"
   },
   {
-    "id": 31,
+    "id": "cc0c7565.fc70a8",
     "title": "Numero Tres Slide [(Edit)](/build/edit/casual-third-slide)",
     "author": "PotOfCoffee2Go",
     "slug": "casual-third-slide",
     "type": "post",
-    "body": "This is the third slide\r\n",
+    "body": "This is the third slide again and again and again\r\n",
     "locallinks": "",
     "context": "{}",
-    "updated": "2017-11-06T19:23:19.243Z",
-    "comments": []
+    "updated": "2017-11-12T21:57:33.047Z"
   },
   {
-    "id": 32,
+    "id": "a728d2b8.4d8a7",
     "title": "A New Thing",
     "author": "PotOfCoffee2Go",
     "slug": "a-new-thing",
@@ -303,32 +267,14 @@
     "locallinks": "[my ref]: http://www.example.com\r\n",
     "context": "{\r\n    \"somecontext\": \"Hi Me!!\"\r\n}",
     "updated": "2017-11-04T18:55:13.639Z",
-    "type": "post",
-    "comments": [
-      {
-        "id": 2,
-        "approved": false,
-        "author": "",
-        "email": "",
-        "body": "",
-        "updated": "2017-11-05T18:35:07.239Z"
-      },
-      {
-        "id": 1,
-        "approved": false,
-        "author": "",
-        "email": "",
-        "body": "",
-        "updated": "2017-11-05T17:55:56.787Z"
-      }
-    ]
+    "type": "post"
   },
   {
     "name": "Kim",
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "This is my message.",
-    "id": 33,
+    "id": "2e19aae2.55e686",
     "type": "unknown",
     "updated": "2017-11-07T07:36:52.558Z"
   },
@@ -338,7 +284,7 @@
     "email": "rmckinley@lrunit.com",
     "phone": "(843) 608-3440",
     "message": "Agaiin\r\n",
-    "id": 34,
+    "id": "c02e828c.51343",
     "updated": "2017-11-07T07:39:59.435Z"
   },
   {
@@ -347,51 +293,27 @@
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "This is me.\r\n",
-    "id": 35,
+    "id": "5cf17573.a07e0c",
     "updated": "2017-11-07T15:26:59.910Z",
     "nextpage": "/casual/contact"
   },
   {
-    "id": 36,
+    "id": "994e4e10.ef706",
     "type": "contact",
     "name": "Kim",
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "this again too!\r\n",
-    "updated": "2017-11-10T02:04:41.321Z",
-    "comments": []
+    "updated": "2017-11-10T02:04:41.321Z"
   },
   {
-    "id": 37,
+    "id": "7da4b999.ba6bf8",
     "type": "contact",
     "name": "Kim",
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "this is a test again and again and again",
-    "updated": "2017-11-10T02:05:03.622Z",
-    "comments": []
-  },
-  {
-    "id": 38,
-    "title": "A newer post",
-    "author": "PotOfCoffee2Go",
-    "slug": "a-newer-post",
-    "type": "post",
-    "body": "this will be deleted",
-    "locallinks": "",
-    "context": "{\r\n\r\n}\r\n",
-    "updated": "2017-11-10T00:01:30.197Z"
-  },
-  {
-    "id": 39,
-    "title": "a newest post",
-    "author": "Kim",
-    "slug": "a-newest-post",
-    "type": "post",
-    "body": "this will be deleted too\r\n",
-    "locallinks": "",
-    "context": "{\r\n\r\n}\r\n",
-    "updated": "2017-11-10T00:06:41.297Z"
+    "updated": "2017-11-10T02:05:03.622Z"
   },
   {
     "type": "contact",
@@ -399,7 +321,7 @@
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "this is a new contact!!!!",
-    "id": 40,
+    "id": "c110864e.e9e3a8",
     "updated": "2017-11-10T02:08:09.726Z",
     "nextpage": "/casual/contact"
   },
@@ -409,7 +331,7 @@
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "sweet\r\n",
-    "id": 41,
+    "id": "8a87991.9e32e68",
     "updated": "2017-11-10T02:31:52.912Z"
   },
   {
@@ -418,7 +340,7 @@
     "email": "kim@lrunit.net",
     "phone": "(843) 608-3440",
     "message": "another one\r\n",
-    "id": 42,
+    "id": "d21baad.15b4e58",
     "updated": "2017-11-10T02:36:32.508Z"
   },
   {
@@ -427,26 +349,86 @@
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
     "message": "this is cooleest\r\n",
-    "id": 43,
+    "id": "bd61b67e.1fee98",
     "updated": "2017-11-10T02:37:45.180Z"
   },
   {
+    "id": "4524e53.043b11c",
     "type": "contact",
     "name": "wp-websockets",
     "email": "me@somewhere.com",
     "phone": "(843) 608-3440",
-    "message": "this is cooleest\r\n",
-    "id": 44,
-    "updated": "2017-11-10T02:37:50.444Z"
+    "message": "this is coolest thing\r\n",
+    "updated": "2017-11-12T19:35:14.150Z"
   },
   {
-    "id": 45,
+    "id": "6748f9cb.7d1a68",
     "type": "contact",
     "name": "PlayByPlay",
     "email": "insouciantwitch@yahoo.com",
     "phone": "(843) 608-3440",
     "message": "hope the last - again\r\n",
-    "updated": "2017-11-10T02:44:02.010Z",
-    "comments": []
+    "updated": "2017-11-10T02:44:02.010Z"
+  },
+  {
+    "id": "a3fea933.ac8468",
+    "title": "another new thingyy",
+    "author": "Kim",
+    "slug": "another-new-thingyy",
+    "type": "post",
+    "body": "This is another test\r\n",
+    "locallinks": "",
+    "context": "{\r\n\r\n}\r\n",
+    "updated": "2017-11-12T19:16:18.539Z"
+  },
+  {
+    "z": "cc0c7565.fc70a8",
+    "approved": "false",
+    "author": "Kim comment",
+    "email": "me@somewhere.com",
+    "body": "this is a comment",
+    "id": "6a50283f.2e9078",
+    "type": "comment",
+    "updated": "2017-11-12T20:19:32.916Z"
+  },
+  {
+    "z": "cc0c7565.fc70a8",
+    "approved": "false",
+    "author": "Kim comment",
+    "email": "rmckinley@lrunit.com",
+    "body": "this a another comment",
+    "id": "c981f301.3659a",
+    "type": "comment",
+    "updated": "2017-11-12T20:22:27.021Z"
+  },
+  {
+    "type": "comment",
+    "z": "cc0c7565.fc70a8",
+    "approved": "false",
+    "author": "Kim comment",
+    "email": "insouciantwitch@yahoo.com",
+    "body": "this should have a comment type",
+    "id": "c6dd8ebb.d0ed3",
+    "updated": "2017-11-12T20:24:28.618Z"
+  },
+  {
+    "type": "comment",
+    "z": "cc0c7565.fc70a8",
+    "approved": "false",
+    "author": "Massachusetts Institute of Technology",
+    "email": "kmckinley@rushcap.com",
+    "body": "this is the fourth comment",
+    "id": "5e1a4b45.63ec74",
+    "updated": "2017-11-12T21:58:33.919Z"
+  },
+  {
+    "type": "comment",
+    "z": "840b5dae.70e5b",
+    "approved": "false",
+    "author": "Kim comment",
+    "email": "kmckinley@rushcap.com",
+    "body": "this is a comment\r\n",
+    "id": "aa8e88e7.026f98",
+    "updated": "2017-11-12T23:54:28.293Z"
   }
 ]
