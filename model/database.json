@@ -115,16 +115,11 @@
     "title": "Site Web Page Flows",
     "author": "PotOfCoffee2Go",
     "slug": "site-web-page-flows",
-    "body": "Site Web Page Flows\r\n",
-    "updated": "2017-11-13T01:52:51.472Z",
     "type": "post",
-    "myprivate": [
-      {
-        "author": "Kim comment",
-        "author1": "Kim comment",
-        "author2": "Kim comment"
-      }
-    ]
+    "body": "Site Web Page Flows again\r\n",
+    "locallinks": "",
+    "context": "",
+    "updated": "2017-11-16T19:37:46.445Z"
   },
   {
     "id": "cdd3f33a.54516",
@@ -430,5 +425,24 @@
     "body": "this is a comment\r\n",
     "id": "aa8e88e7.026f98",
     "updated": "2017-11-12T23:54:28.293Z"
+  },
+  {
+    "type": "contact",
+    "name": "cus2",
+    "email": "cus2@ff.com",
+    "phone": "1234567890",
+    "message": "This is cus2 contact form",
+    "id": "595bebdb.760c84",
+    "updated": "2017-11-19T13:47:45.216Z"
+  },
+  {
+    "type": "mine",
+    "z": "840b5dae.70e5b",
+    "name": "cus2",
+    "email": "cus2@ff.com",
+    "phone": "1234567890",
+    "message": "This is cus2 contact form",
+    "id": "595bebdb.760c84",
+    "updated": "2017-11-19T13:47:45.216Z"
   }
 ]

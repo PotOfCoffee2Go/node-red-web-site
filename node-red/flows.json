@@ -602,7 +602,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Views",
         "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
-        "x": 650,
+        "x": 750,
         "y": 60,
         "wires": []
     },
@@ -823,7 +823,7 @@
         "z": "3082454d.fb9b3a",
         "name": "Model",
         "info": "",
-        "x": 390,
+        "x": 470,
         "y": 60,
         "wires": []
     },
@@ -1004,7 +1004,7 @@
         "name": "http response",
         "statusCode": "",
         "headers": {},
-        "x": 880,
+        "x": 780,
         "y": 180,
         "wires": []
     },
@@ -1021,7 +1021,7 @@
         "y": 100,
         "wires": [
             [
-                "2af638b2.d385c8"
+                "20181fd.eb061e"
             ]
         ]
     },
@@ -1030,7 +1030,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 470,
+        "x": 330,
         "y": 100,
         "wires": [
             [
@@ -1049,7 +1049,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <!-- Image Carousel -->\n        <div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">\n          <ol class=\"carousel-indicators\">\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>\n            <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>\n          </ol>\n          <div class=\"carousel-inner\" role=\"listbox\">\n            <div class=\"carousel-item active\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-1.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"first-carousel-title\" class=\"text-shadow\"></h3>\n                <div id=\"first-carousel-body\"></div>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-2.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"second-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"second-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n            <div class=\"carousel-item\">\n              <img class=\"d-block img-fluid w-100\" src=\"/casual/img/slide-3.jpg\" alt=\"\">\n              <div class=\"carousel-caption d-none d-md-block\">\n                <h3 id=\"third-carousel-title\" class=\"text-shadow\"></h3>\n                <p  id=\"third-carousel-body\" class=\"text-shadow\"></p>\n              </div>\n            </div>\n          </div>\n          <a class=\"carousel-control-prev\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"prev\">\n            <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n          <a class=\"carousel-control-next\" href=\"#carouselExampleIndicators\" role=\"button\" data-slide=\"next\">\n            <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </div>\n        <!-- Welcome Message -->\n        <div class=\"text-center mt-4\">\n          <div class=\"text-heading text-muted text-lg\">Welcome To</div>\n          <h1 class=\"my-2\">{{{config.casual.sitename}}}</h1>\n          <div class=\"text-heading text-muted text-lg\">\n            By <strong>PotOfCoffee2Go</strong> template by <strong>Start Bootstrap</strong>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <a id=\"worth-visiting-edit-link\" href=\"/build/edit/{{config.casual.mainpost}}\">Edit</a>\n        <hr class=\"divider\">\n        <h2 id=\"worth-visiting-title\" class=\"text-center text-lg text-uppercase my-0\">Build a website <strong>worth visiting</strong>\n        </h2>\n        <hr class=\"divider\">\n        <img class=\"img-fluid float-left mr-4 d-none d-lg-block\" src=\"/casual/img/intro-pic.jpg\" alt=\"\">\n            <div id=\"worth-visiting-body\"></div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Beautiful boxes to\n          <strong>showcase your content</strong>\n        </h2>\n        <hr class=\"divider\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n      </div>\n\n    </div>\n    <!-- /.container -->\n    \n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n        $(function () {\n            $(\"#nav-item-index\").addClass(\"active\");\n            \n            poc2go.getBlogPost(\"{{config.casual.carousel1post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#first-carousel-title').html(marked.title);            \n                $('#first-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel2post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#second-carousel-title').html(marked.title);            \n                $('#second-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.carousel3post}}\", function(post){\n                var marked = poc2go.markup(post);\n                $('#third-carousel-title').html(marked.title);            \n                $('#third-carousel-body').html(marked.body);            \n            });\n            poc2go.getBlogPost(\"{{config.casual.mainpost}}\", function(post) {\n                var marked = poc2go.markup(post);\n                $('#worth-visiting-title').html(marked.title);            \n                $('#worth-visiting-body').html(marked.body);            \n             });\n            \n            $('#worth-visiting-body').click(function(e){\n                if (/\\/casual\\//.test(e.target.pathname) || /\\/records\\//.test(e.target.pathname)) {\n                    e.preventDefault();\n                    $.ajax({\n                        type: \"GET\",\n                        url: e.target.pathname.replace(/\\/casual\\//, '/records/'),\n                        success: function(post) {\n                            var marked = poc2go.markup(post);\n                            $('#worth-visiting-title').html(marked.title);            \n                            $('#worth-visiting-body').html(marked.body);\n                            $('#worth-visiting-edit-link').attr('href','/build/edit/' + e.target.pathname.split('/').pop());\n                        },\n                        error: function() {\n                            alert(\"Get post \" + postid + \" error\");\n                        }\n                    });\n                }\n            });\n        });\n        \n    </script>\n</body>\n</html>\n",
         "output": "str",
-        "x": 640,
+        "x": 540,
         "y": 100,
         "wires": [
             [
@@ -1063,7 +1063,7 @@
         "z": "288944c7.a1ceec",
         "name": "Site home page",
         "info": "This page uses the *Get Post(s)* subflow to get the posts from the blog_posts\nMySQL table. Since it does not pass the post ID in msg.req.params.postId,\n*Get Post(s)* returns all posts in _msg.posts_ object, which is passed onto\nthe _Blog Home_ web page template which uses Mustache to inject *msg.page* and\n*msg.posts* data into the page.\n\nThe web page is created using the standard node-red `template` node with\nMustache which injects the variable data.\n",
-        "x": 860,
+        "x": 760,
         "y": 100,
         "wires": []
     },
@@ -1100,7 +1100,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 470,
+        "x": 330,
         "y": 180,
         "wires": [
             [
@@ -1119,7 +1119,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">About\n          <strong>Business Casual</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-lg-6\">\n            <img class=\"img-fluid mb-4 mb-lg-0\" src=\"img/slide-2.jpg\" alt=\"\">\n          </div>\n          <div class=\"col-lg-6\">\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam soluta dolore voluptatem, deleniti dignissimos excepturi veritatis cum hic sunt perferendis ipsum perspiciatis nam officiis sequi atque enim ut! Velit, consectetur.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam pariatur perspiciatis reprehenderit illo et vitae iste provident debitis quos corporis saepe deserunt ad, officia, minima natus molestias assumenda nisi velit?</p>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Our\n          <strong>Team</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-md-4 mb-4 mb-md-0\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-4 mb-4 mb-md-0\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-4\">\n            <div class=\"card h-100\">\n              <img class=\"card-img-top\" src=\"http://placehold.it/750x450\" alt=\"\">\n              <div class=\"card-body text-center\">\n                <h4 class=\"card-title m-0\">John Smith\n                  <small class=\"text-muted\">Job Title</small>\n                </h4>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n\n    $(function () {\n        $(\"#nav-item-about\").addClass(\"active\");\n    });\n\n    </script>\n\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 640,
+        "x": 540,
         "y": 180,
         "wires": [
             [
@@ -1178,7 +1178,7 @@
         "y": 140,
         "wires": [
             [
-                "7bbe7b27.c56ac4"
+                "cda40516.935dd8"
             ]
         ]
     },
@@ -1187,7 +1187,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 470,
+        "x": 330,
         "y": 140,
         "wires": [
             [
@@ -1206,7 +1206,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-1.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-1\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-1\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-1\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-2.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-2\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-2\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-2\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <div class=\"card card-inverse\">\n          <img class=\"card-img img-fluid w-100\" src=\"img/slide-3.jpg\" alt=\"\">\n          <div class=\"card-img-overlay bg-overlay\">\n            <h2 id=\"showdown-title-3\" class=\"card-title text-shadow text-white text-uppercase mb-0\"></h2>\n            <h4 id=\"showdown-date-3\" class=\"text-shadow text-white\"></h4>\n            <div id=\"showdown-body-3\" class=\"lead card-text text-shadow text-white w-75 d-none d-lg-block\"></div>\n            <a href=\"#\" class=\"btn btn-secondary\">Read More</a>\n          </div>\n        </div>\n      </div>\n\n      <!-- Pagination -->\n      <div class=\"bg-faded p-4 my-4\">\n        <ul class=\"pagination justify-content-center mb-0\">\n          <li class=\"page-item\">\n            <a class=\"page-link\" href=\"#\">&larr; Older</a>\n          </li>\n          <li class=\"page-item disabled\">\n            <a class=\"page-link\" href=\"#\">Newer &rarr;</a>\n          </li>\n        </ul>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    \n    function loadPostSummaries(threePostSlugs) {\n        for(let i=0; i<3; i++) {\n            let summaryNbr = i + 1;\n            poc2go.getBlogPost(threePostSlugs[i], function(post) {\n                var marked = poc2go.markup(post);\n                $('#showdown-title-' + summaryNbr).html(marked.title);            \n                $('#showdown-date-' + summaryNbr).html('( ' + marked.lastupdated + ' )');\n\n                var text = striptags(marked.body, ['p']);\n                var nrw = 80;                       // the number of words we want to extract\n                var rgxwords = new RegExp('([^ ]*[ ]{0,1}){1,'+nrw+'}', 'g'); // regexp for specified number of spaces\n                text = text.replace(/\\s\\s+/g, ' '); // replace multiple whitespaces with single space\n                var txt = text.match(rgxwords)[0];  // get the substring with \"nrw\" number of words\n\n                $('#showdown-body-' + summaryNbr).html(txt + ' ...');            \n            });\n        }\n    }\n\n    $(function () {\n        $(\"#nav-item-blog\").addClass(\"active\");\n        loadPostSummaries(['what-is-node-red', 'node-red-host-server', 'from-the-bottom']);\n    });\n       \n\n    \n\n    </script>\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 650,
+        "x": 550,
         "y": 140,
         "wires": [
             [
@@ -1236,7 +1236,7 @@
         "type": "subflow:ecf7de04.053ad",
         "z": "288944c7.a1ceec",
         "name": "",
-        "x": 470,
+        "x": 330,
         "y": 220,
         "wires": [
             [
@@ -1255,7 +1255,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>{{{config.casual.sitename}}}</title>\n</head>\n\n<body>\n    {{{page.header}}}\n    {{{page.navbar}}}\n    <div class=\"container\">\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Business Casual</strong>\n        </h2>\n        <hr class=\"divider\">\n        <div class=\"row\">\n          <div class=\"col-lg-8\">\n            <div class=\"embed-responsive embed-responsive-16by9 map-container mb-4 mb-lg-0\">\n                <iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d107370.88445665692!2d-79.91109491284257!3d32.756708070312534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1509933083900\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n            </div>\n          </div>\n          <div class=\"col-lg-4\">\n            <h5 class=\"mb-0\">Phone:</h5>\n            <div class=\"mb-4\">123.456.7890</div>\n            <h5 class=\"mb-0\">Email:</h5>\n            <div class=\"mb-4\">\n              <a href=\"mailto:name@example.com\">name@example.com</a>\n            </div>\n            <h5 class=\"mb-0\">Address:</h5>\n            <div class=\"mb-4\">\n              3481 Melrose Place\n              <br>\n              Beverly Hills, CA 90210\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"bg-faded p-4 my-4\">\n        <hr class=\"divider\">\n        <h2 class=\"text-center text-lg text-uppercase my-0\">Contact\n          <strong>Form</strong>\n        </h2>\n        <hr class=\"divider\">\n        <form id=\"contactForm\">\n          <div class=\"row\">\n            <input type=\"hidden\" name=\"type\" value=\"contact\">\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Name</label>\n              <input type=\"text\" name=\"name\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Email Address</label>\n              <input type=\"email\" name=\"email\" class=\"form-control\">\n            </div>\n            <div class=\"form-group col-lg-4\">\n              <label class=\"text-heading\">Phone Number</label>\n              <input type=\"tel\" name=\"phone\" class=\"form-control\">\n            </div>\n            <div class=\"clearfix\"></div>\n            <div class=\"form-group col-lg-12\">\n              <label class=\"text-heading\">Message</label>\n              <textarea class=\"form-control\" name=\"message\" rows=\"6\"></textarea>\n            </div>\n            <div class=\"form-group col-lg-12\">\n              <button type=\"submit\" class=\"btn btn-secondary\">Submit</button>\n            </div>\n          </div>\n          <div id=\"contact-sent\"></div>\n        </form>\n      </div>\n\n    </div>\n    <!-- /.container -->\n\n    {{{page.footer}}}\n    {{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    \n    function loadPostSummaries(threePostSlugs) {\n        for(let i=0; i<3; i++) {\n            let summaryNbr = i + 1;\n            poc2go.getBlogPost(threePostSlugs[i], function(post) {\n                var marked = poc2go.markup(post);\n                $('#showdown-title-' + summaryNbr).html(marked.title);            \n                $('#showdown-date-' + summaryNbr).html('( ' + marked.lastupdated + ' )');\n\n                var text = striptags(marked.body, ['p']);\n                var nrw = 80;                       // the number of words we want to extract\n                var rgxwords = new RegExp('([^ ]*[ ]{0,1}){1,'+nrw+'}', 'g'); // regexp for specified number of spaces\n                text = text.replace(/\\s\\s+/g, ' '); // replace multiple whitespaces with single space\n                var txt = text.match(rgxwords)[0];  // get the substring with \"nrw\" number of words\n\n                $('#showdown-body-' + summaryNbr).html(txt + ' ...');            \n            });\n        }\n    }\n\n    $(function () {\n        $(\"#nav-item-contact\").addClass(\"active\");\n        loadPostSummaries(['what-is-node-red', 'node-red-host-server', 'from-the-bottom']);\n\n        // Submit New or Update blog post\n        $(\"#contactForm\").submit(function(e) {\n            poc2go.postForm(e, \"#contactForm\",\n                \"/records/{{record.slug}}{{^record.slug}}{{record.id}}{{/record.slug}}\",\n                function(record) {\n                    $(\"#contact-sent\").html(\"<strong>\" + record.name + \" info sent - thanks!</strong>\")\n                });\n        });\n\n    });\n       \n\n    \n\n    </script>\n  </body>\n\n</html>\n",
         "output": "str",
-        "x": 640,
+        "x": 540,
         "y": 220,
         "wires": [
             [
@@ -1363,7 +1363,7 @@
         "z": "288944c7.a1ceec",
         "name": "Views",
         "info": "There are four pages in the Blog site. Create and Edit a blog post use the same web page.\n\nThe home page displays links to the list of posts, credits page of kudos, and the \ndisplay/creation/editing of blog posts.\n\n### Inputs\nInputs are in the form of HTTP requests. Where appropriate the post ID is passed as a parameter\nin the request to get the post information from the database.\n\n### Outputs\n  * HTML pages\n    * Blog Home\n        * Displays list of all blog posts\n    * Create new post\n        * Edit page '/edit' without a post ID\n    * Edit existing post\n        * Edit page given a post ID\n            * '/edit/:postId'\n    * Blog Credits page\n        * Thanks crediting developers, packages, and services\n    * Post page\n        * Displays the title, author, and body of a post\n\n### Details\nThe pages use Mustache to inject HTML header, footer, etc. into each page\nfrom the *msg.page* object. All pages but the Credits page access the \ndatabase to get the data to inject into the pages.\n\nThe Credits page is the simplest of all the pages.",
-        "x": 560,
+        "x": 530,
         "y": 60,
         "wires": []
     },
@@ -1392,37 +1392,13 @@
         "type": "function",
         "z": "c5387977.e4d928",
         "name": "Select data",
-        "func": "global.get(\"db\").getRecords(msg,['post']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "func": "global.get(\"db\").getRecords(msg,['post']);\n\nif (Array.isArray(msg.payload)) {\n    msg.records = msg.payload;\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\nelse if (msg.payload) {\n    msg.record = msg.payload;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 170,
         "y": 40,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "2af638b2.d385c8",
-        "type": "subflow:c5387977.e4d928",
-        "z": "288944c7.a1ceec",
-        "x": 320,
-        "y": 100,
-        "wires": [
-            [
-                "20181fd.eb061e"
-            ]
-        ]
-    },
-    {
-        "id": "7bbe7b27.c56ac4",
-        "type": "subflow:c5387977.e4d928",
-        "z": "288944c7.a1ceec",
-        "x": 320,
-        "y": 140,
-        "wires": [
-            [
-                "cda40516.935dd8"
-            ]
         ]
     },
     {
@@ -1499,7 +1475,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Builder Contacts</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Contact List</h2>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over contacts and render them -->\n                            <div class=\"list-group\">\n                                {{#records}}\n                                    <a href=\"/build/contacts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      <h4 class=\"list-group-item-heading post-title\" style=\"float: left;\">{{{name}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{email}}} (<i class=\"post-updated\">{{updated}}</i>)\n                                      </p>\n                                      <p class=\"post-message\">{{{message}}}</p>\n                                    </a>\n                                {{/records}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    $(function () {\n        $('.post-title').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        $('.post-updated').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(moment.utc(text, 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        });\n        $('.post-message').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        \n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
         "output": "str",
-        "x": 760,
+        "x": 780,
         "y": 360,
         "wires": [
             [
@@ -1525,7 +1501,7 @@
         "type": "function",
         "z": "269e4e9c.582ef2",
         "name": "Select comment",
-        "func": "global.get(\"db\").getRecords(msg,['comment']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "func": "global.get(\"db\").getRecords(msg,['comment']);\n\nif (Array.isArray(msg.payload)) {\n    msg.records = msg.payload;\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\nelse if (msg.payload) {\n    msg.record = msg.payload;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 200,
@@ -1675,7 +1651,7 @@
         "type": "function",
         "z": "8c3ec654.d10248",
         "name": "Load payload",
-        "func": "if (msg.records) {\n    msg.payload = msg.records;\n}\nelse {\n    msg.payload = msg.record;\n}\n\nreturn msg;",
+        "func": "return msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 600,
@@ -1710,7 +1686,7 @@
         "y": 80,
         "wires": [
             [
-                "74df57a0.987898"
+                "3bd7cbdc.f3cd04"
             ]
         ]
     },
@@ -1811,22 +1787,6 @@
         "wires": []
     },
     {
-        "id": "74df57a0.987898",
-        "type": "function",
-        "z": "8c3ec654.d10248",
-        "name": "Select Record",
-        "func": "global.get(\"db\").getRecords(msg);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 360,
-        "y": 80,
-        "wires": [
-            [
-                "3acaa572.d7bc5a"
-            ]
-        ]
-    },
-    {
         "id": "db8364fa.358778",
         "type": "function",
         "z": "8c3ec654.d10248",
@@ -1917,7 +1877,7 @@
         "syntax": "mustache",
         "template": "<!DOCTYPE html>\n<html>\n\n<head>\n    {{{page.head}}}\n    {{{page.style}}}\n    <title>Builder Contacts</title>\n</head>\n\n<body>\n    <div id=\"wrapper\">\n        {{{page.sidebar}}}\n\n        <!-- Page Content -->\n        <div id=\"page-content-wrapper\">\n            <div class=\"container-fluid\">\n                <div class=\"container\">\n                    {{{page.header}}}\n                    {{{page.navbar}}}\n                    <div class=\"page-header\">\n                        <h2 style=\"padding:10px 0 0 0;\">Contact List</h2>\n                    </div>\n            \n                    <div class=\"row\">\n                        <div class=\"col-lg-12\">\n                             <!-- loop over contacts and render them -->\n                            <div class=\"list-group\">\n                                {{#records}}\n                                    <a href=\"/build/contacts/{{slug}}{{^slug}}{{id}}{{/slug}}\" class=\"list-group-item\">\n                                      <h4 class=\"list-group-item-heading post-title\" style=\"float: left;\">{{{name}}}</h4>\n                                      <p class=\"list-group-item-text\">\n                                            &nbsp;{{{email}}} (<i class=\"post-updated\">{{updated}}</i>)\n                                      </p>\n                                      <p class=\"post-message\">{{{message}}}</p>\n                                    </a>\n                                {{/records}}\n                            </div>\n                        </div>\n                    </div>\n                    {{{page.footer}}}\n                </div>\n            </div>\n        </div>\n    </div>\n    <!-- /#wrapper -->\n\n{{{page.vendors}}}{{{page.functions}}}{{{page.scripts}}}\n\n    <script>\n    $(function () {\n        $('.post-title').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        $('.post-updated').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(moment.utc(text, 'YYYY-MM-DD HH:mm:ss').local().fromNow());\n        });\n        $('.post-message').each(function(idx) {\n           var text =  $(this).html();\n            $(this).html(poc2go.render(text));\n        });\n        \n        setTimeout(function(){$(\"#wrapper\").toggleClass(\"toggled\");}, 250);\n    });\n\n    </script>\n</body>\n\n</html>",
         "output": "str",
-        "x": 760,
+        "x": 780,
         "y": 560,
         "wires": [
             [
@@ -2111,7 +2071,7 @@
         "type": "function",
         "z": "e9419896.265688",
         "name": "Select contact",
-        "func": "global.get(\"db\").getRecords(msg,['contact']);\n\n// If all records were requested then sort them by date updated descending\nif (msg.records) {\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\n\nreturn msg;",
+        "func": "global.get(\"db\").getRecords(msg,['contact']);\n\nif (Array.isArray(msg.payload)) {\n    msg.records = msg.payload;\n    msg.records.sort(function(a,b) {return a.updated < b.updated ? 1 : a.updated > b.updated ? -1 : 0;});\n}\nelse if (msg.payload) {\n    msg.record = msg.payload;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 180,
@@ -2119,5 +2079,53 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "3bd7cbdc.f3cd04",
+        "type": "subflow:c5387977.e4d928",
+        "z": "8c3ec654.d10248",
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "3acaa572.d7bc5a"
+            ]
+        ]
+    },
+    {
+        "id": "421d1b0f.6ac784",
+        "type": "debug",
+        "z": "288944c7.a1ceec",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 210,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b021095a.2394a8",
+        "type": "catch",
+        "z": "288944c7.a1ceec",
+        "name": "",
+        "scope": null,
+        "x": 80,
+        "y": 320,
+        "wires": [
+            [
+                "421d1b0f.6ac784"
+            ]
+        ]
+    },
+    {
+        "id": "cfb6f632.728728",
+        "type": "comment",
+        "z": "288944c7.a1ceec",
+        "name": "Catch errors",
+        "info": "",
+        "x": 390,
+        "y": 320,
+        "wires": []
     }
 ]
