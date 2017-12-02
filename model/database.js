@@ -81,7 +81,7 @@ module.exports = (dbStorePath) => {
         }
         types = types || ['record','page'];
         msg.payload = [];
-        database.records.forEach((record) => {
+        database.records.forEach(record => {
           if (types.indexOf(record.type) > -1)
             msg.payload.push(record);
         });
@@ -145,7 +145,7 @@ module.exports = (dbStorePath) => {
     },
   
     // {{{Read records into memory}}}
-    loadRecords: (dbStorePath) => {
+    loadRecords: dbStorePath => {
       database.dbStorePath = dbStorePath;
       try {
         var data = fs.readJsonSync(dbStorePath);
@@ -186,7 +186,7 @@ module.exports = (dbStorePath) => {
       database.records = data;
   
       // Get array of record types in database
-      database.records.forEach((record) => {
+      database.records.forEach(record => {
         if (database.types.indexOf(record.type) === -1) {
           if (record.type) database.types.push(record.type);
         }

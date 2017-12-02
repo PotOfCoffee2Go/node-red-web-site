@@ -3,6 +3,7 @@
 const
     http = require('http'),
     path = require('path'),
+    pkgjson = require('./package.json'),
     express = require("express"),
     bodyParser  = require('body-parser'),
     RED = require('node-red');
@@ -26,6 +27,17 @@ const nodered = {
         nodesDir: path.resolve(__dirname, "node-red/nodes"), // Custom nodes
         flowFilePretty: true,
         flowFile: 'flows.json',
+        adminAuth: {
+            type: "credentials",
+            users: [{
+                username: "poc2go",
+                password: "$2a$08$.UeffE.1sGPsdxWprvnNmume26bW5kL2d/4.Nz1wRhMXJK21c9kIG",
+                permissions: "*"
+            }],
+            default: {
+                permissions: "read"
+            }
+        }
     }
 };
 
@@ -68,14 +80,16 @@ RED.init(server, nodered.settings);
 app.use(nodered.settings.httpAdminRoot, RED.httpAdmin);
 app.use(nodered.settings.httpNodeRoot, RED.httpNode);
 // Fire up our server
-server.listen(config.port ? config.port : 8081);
+var port = config.port ? config.port : 8081;
+server.listen(port);
+console.log(pkgjson.name + ' version: ' + pkgjson.version + ' port: ' + port);
 
 // {{{Start Node-RED runtime}}}
 const embeddedStart = require('node-red-embedded-start');
-RED.start().then(embeddedStart(RED)).then((result) => {
+RED.start().then(embeddedStart(RED)).then(result => {
     // result is whatever RED.start() resolved to 
     // RED.node.getFlows() etc are now ready to use 
-}).catch((err) => {
+}).catch(err => {
     if (/^timed out/.test(err.message)) {
         // embeddedStart() timed out 
         // the value that RED.start() resolved to is available as err.result 
