@@ -31,7 +31,23 @@ module.exports = (dbStorePath) => {
 
     // Check if record Type was in the HTTP request querystring
     typeRequested: (msg => msg.req && msg.req.query && msg.req.query.type),
-    
+
+    // Lookup recordId given a slug
+    getRecordId: slug => {
+      var record = database.records.find(perm => perm.slug === slug);
+      if (record) return record.id;
+      return slug; // Assume it is already a recordId
+    },
+  
+    // Replace slug in HTTP request with record Id
+    permalink: (req) => {
+      var record = database.records.find(perm => perm.slug === req.params.slug);
+      if (record) {
+        req.url = req.url.replace('/' + record.slug, '/' + record.id);
+        req.params.recordId = record.id;
+      }
+    },
+  
     // Remove any arrays which have a name same as record 'type' in the database
     //   as those arrays are reconstucted from the records in the database
     //   see addRecordTypeArrays() below
@@ -50,7 +66,11 @@ module.exports = (dbStorePath) => {
     addRecordTypeArrays: record => {
       // Make copy so not to change the database record itself
       var recordCopy =  Object.assign({}, record);
-      var subrecords = database.records.filter(subrecord => subrecord.z === record.id);
+      var subrecords = database.records.filter(subrecord => 
+            database.getRecordId(subrecord.z) === record.id ||
+            subrecord.ztype === record.type ||
+            (Array.isArray(subrecord.ztype) ? subrecord.ztype.indexOf(record.type) > -1 : false) 
+          );
       subrecords.forEach(subrecord => {
         recordCopy[subrecord.type] = recordCopy[subrecord.type] || [];
         recordCopy[subrecord.type].push(subrecord);
@@ -69,10 +89,8 @@ module.exports = (dbStorePath) => {
             msg.payload = database.addRecordTypeArrays(msg.payload);
           }
           else {
-            if (msg.next)
-              msg.next(new NotFoundError());
-            else
               msg.payload = {};
+              msg.statusCode = 404;
           }
       } // When ALL records requested - return array in msg.records (note the 's')
       else {
@@ -113,10 +131,8 @@ module.exports = (dbStorePath) => {
           database.storeRecords();
         }
         else {
-          if (msg.next)
-            msg.next(new NotFoundError());
-          else
-            msg.payload = {};
+          msg.payload = {};
+          msg.statusCode = 404;
         }
       }
       return msg;
@@ -133,15 +149,6 @@ module.exports = (dbStorePath) => {
         }
       }
       return msg;
-    },
-  
-    // {{{Replace slug with record Id}}}
-    permalink: (req) => {
-      var record = database.records.find(perm => perm.slug === req.params.slug);
-      if (record) {
-        req.url = req.url.replace('/' + record.slug, '/' + record.id);
-        req.params.recordId = record.id;
-      }
     },
   
     // {{{Read records into memory}}}
